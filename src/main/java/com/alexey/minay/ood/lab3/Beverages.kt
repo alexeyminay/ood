@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab3
 
 abstract class Beverage(
         private val description: String
-): IBeverage {
+) : IBeverage {
 
     override fun getDescription() = description
 
@@ -11,7 +11,7 @@ abstract class Beverage(
 
 open class Coffee(
         description: String = "Coffee"
-): Beverage(description){
+) : Beverage(description) {
 
     override fun getCost() = 60
 
@@ -19,36 +19,71 @@ open class Coffee(
 
 
 class Cappuccino(
-        description: String = "Cappuccino"
-): Coffee(description){
+        private val portion: Portion = Portion.STANDARD,
+        private val description: String = "cappuccino"
+) : Coffee(description) {
 
-    override fun getCost() = 80
+    override fun getCost() = portion.cost
+
+    override fun getDescription() = "${portion.description} $description"
+
+    enum class Portion(val description: String, val cost: Int) {
+        STANDARD("Standard", 80),
+        DOUBLE("Double", 120)
+    }
 
 }
 
 
 class Latte(
-        description: String = "Latte"
-): Coffee(description){
+        private val portion: Portion = Portion.STANDARD,
+        private val description: String = "latte"
+) : Coffee(description) {
 
-    override fun getCost() = 90
+    override fun getCost() = portion.cost
+
+    override fun getDescription() = " ${portion.description} $description"
+
+    enum class Portion(val description: String, val cost: Int) {
+        STANDARD("Standard", 90),
+        DOUBLE("Double", 130)
+    }
 
 }
 
 
 class Tea(
-        description: String = "Tea"
-): Beverage(description){
+        private val grade: Grade = Grade.BLACK,
+        private val description: String = "Tea"
+) : Beverage(description) {
 
     override fun getCost() = 30
+
+    override fun getDescription() = " ${grade.description} $description"
+
+    enum class Grade(val description: String) {
+        BLACK("black"),
+        GREEN("green"),
+        MILK_OOLONG("milk oolong"),
+        PUER("puer")
+    }
 
 }
 
 
 class Milkshake(
-        description: String = "Milkshake"
-): Beverage(description){
+        private val portion: Portion = Portion.STANDARD,
+        private val description: String = "milkshake"
+) : Beverage(description) {
 
-    override fun getCost() = 80
+    override fun getCost() = portion.cost
+
+    override fun getDescription() = "${portion.description} $description"
+
+    enum class Portion(val description: String, val cost: Int) {
+        LITTLE("Little", 50),
+        STANDARD("Standard", 60),
+        BIG("Big", 80)
+    }
 
 }
