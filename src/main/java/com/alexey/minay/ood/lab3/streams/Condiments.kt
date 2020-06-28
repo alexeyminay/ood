@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab3
+package com.alexey.minay.ood.lab3.streams
 
 abstract class CondimentDecorator(
         private val beverage: IBeverage
@@ -16,7 +16,7 @@ abstract class CondimentDecorator(
 class Cinnamon(
         beverage: IBeverage
 ) : CondimentDecorator(beverage) {
-    override fun getCondimentDescription() = "Cinnamon"
+    override fun getCondimentDescription() = "cinnamon"
 
     override fun getCondimentCost() = 20
 }
@@ -26,7 +26,7 @@ class Lemon(
         beverage: IBeverage,
         private val quantity: Int = 1
 ) : CondimentDecorator(beverage) {
-    override fun getCondimentDescription() = "Lemon x $quantity "
+    override fun getCondimentDescription() = "lemon x $quantity "
 
     override fun getCondimentCost() = 10 * quantity
 }
@@ -43,8 +43,8 @@ class IceCube(
 ) : CondimentDecorator(beverage) {
     override fun getCondimentDescription() =
             when (type) {
-                IceCubeType.DRY -> "Dry"
-                IceCubeType.WATER -> "Water"
+                IceCubeType.DRY -> "dry"
+                IceCubeType.WATER -> "water"
             } + " ice cubes x $quantity"
 
     override fun getCondimentCost() =
@@ -65,8 +65,8 @@ class Syrup(
 ) : CondimentDecorator(beverage) {
     override fun getCondimentDescription() =
             when (type) {
-                SyrupType.CHOCOLATE -> "Chocolate"
-                SyrupType.MAPLE -> "Maple"
+                SyrupType.CHOCOLATE -> "chocolate"
+                SyrupType.MAPLE -> "maple"
             } + " syrup"
 
     override fun getCondimentCost() = 15
@@ -77,7 +77,7 @@ class ChocolateCrumbs(
         private val mass: Int
 ) : CondimentDecorator(beverage) {
 
-    override fun getCondimentDescription() = "Chocolate crumbs ${mass}g"
+    override fun getCondimentDescription() = "chocolate crumbs ${mass}g"
 
     override fun getCondimentCost() = 2 * mass
 
@@ -89,8 +89,29 @@ class CoconutFlakes(
         private val mass: Int
 ) : CondimentDecorator(beverage) {
 
-    override fun getCondimentDescription() = "Coconut flakes ${mass}g"
+    override fun getCondimentDescription() = "coconut flakes ${mass}g"
 
     override fun getCondimentCost() = 1 * mass
+
+}
+
+class Cream(
+        beverage: IBeverage
+) : CondimentDecorator(beverage){
+
+    override fun getCondimentDescription() = "cream"
+
+    override fun getCondimentCost() = 25
+
+}
+
+class Chocolate(
+        beverage: IBeverage,
+        private val count: Int = 1
+) : CondimentDecorator(beverage){
+
+    override fun getCondimentDescription() = "$count chocolate bar(s)"
+
+    override fun getCondimentCost() = count * 10
 
 }
