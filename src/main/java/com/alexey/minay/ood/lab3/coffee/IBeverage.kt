@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab3.streams
+package com.alexey.minay.ood.lab3.coffee
 
 interface IBeverage {
     fun getDescription(): String
