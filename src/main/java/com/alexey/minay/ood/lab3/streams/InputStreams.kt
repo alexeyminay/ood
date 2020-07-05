@@ -10,8 +10,11 @@ class MemoryInputStream(
 
     override fun readByte() =
             when {
-                cursor >= memory.size -> memory[cursor++].toInt()
-                else -> -1
+                cursor < memory.size -> memory[cursor++].toInt()
+                else -> {
+                    cursor = 0
+                    -1
+                }
             }
 
 
@@ -27,6 +30,10 @@ class MemoryInputStream(
             }
         }
         return redByte
+    }
+
+    companion object{
+        const val EOF = -1
     }
 }
 
