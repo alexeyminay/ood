@@ -3,6 +3,20 @@ package com.alexey.minay.ood.lab1
 fun main(){
     val mallardDuck = MallardDuck()
     playWithDuck(mallardDuck)
+
+    val redHeadDuck = RedHeadDuck()
+    playWithDuck(redHeadDuck)
+
+    val rubberDuck = RubberDuck()
+    playWithDuck(rubberDuck)
+
+    val decoyDuck = DecoyDuck()
+    playWithDuck(decoyDuck)
+
+    val modelDuck = ModelDuck()
+    playWithDuck(modelDuck)
+    modelDuck.setFlyBehavior(FlyWithWings()::fly)
+    playWithDuck(modelDuck)
 }
 
 fun drawDuck(duck: Duck){
@@ -64,7 +78,15 @@ class RedHeadDuck: Duck(::quack, FlyWithWings()::fly, ::danceMinuet){
 
 }
 
-class RubberDuck: Duck(::quack, ::flyNoWay, ::doesNotDance){
+class DecoyDuck: Duck(::muteQuack, ::flyNoWay, ::doesNotDance) {
+
+    override fun display() {
+        println("I'm decoy duck")
+    }
+
+}
+
+class RubberDuck: Duck(::squeak, ::flyNoWay, ::doesNotDance){
 
     override fun display() {
         println("I'm rubber duck")
@@ -85,7 +107,7 @@ fun quack() {
 }
 
 fun squeak() {
-    println("quack, quack")
+    println("Squeek!!!")
 }
 
 fun muteQuack() {}
@@ -112,7 +134,7 @@ fun danceWaltz(){
 }
 
 fun danceMinuet(){
-    println("I'm dance waltz")
+    println("I'm dance minuet")
 }
 
 fun doesNotDance(){}
