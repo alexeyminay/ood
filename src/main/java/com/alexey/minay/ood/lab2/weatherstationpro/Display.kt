@@ -4,25 +4,31 @@ import kotlin.math.*
 
 class Display : IObserver<WeatherInfo> {
 
+    override val values: MutableList<Values> = mutableListOf()
+
     override fun update(data: WeatherInfo) {
-        println("Current Temp ${data.temperature}")
-        println("Current Hum ${data.humidity}")
-        println("Current Pressure ${data.pressure}")
-        println("Current wind speed ${data.windSpeed}")
-        println("Current wind direction ${data.windDirection}")
+        values.forEach { statisticValue ->
+            when (statisticValue) {
+                Values.TEMP -> println("Current Temp ${data.temperature}")
+                Values.HUM -> println("Current Hum ${data.humidity}")
+                Values.PRESSURE -> println("Current Pressure ${data.pressure}")
+                Values.WIND_SPEED -> println("Current wind speed ${data.windSpeed}")
+                Values.WIND_DIRECTION -> println("Current wind direction ${data.windDirection}")
+
+            }
+        }
         println("________________________________")
+    }
+
+    enum class Values : IValues {
+        TEMP, HUM, PRESSURE, WIND_SPEED, WIND_DIRECTION
     }
 
 }
 
 class StatDisplay : IObserver<WeatherInfo> {
 
-    private val values = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues.Temperature())
-        it.add(StatisticValues.Humidity())
-        it.add(StatisticValues.Pressure())
-        it.add(StatisticValues.Wind())
-    }
+    override val values: MutableList<StatisticValues> = mutableListOf()
 
     override fun update(data: WeatherInfo) {
         values.forEach { values ->
@@ -83,7 +89,7 @@ class StatDisplay : IObserver<WeatherInfo> {
             var measureCount: Int = 0
     )
 
-    sealed class StatisticValues {
+    sealed class StatisticValues : IValues {
 
         class Temperature(
                 val scalarValues: ScalarValues = ScalarValues()

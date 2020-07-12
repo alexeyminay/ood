@@ -7,6 +7,7 @@ interface IObservable<T> {
 }
 
 interface IObserver<T> {
+    val values: MutableList<out IValues>
     fun update(data: T)
 }
 
@@ -27,3 +28,5 @@ open class Observable<T> : IObservable<T> {
     }
 
 }
+
+interface IValues
