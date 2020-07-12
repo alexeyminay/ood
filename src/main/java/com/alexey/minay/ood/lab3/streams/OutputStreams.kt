@@ -20,11 +20,11 @@ class FileOutputStream(
 ) : IOutputStream {
 
     override fun writeByte(data: Byte) {
-        file.writeBytes(ByteArray(1) { data })
+        file.appendBytes(ByteArray(1) { data })
     }
 
     override fun writeBlock(srcData: ByteArray, size: Int) {
-        file.writeBytes(srcData)
+        file.appendBytes(srcData)
     }
 
 }

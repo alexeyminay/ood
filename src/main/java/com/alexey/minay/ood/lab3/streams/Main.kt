@@ -1,18 +1,24 @@
 package com.alexey.minay.ood.lab3.streams
 
+import java.io.File
+import java.nio.charset.Charset
+
 fun main() {
     val existsMemory = mutableListOf<Byte>()
-    existsMemory.add('y'.toByte())
-    existsMemory.add(12.toByte())
-    existsMemory.add(3)
+    existsMemory.add('f'.toByte())
+    existsMemory.add('1'.toByte())
+    existsMemory.add(90)
     val inputMemory = MemoryInputStream(existsMemory)
     val newMemory = mutableListOf<Byte>()
-    val outputStream = MemoryOutputStream(newMemory)
+    val memoryOutputStream = MemoryOutputStream(newMemory)
+    val file = File("file")
+    val fileOutputStream = FileOutputStream(file)
     var readingByte = inputMemory.readByte()
     while (readingByte != MemoryInputStream.EOF){
-        outputStream.writeByte(readingByte.toByte())
+        memoryOutputStream.writeByte(readingByte.toByte())
+        fileOutputStream.writeByte(readingByte.toByte())
         readingByte = inputMemory.readByte()
     }
-    println(newMemory.toString())
+    println(newMemory.toByteArray().toString(Charset.defaultCharset()))
 
 }
