@@ -1,5 +1,6 @@
-package com.alexey.minay.ood.lab3.streams
+package com.alexey.minay.ood.lab3.streams.input
 
+import com.alexey.minay.ood.lab3.streams.IInputStream
 import java.io.File
 
 class MemoryInputStream(

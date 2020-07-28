@@ -11,20 +11,43 @@ class HTMLDocument : IDocument {
     private val mState = ArrayDeque<DocumentState>()
     private val mCanceledState = ArrayDeque<DocumentState>()
 
-    override fun insertParagraph(text: String, position: Int?): IParagraph {
-        val insertPosition = position ?: mDocument.size
+    override fun insertParagraph(text: String, position: Int): IParagraph {
+        if (position > mDocument.size) throw RuntimeException("$position is incorrectPosition")
         val paragraph = Paragraph(text)
         val documentItem = DocumentItem(paragraph = paragraph)
-        mDocument.add(insertPosition, documentItem)
+        mDocument.add(position, documentItem)
+        deleteOldState()
         saveState()
         return paragraph
     }
 
-    override fun insertImages(path: String, height: Int, width: Int, position: Int?): IImage {
-        val insertPosition = position ?: mDocument.size
-        val image = Image(path, width, height)
+    override fun replaceTextInParagraph(text: String, position: Int): IParagraph {
+        if (position > mDocument.size) throw RuntimeException("Position $position doesn't exist")
+        val item = mDocument[position]
+        val paragraph = item.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
+        paragraph.setText(text)
+        deleteOldState()
+        saveState()
+        return paragraph
+    }
+
+    override fun insertImages(path: String, height: Int, width: Int, position: Int): IImage {
+        if (position > mDocument.size) throw RuntimeException("$position is incorrectPosition")
+        val image = Image("img_${System.currentTimeMillis()}", IMAGE_PATH, width, height)
+        writeFile(path, image.getPath(), image.getPath() + image.getName())
         val documentItem = DocumentItem(image = image)
-        mDocument.add(insertPosition, documentItem)
+        mDocument.add(position, documentItem)
+        deleteOldState()
+        saveState()
+        return image
+    }
+
+    override fun resizeImage(height: Int, width: Int, position: Int): IImage {
+        if (position > mDocument.size) throw RuntimeException("Position $position doesn't exist")
+        val item = mDocument[position]
+        val image = item.getImage() ?: throw RuntimeException("Item doesn't have image")
+        image.resize(width, height)
+        deleteOldState()
         saveState()
         return image
     }
@@ -34,6 +57,8 @@ class HTMLDocument : IDocument {
     override fun deleteItem(index: Int) {
         mDocument.removeAt(index)
     }
+
+    override fun getItems() = mDocument
 
     override fun getItemCount() = mDocument.size
 
@@ -48,16 +73,16 @@ class HTMLDocument : IDocument {
 
     override fun undo() {
         if (!canUndo()) return
-        mCanceledState.push(mState.pollLast())
-        undoState()
+        mCanceledState.add(mState.pollLast())
+        revertState()
     }
 
     override fun canRedo() = mCanceledState.isNotEmpty()
 
     override fun redo() {
         if (!canRedo()) return
-        mCanceledState.push(mState.pollLast())
-        undoState()
+        mState.add(mCanceledState.pollLast())
+        revertState()
     }
 
     override fun save(path: String) {
@@ -65,8 +90,33 @@ class HTMLDocument : IDocument {
             mTitle.isBlank() -> "new_document"
             else -> mTitle
         }
+        val dirPath = File(path)
+        if (!dirPath.exists()) dirPath.mkdirs()
         val file = File("$path$fileName.html")
+        mDocument.forEach {
+            val image = it.getImage()
+            if (image != null) {
+                writeFile(donorFilePath = image.getPath() + image.getName(),
+                        newPath = path + IMAGE_PATH,
+                        newFilePath = path + IMAGE_PATH + image.getName())
+            }
+        }
         file.writeText(getHtml())
+    }
+
+    override fun getLastPosition() = mDocument.size
+
+    override fun close() {
+        val dir = File(IMAGE_PATH)
+        if (dir.isDirectory) {
+            val files = dir.list()
+            files.forEach {
+                File(IMAGE_PATH + it).delete()
+            }
+            dir.delete()
+        }
+        mDocument = mutableListOf()
+        mTitle = ""
     }
 
     private fun saveState() {
@@ -77,7 +127,20 @@ class HTMLDocument : IDocument {
         mCanceledState.clear()
     }
 
-    private fun undoState() {
+    private fun deleteOldState() {
+        mCanceledState.forEach { state ->
+            state.document.forEach { item ->
+                when {
+                    item.getImage() != null &&
+                            item.getImage()?.getPath() == IMAGE_PATH ->
+                        File(item.getImage()?.let { it.getPath() + it.getName() }).delete()
+                }
+            }
+        }
+        mCanceledState.clear()
+    }
+
+    private fun revertState() {
         val state = mState.lastOrNull() ?: return
         mTitle = state.title
         mDocument.clear()
@@ -95,5 +158,19 @@ class HTMLDocument : IDocument {
                     }
                 }
             }
+
+    private fun writeFile(donorFilePath: String, newPath: String, newFilePath: String) {
+        val file = File(donorFilePath)
+        val tempPathDir = File(newPath)
+        if (!tempPathDir.exists()) tempPathDir.mkdir()
+        val tempFile = File(newFilePath)
+        tempFile.writeBytes(file.readBytes())
+    }
+
+    companion object {
+
+        private const val IMAGE_PATH = "image/"
+
+    }
 
 }

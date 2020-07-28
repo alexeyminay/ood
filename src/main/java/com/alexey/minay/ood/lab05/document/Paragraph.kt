@@ -11,4 +11,6 @@ class Paragraph(
     override fun setText(text: String) {
         mText = text
     }
+
+    override fun toString() = "Paragraph $mText"
 }

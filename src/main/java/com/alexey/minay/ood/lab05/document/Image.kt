@@ -1,14 +1,18 @@
 package com.alexey.minay.ood.lab05.document
 
 class Image(
+        name: String,
         path: String,
         width: Int,
         height: Int
 ) : IImage {
 
-    private var mPath: String = path
+    private val mPath: String = path
     private var mWidth = width
     private var mHeight = height
+    private val mName = name
+
+    override fun getName() = mName
 
     override fun getPath() = mPath
 
@@ -20,4 +24,7 @@ class Image(
         mWidth = width
         mHeight = height
     }
+
+    override fun toString() = "Image $mWidth $mHeight $mPath$mName"
+
 }

@@ -12,4 +12,6 @@ class DocumentItem(
 
     override fun getParagraph() = mParagraph
 
+    override fun toString() = "$mImage $mParagraph"
+
 }
