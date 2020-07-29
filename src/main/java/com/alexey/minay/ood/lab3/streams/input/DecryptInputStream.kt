@@ -4,11 +4,12 @@ import com.alexey.minay.ood.lab3.streams.IInputStream
 
 class DecryptInputStream(inputStream: IInputStream, private val key: String) : InputStreamDecorator(inputStream) {
 
-    private var cryptCount = 0
+    private var mCryptCount = 0
+    private val mHashKey = key.hashCode().toString()
 
     override fun decorateByte(byte: Int): Int {
-        val cryptByte = byte xor key[cryptCount % key.length].toInt()
-        cryptCount++
+        val cryptByte = byte xor mHashKey[mCryptCount % key.length].toInt()
+        mCryptCount++
         return cryptByte
     }
 

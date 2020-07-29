@@ -39,15 +39,15 @@ class FileInputStream(
         file: File
 ) : IInputStream {
 
-    private val stream = file.inputStream()
+    private val mStream = file.inputStream()
 
-    override fun readByte() = stream.read()
+    override fun readByte() = mStream.read()
 
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
         var redByte = 0
         var byte: Int? = null
         while (byte != EOF && redByte < size) {
-            byte = stream.read()
+            byte = mStream.read()
             dstBuffer(byte)
             redByte++
         }

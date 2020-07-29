@@ -10,7 +10,7 @@ import java.io.File
 
 fun main() {
     val existsMemory = mutableListOf<Byte>()
-    val outputStream = EncryptOutputStream(MemoryOutputStream(existsMemory), "key")
+    val outputStream = EncryptOutputStream(MemoryOutputStream(existsMemory), "123413241ey")
     outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
     outputStream.writeByte('1'.toByte())
     outputStream.writeByte('s'.toByte())
@@ -18,7 +18,7 @@ fun main() {
     outputStream.writeByte('5'.toByte())
     outputStream.writeByte('4'.toByte())
 
-    val inputStream = DecryptInputStream(MemoryInputStream(existsMemory), "key")
+    val inputStream = DecryptInputStream(MemoryInputStream(existsMemory), "123413241ey")
     inputStream.readBlock({ print("${it.toChar()} ") }, 2)
     val b = inputStream.readByte().toChar()
     val b1 = inputStream.readByte().toChar()
@@ -26,7 +26,7 @@ fun main() {
     val b3 = inputStream.readByte().toChar()
     val b4 = inputStream.readByte().toChar()
     print("$b $b1 $b2 $b3 $b4")
-    testFileStream()
+    //testFileStream()
 }
 
 fun testFileStream() {
@@ -49,9 +49,3 @@ fun testFileStream() {
     val b4 = inputStream.readByte().toChar()
     print(" $b $b1 $b2 $b3 $b4")
 }
-
-
-private fun crypt(text: String, key: String) =
-        text.mapIndexed { index, char ->
-            (char.toInt() xor key[index % key.length].toInt()).toChar()
-        }.joinToString("")

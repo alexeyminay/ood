@@ -7,11 +7,12 @@ class EncryptOutputStream(
         private val key: String
 ) : OutputStreamDecorator(outputStream) {
 
-    private var cryptCount = 0
+    private var mCryptCount = 0
+    private val mHashKey = key.hashCode().toString()
 
     override fun decorateByte(data: Byte): Byte {
-        val cryptByte = data.toInt() xor key[cryptCount % key.length].toInt()
-        cryptCount++
+        val cryptByte = data.toInt() xor mHashKey[mCryptCount % key.length].toInt()
+        mCryptCount++
         return cryptByte.toByte()
     }
 
