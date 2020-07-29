@@ -21,7 +21,7 @@ class MemoryInputStream(
 
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
         var redByte = 0
-        for (i in cursor..cursor + size) {
+        for (i in cursor until cursor + size) {
             when (val byte = readByte()) {
                 -1 -> Unit
                 else -> {
@@ -33,13 +33,10 @@ class MemoryInputStream(
         return redByte
     }
 
-    companion object{
-        const val EOF = -1
-    }
 }
 
 class FileInputStream(
-        private val file: File
+        file: File
 ) : IInputStream {
 
     private val stream = file.inputStream()
@@ -48,13 +45,17 @@ class FileInputStream(
 
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
         var redByte = 0
-        var byte = stream.read()
-        while (byte != -1) {
+        var byte: Int? = null
+        while (byte != EOF && redByte < size) {
             byte = stream.read()
             dstBuffer(byte)
             redByte++
         }
         return redByte
+    }
+
+    companion object{
+        const val EOF = -1
     }
 
 }

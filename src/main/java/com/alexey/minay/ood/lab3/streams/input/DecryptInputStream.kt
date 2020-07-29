@@ -12,8 +12,8 @@ class DecryptInputStream(inputStream: IInputStream, private val key: String) : I
         return cryptByte
     }
 
-    override fun decorateBlock(byte: Int, dstBuffer: (Int) -> Unit): (Int) -> Unit {
-        return { dstBuffer(decorateByte(byte)) }
+    override fun decorateBlock(dstBuffer: (Int) -> Unit): (Int) -> Unit {
+        return { dstBuffer(decorateByte(it)) }
     }
 
 

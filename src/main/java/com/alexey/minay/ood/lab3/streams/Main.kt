@@ -1,52 +1,55 @@
 package com.alexey.minay.ood.lab3.streams
 
 import com.alexey.minay.ood.lab3.streams.input.DecryptInputStream
+import com.alexey.minay.ood.lab3.streams.input.FileInputStream
 import com.alexey.minay.ood.lab3.streams.input.MemoryInputStream
+import com.alexey.minay.ood.lab3.streams.output.EncryptOutputStream
+import com.alexey.minay.ood.lab3.streams.output.FileOutputStream
+import com.alexey.minay.ood.lab3.streams.output.MemoryOutputStream
 import java.io.File
-import java.nio.charset.Charset
 
-/*fun main() {
+fun main() {
     val existsMemory = mutableListOf<Byte>()
-    existsMemory.add('f'.toByte())
-    existsMemory.add('1'.toByte())
-    existsMemory.add(90)
-    val inputMemory = MemoryInputStream(existsMemory)
-    val newMemory = mutableListOf<Byte>()
-    val memoryOutputStream = MemoryOutputStream(newMemory)
-    val file = File("file")
-    val fileOutputStream = FileOutputStream(file)
-    var readingByte = inputMemory.readByte()
-    while (readingByte != MemoryInputStream.EOF) {
-        memoryOutputStream.writeByte(readingByte.toByte())
-        fileOutputStream.writeByte(readingByte.toByte())
-        readingByte = inputMemory.readByte()
-    }
-    println(newMemory.toByteArray().toString(Charset.defaultCharset()))
+    val outputStream = EncryptOutputStream(MemoryOutputStream(existsMemory), "key")
+    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
+    outputStream.writeByte('1'.toByte())
+    outputStream.writeByte('s'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('4'.toByte())
 
-}*/
-
-fun main(){
-    val existsMemory = mutableListOf<Byte>()
-    existsMemory.add('f'.toByte())
-    existsMemory.add('1'.toByte())
-    existsMemory.add(90)
     val inputStream = DecryptInputStream(MemoryInputStream(existsMemory), "key")
-    inputStream.readBlock(::readingData, 1)
+    inputStream.readBlock({ print("${it.toChar()} ") }, 2)
+    val b = inputStream.readByte().toChar()
+    val b1 = inputStream.readByte().toChar()
+    val b2 = inputStream.readByte().toChar()
+    val b3 = inputStream.readByte().toChar()
+    val b4 = inputStream.readByte().toChar()
+    print("$b $b1 $b2 $b3 $b4")
+    testFileStream()
 }
 
-fun readingData(byte: Int){
-    val e = byte
+fun testFileStream() {
+    val outputFile = File("output")
+    val outputStream = EncryptOutputStream(FileOutputStream(outputFile), "key")
+    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
+    outputStream.writeByte('1'.toByte())
+    outputStream.writeByte('s'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('4'.toByte())
+
+
+    val inputStream = DecryptInputStream(FileInputStream(outputFile), "key")
+    inputStream.readBlock({ print(" ${it.toChar()}") }, 2)
+    val b = inputStream.readByte().toChar()
+    val b1 = inputStream.readByte().toChar()
+    val b2 = inputStream.readByte().toChar()
+    val b3 = inputStream.readByte().toChar()
+    val b4 = inputStream.readByte().toChar()
+    print(" $b $b1 $b2 $b3 $b4")
 }
 
-/*fun main() {
-    val text = "Этот текст я зашифрую"
-    val key = "3435353"
-    val encryptedText = crypt(text, key)
-    println("encrypted text: $encryptedText")
-    val decryptedText = crypt(encryptedText, key)
-    println("decrypt text: $decryptedText")
-
-}*/
 
 private fun crypt(text: String, key: String) =
         text.mapIndexed { index, char ->

@@ -9,11 +9,11 @@ abstract class InputStreamDecorator(
     override fun readByte() = decorateByte(inputStream.readByte())
 
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
-        return inputStream.readBlock(decorateBlock(inputStream.readByte(), dstBuffer), size)
+        return inputStream.readBlock(decorateBlock(dstBuffer), size)
     }
 
     protected abstract fun decorateByte(byte: Int): Int
 
-    protected abstract fun decorateBlock(byte: Int, dstBuffer: (Int) -> Unit): (Int) -> Unit
+    protected abstract fun decorateBlock(dstBuffer: (Int) -> Unit): (Int) -> Unit
 
 }
