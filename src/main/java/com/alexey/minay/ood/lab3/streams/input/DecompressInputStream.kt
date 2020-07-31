@@ -4,33 +4,9 @@ import com.alexey.minay.ood.lab3.streams.IInputStream
 import com.sun.jmx.remote.internal.ArrayQueue
 import java.util.*
 
-class CompressInputStream(
+class DecompressInputStream(
         inputStream: IInputStream
 ) : InputStreamDecorator(inputStream){
-
-//    private var mLastByte: Int? = null
-//    private var mCount: Int = 0
-
-//    override fun decorateByte(byte: Int): Int {
-//        if (byte < 0) throw NumberFormatException("Byte must more then 0")
-//        return when (mLastByte) {
-//            null -> {
-//                mCount++
-//                mLastByte = byte
-//                byte
-//            }
-//            byte -> {
-//                mCount++
-//                -1
-//            }
-//            else -> {
-//                val count = mCount
-//                mCount = 0
-//                mLastByte = byte
-//                count
-//            }
-//        }
-//    }
 
     private var mQueueBytes: Queue<Int> = LinkedList()
     private var mLastByte: Int? = null
@@ -43,8 +19,9 @@ class CompressInputStream(
             return byte
         }
         return if (mCount % 2 != 0) {
-            for (i in 0..byte) mQueueBytes.add(byte)
-            mQueueBytes.poll()
+            for (i in 0 until byte - 1) mQueueBytes.add(mLastByte)
+            mCount++
+            mQueueBytes.poll() ?: -1
         } else {
             mLastByte = byte
             mCount++
@@ -53,7 +30,7 @@ class CompressInputStream(
     }
 
     override fun decorateBlock(dstBuffer: (Int) -> Unit): (Int) -> Unit {
-
+        return { dstBuffer(decorateByte(it)) }
     }
 
 }

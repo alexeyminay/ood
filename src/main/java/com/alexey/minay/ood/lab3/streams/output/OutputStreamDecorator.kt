@@ -7,7 +7,9 @@ abstract class OutputStreamDecorator(
 ) : IOutputStream {
 
     override fun writeByte(data: Byte) {
-        outputStream.writeByte(decorateByte(data))
+        val decoratedByte = decorateByte(data)
+        if(decoratedByte != "-1".toByte())
+            outputStream.writeByte(decoratedByte)
     }
 
     override fun writeBlock(srcData: ByteArray, size: Int) {
