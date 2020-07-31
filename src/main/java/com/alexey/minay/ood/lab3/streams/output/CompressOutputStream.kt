@@ -5,7 +5,7 @@ import com.alexey.minay.ood.lab3.streams.IOutputStream
 
 class CompressOutputStream(
         outputStream: IOutputStream
-) : OutputStreamDecorator2(outputStream) {
+) : OutputStreamDecorator(outputStream) {
 
     private var mLastByte: Byte? = null
     private var mCount: Int = 0

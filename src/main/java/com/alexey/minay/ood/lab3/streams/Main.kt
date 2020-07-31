@@ -13,41 +13,41 @@ import java.io.File
 fun main() {
     val existsMemory = mutableListOf<Byte>()
     val outputStream = CompressOutputStream(MemoryOutputStream(existsMemory))
-    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
-    outputStream.writeByte('1'.toByte())
-    outputStream.writeByte('s'.toByte())
-    outputStream.writeByte('5'.toByte())
-    outputStream.writeByte('5'.toByte())
-    outputStream.writeByte('5'.toByte())
-    outputStream.writeByte('4'.toByte())
-
-    existsMemory.forEachIndexed { i, c ->
-        if (i % 2 == 0)
-            print("${c.toChar()} ")
-        else
-            print("$c ")
-
-    }
-    println()
-
-    val inputStream = DecompressInputStream(MemoryInputStream(existsMemory))
-    //inputStream.readBlock({ print("${it.toChar()} ") }, 2)
-
-    print("${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}")
-    //testFileStream()
+//    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
+//    outputStream.writeByte('1'.toByte())
+//    outputStream.writeByte('s'.toByte())
+//    outputStream.writeByte('5'.toByte())
+//    outputStream.writeByte('5'.toByte())
+//    outputStream.writeByte('5'.toByte())
+//    outputStream.writeByte('4'.toByte())
+//
+//    existsMemory.forEachIndexed { i, c ->
+//        if (i % 2 == 0)
+//            print("${c.toChar()} ")
+//        else
+//            print("$c ")
+//
+//    }
+//    println()
+//
+//    val inputStream = DecompressInputStream(MemoryInputStream(existsMemory))
+//    inputStream.readBlock({ print("${it.toChar()} ") }, 8)
+//
+//    print("${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}" +
+//            " ${inputStream.readByte().toChar()}")
+    testFileStream()
 }
 
 fun testFileStream() {
@@ -60,17 +60,17 @@ fun testFileStream() {
     outputStream.writeByte('5'.toByte())
     outputStream.writeByte('4'.toByte())
 
-
     val inputStream = DecryptInputStream(FileInputStream(outputFile), "key")
-    //inputStream.readBlock({ print(" ${it.toChar()}") }, 2)
-    print(" ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}" +
-            " ${inputStream.readByte().toChar()}")
+    inputStream.readBlock({ print("${it.toChar()} ") }, 2)
+    print("${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " +
+            "${inputStream.readByte().toChar()} " )
 }

@@ -18,12 +18,11 @@ class MemoryInputStream(
                 }
             }
 
-
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
         var redByte = 0
         for (i in cursor until cursor + size) {
             when (val byte = readByte()) {
-                -1 -> Unit
+                EOF -> Unit
                 else -> {
                     dstBuffer(byte)
                     redByte++
@@ -31,6 +30,9 @@ class MemoryInputStream(
             }
         }
         return redByte
+    }
+    companion object{
+        const val EOF = -1
     }
 
 }

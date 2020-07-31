@@ -6,16 +6,16 @@ abstract class InputStreamDecorator(
         private val inputStream: IInputStream
 ) : IInputStream {
 
-    override fun readByte(): Int{
+    override fun readByte(): Int {
         var decorateByte = decorateByte(inputStream.readByte())
-        while(decorateByte == -1) {
-             decorateByte = decorateByte(inputStream.readByte())
+        while (decorateByte == -1) {
+            decorateByte = decorateByte(inputStream.readByte())
         }
         return decorateByte
     }
 
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
-        return inputStream.readBlock(decorateBlock(dstBuffer), size)
+            return inputStream.readBlock(decorateBlock { if (it != -1) dstBuffer(it) }, size)
     }
 
     protected abstract fun decorateByte(byte: Int): Int

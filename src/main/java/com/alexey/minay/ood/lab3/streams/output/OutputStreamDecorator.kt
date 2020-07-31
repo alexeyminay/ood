@@ -7,17 +7,22 @@ abstract class OutputStreamDecorator(
 ) : IOutputStream {
 
     override fun writeByte(data: Byte) {
-        val decoratedByte = decorateByte(data)
-        if(decoratedByte != "-1".toByte())
-            outputStream.writeByte(decoratedByte)
+        val decoratedBytes = decorateByte(data)
+        decoratedBytes.forEach { decoratedByte ->
+            if (decoratedByte != "-1".toByte())
+                outputStream.writeByte(decoratedByte)
+        }
     }
 
     override fun writeBlock(srcData: ByteArray, size: Int) {
         outputStream.writeBlock(decorateBlock(srcData), size)
     }
 
-    protected abstract fun decorateByte(data: Byte): Byte
+    protected abstract fun decorateByte(data: Byte): ByteArray
 
-    protected abstract fun decorateBlock(srcData: ByteArray): ByteArray
+    private fun decorateBlock(srcData: ByteArray) = srcData
+            .map { decorateByte(it).toMutableList() }
+            .flatten()
+            .toByteArray()
 
 }
