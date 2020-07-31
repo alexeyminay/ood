@@ -10,44 +10,50 @@ import com.alexey.minay.ood.lab3.streams.output.FileOutputStream
 import com.alexey.minay.ood.lab3.streams.output.MemoryOutputStream
 import java.io.File
 
+//
+//fun main(args: Array<String>) {
+//
+//}
+
 fun main() {
     val existsMemory = mutableListOf<Byte>()
-    val outputStream = CompressOutputStream(MemoryOutputStream(existsMemory))
-//    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
-//    outputStream.writeByte('1'.toByte())
-//    outputStream.writeByte('s'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('4'.toByte())
-//
-//    existsMemory.forEachIndexed { i, c ->
-//        if (i % 2 == 0)
-//            print("${c.toChar()} ")
-//        else
-//            print("$c ")
-//
-//    }
-//    println()
-//
-//    val inputStream = DecompressInputStream(MemoryInputStream(existsMemory))
-//    inputStream.readBlock({ print("${it.toChar()} ") }, 8)
-//
-//    print("${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}")
-    testFileStream()
+    val outputStream = CompressOutputStream(EncryptOutputStream(MemoryOutputStream(existsMemory), "key"))
+    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
+    outputStream.writeByte('1'.toByte())
+    outputStream.writeByte('s'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('5'.toByte())
+    outputStream.writeByte('4'.toByte())
+
+    existsMemory.forEachIndexed { i, c ->
+        if (i % 2 == 0)
+            print("${c.toChar()} ")
+        else
+            print("$c ")
+
+    }
+    println()
+
+    val inputStream = DecompressInputStream(DecryptInputStream(MemoryInputStream(existsMemory), "key"))
+    inputStream.readBlock({ print("${it.toChar()} ") }, 8)
+
+    print("${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}" +
+            " ${inputStream.readByte().toChar()}")
+    //testFileStream()
 }
 
 fun testFileStream() {

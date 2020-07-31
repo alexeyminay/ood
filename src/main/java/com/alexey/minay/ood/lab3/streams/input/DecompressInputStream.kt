@@ -16,7 +16,8 @@ class DecompressInputStream(
         if (mLastByte == null) {
             mLastByte = byte
             mCount++
-            return byte
+            mQueueBytes.add(byte)
+            return mQueueBytes.poll()
         }
         return if (mCount % 2 != 0) {
             for (i in 0 until byte - 1) mQueueBytes.add(mLastByte)
@@ -25,7 +26,8 @@ class DecompressInputStream(
         } else {
             mLastByte = byte
             mCount++
-            byte
+            mQueueBytes.add(byte)
+            mQueueBytes.poll()
         }
     }
 
