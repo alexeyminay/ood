@@ -7,7 +7,9 @@ abstract class InputStreamDecorator(
 ) : IInputStream {
 
     override fun readByte(): Int {
-        var decorateByte = decorateByte(inputStream.readByte())
+        val byte = inputStream.readByte()
+        if (byte == -1) return -1
+        var decorateByte = decorateByte(byte)
         while (decorateByte == -1) {
             decorateByte = decorateByte(inputStream.readByte())
         }

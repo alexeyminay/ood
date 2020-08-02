@@ -2,6 +2,7 @@ package com.alexey.minay.ood.lab3.streams.output
 
 import com.alexey.minay.ood.lab3.streams.IOutputStream
 import java.io.File
+import java.nio.charset.Charset
 
 class MemoryOutputStream(
         private val memory: MutableList<Int>
@@ -21,7 +22,7 @@ class FileOutputStream(
 ) : IOutputStream {
 
     override fun writeByte(data: Int) {
-        file.appendText(data.toChar().toString())
+        file.appendText(data.toChar().toString(), Charsets.ISO_8859_1)
     }
 
     override fun writeBlock(srcData: IntArray, size: Int) {

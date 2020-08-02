@@ -11,10 +11,10 @@ import com.alexey.minay.ood.lab3.streams.output.MemoryOutputStream
 import java.io.File
 
 fun main(args: Array<String>) {
-    if (args.size < 3) {
+    if (args.size < 2) {
         println("Incorrect params. Input: transform [опции] <input-file> <input-file>")
         println("Options:")
-        println("""    • --encrypt <key>. Добавляет шаг шифрования при записи с использованием ключа key. Опция может быть указана несколько раз, что позволяет выполнить несколько этапов шифрования.
+        println("""    • --encrpt <key>. Добавляет шаг шифрования при записи с использованием ключа key. Опция может быть указана несколько раз, что позволяет выполнить несколько этапов шифрования.
     • --decrypt <key>. Добавляет шаг дешифрования при чтении с использованием ключа key. Опция может быть указана несколько раз, что позволяет выполнить несколько этапов дешифрования.
     • --compress. Добавляет шаг компрессии при записи
     • --decompress. Добавляет шаг декомпресии при чтении""")
