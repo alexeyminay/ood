@@ -4,14 +4,14 @@ import com.alexey.minay.ood.lab3.streams.IInputStream
 import java.io.File
 
 class MemoryInputStream(
-        private val memory: List<Byte>
+        private val memory: List<Int>
 ) : IInputStream {
 
     private var cursor: Int = 0
 
     override fun readByte() =
             when {
-                cursor < memory.size -> memory[cursor++].toInt()
+                cursor < memory.size -> memory[cursor++]
                 else -> {
                     cursor = 0
                     -1

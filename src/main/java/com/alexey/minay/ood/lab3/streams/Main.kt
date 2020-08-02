@@ -10,7 +10,6 @@ import com.alexey.minay.ood.lab3.streams.output.FileOutputStream
 import com.alexey.minay.ood.lab3.streams.output.MemoryOutputStream
 import java.io.File
 
-
 fun main(args: Array<String>) {
     if (args.size < 3) {
         println("Incorrect params. Input: transform [опции] <input-file> <input-file>")
@@ -44,7 +43,7 @@ fun main(args: Array<String>) {
 
     var byte = inputStream.readByte()
     while (byte != -1) {
-        outputStream.writeByte(byte.toByte())
+        outputStream.writeByte(byte)
         byte = inputStream.readByte()
     }
 
@@ -52,16 +51,16 @@ fun main(args: Array<String>) {
 
 
 //fun main() {
-//    val existsMemory = mutableListOf<Byte>()
+//    val existsMemory = mutableListOf<Int>()
 //    val outputStream = CompressOutputStream(EncryptOutputStream(MemoryOutputStream(existsMemory), "key"))
-//    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
-//    outputStream.writeByte('1'.toByte())
-//    outputStream.writeByte('s'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('4'.toByte())
+//    outputStream.writeBlock(mutableListOf('s'.toInt(), 'e'.toInt()).toIntArray(), 2)
+//    outputStream.writeByte('1'.toInt())
+//    outputStream.writeByte('s'.toInt())
+//    outputStream.writeByte('5'.toInt())
+//    outputStream.writeByte('5'.toInt())
+//    outputStream.writeByte('5'.toInt())
+//    outputStream.writeByte('5'.toInt())
+//    outputStream.writeByte('4'.toInt())
 //
 //    existsMemory.forEachIndexed { i, c ->
 //        if (i % 2 == 0)
@@ -93,14 +92,14 @@ fun main(args: Array<String>) {
 //}
 //
 //fun testFileStream() {
-//    val outputFile = File("input")
+//    val outputFile = File("ou")
 //    val outputStream = EncryptOutputStream(FileOutputStream(outputFile), "key")
-//    outputStream.writeBlock(mutableListOf('s'.toByte(), 'e'.toByte()).toByteArray(), 2)
-//    outputStream.writeByte('1'.toByte())
-//    outputStream.writeByte('s'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('5'.toByte())
-//    outputStream.writeByte('4'.toByte())
+//    outputStream.writeBlock(mutableListOf('s'.toInt(), 'e'.toInt()).toIntArray(), 2)
+//    outputStream.writeByte('1'.toInt())
+//    outputStream.writeByte('s'.toInt())
+//    outputStream.writeByte('5'.toInt())
+//    outputStream.writeByte('5'.toInt())
+//    outputStream.writeByte('4'.toInt())
 //
 //    val inputStream = DecryptInputStream(FileInputStream(outputFile), "key")
 //    inputStream.readBlock({ print("${it.toChar()} ") }, 2)

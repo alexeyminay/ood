@@ -1,8 +1,8 @@
 package com.alexey.minay.ood.lab3.streams
 
 interface IOutputStream {
-    fun writeByte(data: Byte)
-    fun writeBlock(srcData:  ByteArray, size: Int)
+    fun writeByte(data: Int)
+    fun writeBlock(srcData:  IntArray, size: Int)
 }
 
 interface IInputStream{

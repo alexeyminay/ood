@@ -10,10 +10,10 @@ class EncryptOutputStream(
     private var mCryptCount = 0
     private val mHashKey = key.hashCode().toString()
 
-    override fun decorateByte(data: Byte): ByteArray {
-        val cryptByte = data.toInt() xor mHashKey[mCryptCount % key.length].toInt()
+    override fun decorateByte(data: Int): IntArray {
+        val cryptByte = data xor mHashKey[mCryptCount % key.length].toInt()
         mCryptCount++
-        return byteArrayOf(cryptByte.toByte())
+        return intArrayOf(cryptByte)
     }
 
 }
