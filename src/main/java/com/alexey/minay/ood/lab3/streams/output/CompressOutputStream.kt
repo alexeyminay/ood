@@ -18,6 +18,12 @@ class CompressOutputStream(
                 intArrayOf(data)
             }
             data -> {
+                if (mCount == 255) {
+                    val count = mCount
+                    mCount = 0
+                    mLastByte = null
+                    return intArrayOf(count, data)
+                }
                 mCount++
                 intArrayOf(-1)
             }
