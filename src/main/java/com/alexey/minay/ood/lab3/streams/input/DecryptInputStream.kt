@@ -8,6 +8,9 @@ class DecryptInputStream(inputStream: IInputStream, private val key: String) : I
     private val mHashKey = key.hashCode().toString()
 
     override fun decorateByte(byte: Int): Int {
+        if (byte == -1) {
+            return -1
+        }
         val cryptByte = byte xor mHashKey[mCryptCount % key.length].toInt()
         mCryptCount++
         return cryptByte

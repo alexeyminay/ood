@@ -13,6 +13,9 @@ class DecompressInputStream(
     private var mCount = 0
 
     override fun decorateByte(byte: Int): Int {
+        if (byte == -1 && mQueueBytes.isEmpty()) {
+            return -1
+        }
         if (mLastByte == null) {
             mLastByte = byte
             mCount++
@@ -22,7 +25,7 @@ class DecompressInputStream(
         return if (mCount % 2 != 0) {
             for (i in 0 until byte - 1) mQueueBytes.add(mLastByte)
             mCount++
-            mQueueBytes.poll() ?: -1
+            mQueueBytes.poll() ?: -2
         } else {
             mLastByte = byte
             mCount++

@@ -27,7 +27,7 @@ fun main(args: Array<String>) {
     }
     val outputFile = File(args[1])
     if (outputFile.exists()) {
-        println("File $inputFile has already existed. Input nonexistent file name.")
+        println("File $outputFile has already existed. Input nonexistent file name.")
         return
     }
     var inputStream: IInputStream = FileInputStream(inputFile)
