@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab1
 
-fun main(){
+fun main() {
     val mallardDuck = MallardDuck()
     playWithDuck(mallardDuck)
 
@@ -19,11 +19,11 @@ fun main(){
     playWithDuck(modelDuck)
 }
 
-fun drawDuck(duck: Duck){
+fun drawDuck(duck: Duck) {
     duck.display()
 }
 
-fun playWithDuck(duck: Duck){
+fun playWithDuck(duck: Duck) {
     drawDuck(duck)
     duck.quack()
     duck.fly()
@@ -36,17 +36,17 @@ fun playWithDuck(duck: Duck){
 abstract class Duck(
         private val quackBehavior: () -> Unit,
         private var flyBehavior: () -> Unit,
-        private val danceBehavior:() -> Unit
+        private val danceBehavior: () -> Unit
 ) {
-    fun quack(){
+    fun quack() {
         quackBehavior()
     }
 
-    fun fly(){
+    fun fly() {
         flyBehavior()
     }
 
-    fun dance(){
+    fun dance() {
         danceBehavior()
     }
 
@@ -54,7 +54,7 @@ abstract class Duck(
         println("I'm swimming")
     }
 
-    fun setFlyBehavior(flyBehavior: () -> Unit){
+    fun setFlyBehavior(flyBehavior: () -> Unit) {
         this.flyBehavior = flyBehavior
     }
 
@@ -62,7 +62,7 @@ abstract class Duck(
 
 }
 
-class MallardDuck: Duck(::quack, FlyWithWings()::fly, ::danceWaltz){
+class MallardDuck : Duck(::quack, FlyWithWings()::fly, ::danceWaltz) {
 
     override fun display() {
         println("I'm mallard duck")
@@ -70,7 +70,7 @@ class MallardDuck: Duck(::quack, FlyWithWings()::fly, ::danceWaltz){
 
 }
 
-class RedHeadDuck: Duck(::quack, FlyWithWings()::fly, ::danceMinuet){
+class RedHeadDuck : Duck(::quack, FlyWithWings()::fly, ::danceMinuet) {
 
     override fun display() {
         println("I'm Redhead duck")
@@ -78,7 +78,7 @@ class RedHeadDuck: Duck(::quack, FlyWithWings()::fly, ::danceMinuet){
 
 }
 
-class DecoyDuck: Duck(::muteQuack, ::flyNoWay, ::doesNotDance) {
+class DecoyDuck : Duck(::muteQuack, ::flyNoWay, ::doesNotDance) {
 
     override fun display() {
         println("I'm decoy duck")
@@ -86,7 +86,7 @@ class DecoyDuck: Duck(::muteQuack, ::flyNoWay, ::doesNotDance) {
 
 }
 
-class RubberDuck: Duck(::squeak, ::flyNoWay, ::doesNotDance){
+class RubberDuck : Duck(::squeak, ::flyNoWay, ::doesNotDance) {
 
     override fun display() {
         println("I'm rubber duck")
@@ -94,7 +94,7 @@ class RubberDuck: Duck(::squeak, ::flyNoWay, ::doesNotDance){
 
 }
 
-class ModelDuck: Duck(::quack, ::flyNoWay, ::doesNotDance){
+class ModelDuck : Duck(::quack, ::flyNoWay, ::doesNotDance) {
 
     override fun display() {
         println("I'm model duck")
@@ -112,11 +112,11 @@ fun squeak() {
 
 fun muteQuack() {}
 
-interface FlyBehavior{
+interface FlyBehavior {
     fun fly()
 }
 
-class FlyWithWings: FlyBehavior {
+class FlyWithWings : FlyBehavior {
 
     var flyCount = 0
 
@@ -127,14 +127,14 @@ class FlyWithWings: FlyBehavior {
 
 }
 
-fun flyNoWay(){}
+fun flyNoWay() {}
 
-fun danceWaltz(){
+fun danceWaltz() {
     println("I'm dance waltz")
 }
 
-fun danceMinuet(){
+fun danceMinuet() {
     println("I'm dance minuet")
 }
 
-fun doesNotDance(){}
+fun doesNotDance() {}

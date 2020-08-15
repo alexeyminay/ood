@@ -6,7 +6,7 @@ class WeatherData(
         private var mPressure: Double = 0.0
 ) : Observable<WeatherInfo>() {
 
-    fun setMeasurements(temperature: Double, humidity: Double, pressure: Double){
+    fun setMeasurements(temperature: Double, humidity: Double, pressure: Double) {
         mTemperature = temperature
         mHumidity = humidity
         mPressure = pressure

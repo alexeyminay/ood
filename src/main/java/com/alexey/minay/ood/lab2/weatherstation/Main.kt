@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab2.weatherstation
 
-fun main(args: Array<String>){
+fun main(args: Array<String>) {
     val weatherData = WeatherData()
     val display = Display()
     val statsDisplay = StatDisplay()

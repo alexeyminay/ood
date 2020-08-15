@@ -1,6 +1,7 @@
 package com.alexey.minay.ood.lab06
 
-import com.alexey.minay.ood.lab06.adapters.*
+import com.alexey.minay.ood.lab06.adapters.ModernLibAdapter
+import com.alexey.minay.ood.lab06.adapters.ModernLibClassAdapter
 import com.alexey.minay.ood.lab06.libs.*
 import java.io.File
 

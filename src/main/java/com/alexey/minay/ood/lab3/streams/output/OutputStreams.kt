@@ -2,7 +2,6 @@ package com.alexey.minay.ood.lab3.streams.output
 
 import com.alexey.minay.ood.lab3.streams.IOutputStream
 import java.io.File
-import java.nio.charset.Charset
 
 class MemoryOutputStream(
         private val memory: MutableList<Int>

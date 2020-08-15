@@ -97,7 +97,7 @@ class CoconutFlakes(
 
 class Cream(
         beverage: IBeverage
-) : CondimentDecorator(beverage){
+) : CondimentDecorator(beverage) {
 
     override fun getCondimentDescription() = "cream"
 
@@ -108,7 +108,7 @@ class Cream(
 class Chocolate(
         beverage: IBeverage,
         private val count: Int = 1
-) : CondimentDecorator(beverage){
+) : CondimentDecorator(beverage) {
 
     override fun getCondimentDescription() = "$count chocolate bar(s)"
 

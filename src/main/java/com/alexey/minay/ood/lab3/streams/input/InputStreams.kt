@@ -31,7 +31,8 @@ class MemoryInputStream(
         }
         return redByte
     }
-    companion object{
+
+    companion object {
         const val EOF = -1
     }
 
@@ -56,7 +57,7 @@ class FileInputStream(
         return redByte
     }
 
-    companion object{
+    companion object {
         const val EOF = -1
     }
 

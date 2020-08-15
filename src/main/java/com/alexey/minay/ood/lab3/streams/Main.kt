@@ -3,11 +3,9 @@ package com.alexey.minay.ood.lab3.streams
 import com.alexey.minay.ood.lab3.streams.input.DecompressInputStream
 import com.alexey.minay.ood.lab3.streams.input.DecryptInputStream
 import com.alexey.minay.ood.lab3.streams.input.FileInputStream
-import com.alexey.minay.ood.lab3.streams.input.MemoryInputStream
 import com.alexey.minay.ood.lab3.streams.output.CompressOutputStream
 import com.alexey.minay.ood.lab3.streams.output.EncryptOutputStream
 import com.alexey.minay.ood.lab3.streams.output.FileOutputStream
-import com.alexey.minay.ood.lab3.streams.output.MemoryOutputStream
 import java.io.File
 
 fun main(args: Array<String>) {

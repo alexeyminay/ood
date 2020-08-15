@@ -1,12 +1,11 @@
 package com.alexey.minay.ood.lab3.streams.input
 
 import com.alexey.minay.ood.lab3.streams.IInputStream
-import com.sun.jmx.remote.internal.ArrayQueue
 import java.util.*
 
 class DecompressInputStream(
         inputStream: IInputStream
-) : InputStreamDecorator(inputStream){
+) : InputStreamDecorator(inputStream) {
 
     private var mQueueBytes: Queue<Int> = LinkedList()
     private var mLastByte: Int? = null

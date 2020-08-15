@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab2.weatherstationpro
 
-fun main(){
+fun main() {
     val weatherData = WeatherData()
     val display = Display()
     display.values.add(Display.Values.TEMP)

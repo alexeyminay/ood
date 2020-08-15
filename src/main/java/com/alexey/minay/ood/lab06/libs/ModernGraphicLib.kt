@@ -61,7 +61,7 @@ class RGBAColor(
             }
 
     companion object {
-        val BLACK = RGBAColor(0f,0f,0f)
+        val BLACK = RGBAColor(0f, 0f, 0f)
     }
 
 }

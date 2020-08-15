@@ -17,7 +17,7 @@ abstract class InputStreamDecorator(
     }
 
     override fun readBlock(dstBuffer: (Int) -> Unit, size: Int): Int {
-            return inputStream.readBlock(decorateBlock { if (it != -1) dstBuffer(it) }, size)
+        return inputStream.readBlock(decorateBlock { if (it != -1) dstBuffer(it) }, size)
     }
 
     protected abstract fun decorateByte(byte: Int): Int

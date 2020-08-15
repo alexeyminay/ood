@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab2.weatherstation
 
-import com.alexey.minay.ood.lab2.weatherstation.StatDisplay.StatisticValues.*
+import com.alexey.minay.ood.lab2.weatherstation.StatDisplay.StatisticValues.ValueType
 
 class Display : IObserver<WeatherInfo> {
 

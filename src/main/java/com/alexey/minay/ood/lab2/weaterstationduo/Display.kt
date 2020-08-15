@@ -1,11 +1,11 @@
 package com.alexey.minay.ood.lab2.weaterstationduo
 
-import com.alexey.minay.ood.lab2.weaterstationduo.StatDisplay.StatisticValues.*
+import com.alexey.minay.ood.lab2.weaterstationduo.StatDisplay.StatisticValues.ValueType
 
 class Display : IObserver<WeatherInfo> {
 
     override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
-        when(observable){
+        when (observable) {
             is WeatherDataOut -> println("Weather outside")
             is WeatherDataIn -> println("Weather inside")
         }
@@ -31,7 +31,7 @@ class StatDisplay : IObserver<WeatherInfo> {
     }
 
     override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
-        when(observable){
+        when (observable) {
             is WeatherDataOut -> {
                 println("Weather stat outside")
                 update(valuesOut, data)

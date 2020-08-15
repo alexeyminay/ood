@@ -22,9 +22,9 @@ fun main(args: Array<String>) {
         try {
             receiver.add(command)
             println("Command executed..")
-        }catch (e: RuntimeException){
+        } catch (e: RuntimeException) {
             println(e.localizedMessage)
-        }catch (e: FileNotFoundException){
+        } catch (e: FileNotFoundException) {
             println(e.localizedMessage)
         }
         if (command is CloseDocumentCommand) return
