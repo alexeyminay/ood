@@ -14,8 +14,8 @@ abstract class OutputStreamDecorator(
         }
     }
 
-    override fun writeBlock(srcData: IntArray, size: Int) {
-        outputStream.writeBlock(decorateBlock(srcData), size)
+    override fun writeBlock(srcData: IntArray) {
+        outputStream.writeBlock(decorateBlock(srcData))
     }
 
     protected abstract fun decorateByte(data: Int): IntArray
@@ -23,6 +23,7 @@ abstract class OutputStreamDecorator(
     private fun decorateBlock(srcData: IntArray) = srcData
             .map { decorateByte(it).toMutableList() }
             .flatten()
+            .filter { it != -1 }
             .toIntArray()
 
 }

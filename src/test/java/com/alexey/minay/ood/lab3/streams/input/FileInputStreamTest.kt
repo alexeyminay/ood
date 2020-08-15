@@ -1,6 +1,5 @@
-package com.alexey.minay.ood.lab3.streams.input.lab3
+package com.alexey.minay.ood.lab3.streams.input
 
-import com.alexey.minay.ood.lab3.streams.input.FileInputStream
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -9,20 +8,20 @@ import java.io.File
 
 class FileInputStreamTest {
 
-    private lateinit var file: File
-    private lateinit var fileInputStream: FileInputStream
+    private lateinit var mFile: File
+    private lateinit var mFileInputStream: FileInputStream
 
     @Test
     fun shouldReadByte() {
-        val byte = fileInputStream.readByte()
+        val byte = mFileInputStream.readByte()
         assertEquals('t'.toInt(), byte)
     }
 
 
     @Test
     fun shouldReadTheSecondByteAfterFirstOne() {
-        val firstByte = fileInputStream.readByte()
-        val secondByte = fileInputStream.readByte()
+        val firstByte = mFileInputStream.readByte()
+        val secondByte = mFileInputStream.readByte()
         assertEquals('e'.toInt(), secondByte)
     }
 
@@ -32,20 +31,20 @@ class FileInputStreamTest {
         fun writeBufferInList(byte: Int) {
             bytes.add(byte)
         }
-        fileInputStream.readBlock(::writeBufferInList, 2)
+        mFileInputStream.readBlock(::writeBufferInList, 2)
         assertEquals('e'.toInt(), bytes[1])
     }
 
     @Before
     fun setUp() {
-        file = File("test")
-        file.writeText("test text")
-        fileInputStream = FileInputStream(file)
+        mFile = File("test")
+        mFile.writeText("test text")
+        mFileInputStream = FileInputStream(mFile)
     }
 
     @After
     fun clean() {
-        file.delete()
+        mFile.delete()
     }
 
 }

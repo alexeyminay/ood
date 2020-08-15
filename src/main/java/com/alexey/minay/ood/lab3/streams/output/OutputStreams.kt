@@ -12,7 +12,7 @@ class MemoryOutputStream(
         memory.add(data)
     }
 
-    override fun writeBlock(srcData: IntArray, size: Int) {
+    override fun writeBlock(srcData: IntArray) {
         memory.addAll(srcData.toList())
     }
 }
@@ -25,7 +25,7 @@ class FileOutputStream(
         file.appendText(data.toChar().toString(), Charsets.ISO_8859_1)
     }
 
-    override fun writeBlock(srcData: IntArray, size: Int) {
+    override fun writeBlock(srcData: IntArray) {
         srcData.forEach {
             writeByte(it)
         }
