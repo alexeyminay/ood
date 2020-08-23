@@ -41,7 +41,7 @@ open class ModernGraphicsRender(
 
 }
 
-class RGBAColor(
+data class RGBAColor(
         private val r: Float,
         private val g: Float,
         private val b: Float,

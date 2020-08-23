@@ -25,7 +25,7 @@ fun paintPictureOnCanvas() {
 }
 
 fun paintPictureOnModernGraphicRender() {
-    val writer = File("Test.txt").bufferedWriter()
+    val writer = File("adapter.txt").bufferedWriter()
     val modernGraphicsRender = ModernGraphicsRender(writer)
     val modernLibAdapter = ModernLibAdapter(modernGraphicsRender)
     val canvasPainter = CanvasPainter(modernLibAdapter)
@@ -34,7 +34,7 @@ fun paintPictureOnModernGraphicRender() {
 }
 
 fun paintPictureOnModernGraphicRenderWithClassAdapter() {
-    val writer = File("TestClassAdapter.txt").bufferedWriter()
+    val writer = File("ClassAdapter.txt").bufferedWriter()
     val modernGraphicsRender = ModernLibClassAdapter(writer)
     val canvasPainter = CanvasPainter(modernGraphicsRender)
     paintPicture(canvasPainter)
