@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab2.rxweatherstationduo
 
+import com.alexey.minay.ood.lab2.rxweatherstationduo.StatDisplay.StatisticValues.ValueType
+
 class Display : Observer<StationData>() {
 
     override fun onNext(stationData: StationData?) {
@@ -24,7 +26,7 @@ class Display : Observer<StationData>() {
 
 }
 
-/*class StatDisplay : IObserver<WeatherInfo> {
+class StatDisplay : Observer<StationData>() {
 
     private val valuesOut = mutableListOf<StatisticValues>().also {
         it.add(StatisticValues(ValueType.TEMPERATURE))
@@ -38,15 +40,15 @@ class Display : Observer<StationData>() {
         it.add(StatisticValues(ValueType.PRESSURE))
     }
 
-    override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
-        when (observable) {
-            is WeatherDataOut -> {
+    override fun onNext(stationData: StationData?) {
+        when (stationData) {
+            is StationData.Out -> {
                 println("Weather stat outside")
-                update(valuesOut, data)
+                update(valuesOut, stationData.info)
             }
-            is WeatherDataIn -> {
+            is StationData.In -> {
                 println("Weather stat inside")
-                update(valuesIn, data)
+                update(valuesIn, stationData.info)
             }
         }
     }
@@ -92,4 +94,4 @@ class Display : Observer<StationData>() {
         }
     }
 
-}*/
+}

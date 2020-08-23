@@ -11,13 +11,9 @@ interface IObservable<T> {
 
 abstract class Observer<T> : Observer<T> {
 
-    override fun onComplete() {
-        println("finish observing")
-    }
+    override fun onComplete() {}
 
-    override fun onSubscribe(d: Disposable?) {
-        println("start observing")
-    }
+    override fun onSubscribe(d: Disposable?) {}
 
     override fun onError(e: Throwable?) {
         println(e?.localizedMessage)
