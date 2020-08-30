@@ -12,18 +12,22 @@ interface IObserver<T> {
 
 open class Observable<T> : IObservable<T> {
 
-    private val observers = sortedMapOf<Int, IObserver<T>>()
+    private val mObservers = sortedMapOf<Int, MutableList<IObserver<T>>>()
 
     override fun register(priority: Int, observer: IObserver<T>) {
-        observers[priority] = observer
+        val observers = mObservers[priority] ?: mutableListOf()
+        observers.add(observer)
+        mObservers[priority] = observers
     }
 
     override fun notify(data: T) {
-        observers.forEach { it.value.update(data, this) }
+        mObservers
+                .flatMap { it.value }
+                .forEach { it.update(data, this) }
     }
 
     override fun remove(observer: IObserver<T>) {
-        observers.values.remove(observer)
+        mObservers.values.forEach { it.remove(observer) }
     }
 
 }
