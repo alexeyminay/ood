@@ -92,13 +92,13 @@ class HTMLDocument : IDocument {
         }
         val dirPath = File(path)
         if (!dirPath.exists()) dirPath.mkdirs()
-        val file = File("$path$fileName.html")
+        val file = File("$path\\$fileName.html")
         mDocument.forEach {
             val image = it.getImage()
             if (image != null) {
                 writeFile(donorFilePath = image.getPath() + image.getName(),
-                        newPath = path + IMAGE_PATH,
-                        newFilePath = path + IMAGE_PATH + image.getName())
+                        newPath = path + "\\" + IMAGE_PATH,
+                        newFilePath = path + "\\" + IMAGE_PATH + image.getName())
             }
         }
         file.writeText(getHtml())

@@ -71,7 +71,7 @@ class BodyContext(
         image ?: return
         body.append("""
             |
-            |$tabs<img>src='${image.getPath() + image.getName()}' height=${image.getHeight()} width=${image.getWidth()}</img>
+            |$tabs<img src='${image.getPath() + image.getName()}' height=${image.getHeight()} width=${image.getWidth()} />
         """.trimMargin())
     }
 

@@ -10,7 +10,7 @@
 
     <properties>
         <java.version>1.13</java.version>
-        <kotlin.version>1.4.0-rc</kotlin.version>
+        <kotlin.version>1.3.72</kotlin.version>
     </properties>
 
     <dependencies>

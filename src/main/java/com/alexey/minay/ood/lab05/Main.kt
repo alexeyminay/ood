@@ -47,7 +47,7 @@ object CommandHandler {
             "Help" -> HelpCommand()
             "Undo" -> UndoCommand(document)
             "Redo" -> RedoCommand(document)
-            "Save" -> RedoCommand(document)
+            "Save" -> createSaveCommand(document, splittedCommand)
             "Close" -> CloseDocumentCommand(document)
             else -> null
         }
@@ -93,6 +93,11 @@ object CommandHandler {
         val width: Int = splittedCommand[2].toIntOrNull() ?: return null
         val height: Int = splittedCommand[3].toIntOrNull() ?: return null
         return ResizeImageCommand(document, position, width, height)
+    }
+
+    private fun createSaveCommand(document: IDocument, splittedCommand: List<String>): ICommand? {
+        if (splittedCommand.size != 2) return null
+        return SaveCommand(document, splittedCommand[1])
     }
 
 }
