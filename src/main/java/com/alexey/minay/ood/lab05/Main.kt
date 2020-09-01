@@ -44,6 +44,7 @@ object CommandHandler {
             "List" -> PrintDocumentCommand(documentPrinter)
             "ReplaceText" -> createReplaceTextCommand(document, splittedCommand)
             "ResizeImage" -> createResizeImageCommand(document, splittedCommand)
+            "PrintDocument" -> PrintDocumentCommand(DocumentPrinter(document))
             "Help" -> HelpCommand()
             "Undo" -> UndoCommand(document)
             "Redo" -> RedoCommand(document)
