@@ -12,26 +12,16 @@ class RegularPolygon(
         val radius: Int
 ) : Shape(color) {
 
-    private val mAngleBetweenVertex = (360.0 / vertexCount).toRad()
-
     override fun draw(canvas: ICanvas) {
         canvas.setColor(color)
-        var lastPoint = Point(center.x + radius, center.y)
-        var angleBetweenRadiusAndX = 0.0
-        for (i in 0 until vertexCount) {
-            val nextPoint = getNextPoint(lastPoint, angleBetweenRadiusAndX)
-            canvas.drawLine(lastPoint, nextPoint)
-            lastPoint = nextPoint
-            angleBetweenRadiusAndX += mAngleBetweenVertex
+        var fromVertex = Point(center.x + radius, center.y)
+        for (i in 0..vertexCount) {
+            val x = center.x + radius * cos((2 * PI * i) / vertexCount)
+            val y = center.y + radius * sin((2 * PI * i) / vertexCount)
+            val toVertex = Point(x, y)
+            canvas.drawLine(fromVertex, toVertex)
+            fromVertex = toVertex
         }
     }
-
-    private fun getNextPoint(lastPoint: Point, angleBetweenRadiusAndX: Double): Point {
-        val x = radius * cos(angleBetweenRadiusAndX) + lastPoint.x
-        val y = radius * sin(angleBetweenRadiusAndX) + lastPoint.y
-        return Point(x, y)
-    }
-
-    private fun Double.toRad() = this * PI / 180
 
 }

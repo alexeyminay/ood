@@ -77,6 +77,7 @@ class ShapeFactory : IShapeFactory {
         if (splittedDescription.size != REGULAR_POLYGON_SIZE) throw RuntimeException("Incorrect regular polygon description")
         val vertexCount = splittedDescription[REGULAR_POLYGON_VERTEX_COUNT_INDEX].toIntOrNull()
                 ?: throw RuntimeException("Incorrect regular polygon vertex count description")
+        if (vertexCount < 2) throw RuntimeException("Incorrect vertex count")
         val centerX = splittedDescription[REGULAR_POLYGON_CENTER_X_INDEX].toDoubleOrNull()
                 ?: throw RuntimeException("Incorrect regular polygon centerX description")
         val centerY = splittedDescription[REGULAR_POLYGON_CENTER_Y_INDEX].toDoubleOrNull()
