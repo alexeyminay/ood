@@ -1,14 +1,19 @@
 package com.alexey.minay.ood.lab04.shapes
 
+import com.alexey.minay.ood.lab04.ICanvas
+
 class Triangle(
         override val color: Color,
-        val vertex1: Int,
-        val vertex2: Int,
-        val vertex3: Int
+        val vertex1: Point,
+        val vertex2: Point,
+        val vertex3: Point
 ) : Shape(color) {
 
     override fun draw(canvas: ICanvas) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        canvas.setColor(color)
+        canvas.drawLine(vertex1, vertex2)
+        canvas.drawLine(vertex2, vertex3)
+        canvas.drawLine(vertex3, vertex1)
     }
 
 }

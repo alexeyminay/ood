@@ -1,16 +1,16 @@
 package com.alexey.minay.ood.lab07
 
-import javafx.application.Application
-import javafx.stage.Stage
 import com.alexey.minay.ood.lab07.ui.SlidePresenter
 import com.alexey.minay.ood.lab07.ui.SlideScene
+import javafx.application.Application
+import javafx.stage.Stage
 
 class FxApplication : Application() {
 
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            Application.launch(FxApplication::class.java)
+            launch(FxApplication::class.java)
         }
     }
 

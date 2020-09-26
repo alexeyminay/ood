@@ -1,14 +1,17 @@
 package com.alexey.minay.ood.lab04.shapes
 
+import com.alexey.minay.ood.lab04.ICanvas
+
 class Ellipse(
         override val color: Color,
-        val center: Int,
+        val center: Point,
         val horizontalRadius: Int,
         val verticalRadius: Int
 ) : Shape(color) {
 
     override fun draw(canvas: ICanvas) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        canvas.setColor(color)
+        canvas.drawEllipse(center, horizontalRadius, verticalRadius)
     }
 
 }
