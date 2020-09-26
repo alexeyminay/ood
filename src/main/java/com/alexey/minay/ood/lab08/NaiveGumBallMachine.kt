@@ -67,7 +67,7 @@ class NaiveGumBallMachine(private var count: Int) : IGumBallMachine {
     }
 
     override fun refill(numBalls: Int) {
-        if(mState == State.SOLD) {
+        if (mState == State.SOLD) {
             println("Wait please until gumball rolling out...\n")
             return
         }

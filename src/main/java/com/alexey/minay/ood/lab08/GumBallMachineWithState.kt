@@ -43,7 +43,7 @@ class GumBallMachine(private var count: Int) : IGumBallMachine, IStateHandler {
     }
 
     override fun refill(numBalls: Int) {
-        if(mState is SoldState) {
+        if (mState is SoldState) {
             println("Wait please until gumball rolling out...\n")
             return
         }

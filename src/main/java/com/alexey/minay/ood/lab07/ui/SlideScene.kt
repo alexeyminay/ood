@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab07.ui
 
+import com.alexey.minay.ood.lab07.domain.Slide
+import com.alexey.minay.ood.lab07.domain.canvas.FxCanvas
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
@@ -7,8 +9,6 @@ import javafx.scene.control.Button
 import javafx.scene.layout.*
 import javafx.scene.paint.Color
 import javafx.stage.Stage
-import com.alexey.minay.ood.lab07.domain.Slide
-import com.alexey.minay.ood.lab07.domain.canvas.FxCanvas
 
 class SlideScene(
         private val primaryStage: Stage?,

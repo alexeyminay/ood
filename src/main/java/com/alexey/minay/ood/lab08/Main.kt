@@ -9,22 +9,22 @@ fun main(args: Array<String>) {
         val splittedInput = input?.split(" ")
         if (splittedInput?.size == 2 && splittedInput[0] == "refill") {
             val gumBallCount = splittedInput[1].toIntOrNull()
-            if(gumBallCount == null) {
+            if (gumBallCount == null) {
                 println("gumBallCount should be a number")
                 continue
             }
             gumBallMachine.refill(gumBallCount)
             continue
         }
-            when (input) {
-                "help" -> printHelp()
-                "exit" -> resumed = false
-                "insertQuarter" -> gumBallMachine.insertQuarter()
-                "ejectQuarters" -> gumBallMachine.ejectQuarters()
-                "turnCrank" -> gumBallMachine.turnCrank()
-                "printState" -> println(gumBallMachine)
-                else -> println("unknown command")
-            }
+        when (input) {
+            "help" -> printHelp()
+            "exit" -> resumed = false
+            "insertQuarter" -> gumBallMachine.insertQuarter()
+            "ejectQuarters" -> gumBallMachine.ejectQuarters()
+            "turnCrank" -> gumBallMachine.turnCrank()
+            "printState" -> println(gumBallMachine)
+            else -> println("unknown command")
+        }
     }
 }
 
