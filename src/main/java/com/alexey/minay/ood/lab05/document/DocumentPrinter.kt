@@ -1,13 +1,14 @@
 package com.alexey.minay.ood.lab05.document
 
 class DocumentPrinter(
-        private val document: IDocument
+        private val document: IDocument,
+        private val printer: (String) -> Unit
 ) : IDocumentPrinter {
 
     override fun print() {
-        println(document.getTitle())
+        printer(document.getTitle())
         document.getItems().forEachIndexed { index, documentItem ->
-            println("$index: $documentItem")
+            printer("$index: $documentItem")
         }
     }
 

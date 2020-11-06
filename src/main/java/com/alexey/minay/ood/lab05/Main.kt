@@ -9,7 +9,7 @@ import java.io.FileNotFoundException
 fun main(args: Array<String>) {
     val document = HTMLDocument()
     val receiver = Receiver()
-    val documentPrinter = DocumentPrinter(document)
+    val documentPrinter = DocumentPrinter(document, ::println)
     println("введите команду:")
     println("Help - помощь")
     while (true) {
@@ -44,7 +44,7 @@ object CommandHandler {
             "List" -> PrintDocumentCommand(documentPrinter)
             "ReplaceText" -> createReplaceTextCommand(document, splittedCommand)
             "ResizeImage" -> createResizeImageCommand(document, splittedCommand)
-            "PrintDocument" -> PrintDocumentCommand(DocumentPrinter(document))
+            "PrintDocument" -> PrintDocumentCommand(DocumentPrinter(document, ::println))
             "Help" -> HelpCommand()
             "Undo" -> UndoCommand(document)
             "Redo" -> RedoCommand(document)
