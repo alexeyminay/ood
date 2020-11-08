@@ -6,7 +6,7 @@ class ResizeImageCommand(
         private val document: IDocument,
         private val width: Int,
         private val height: Int,
-        private val position: Int = document.getLastPosition()
+        private val position: Int = document.getDocumentSize()
 ) : ICommand {
 
     override fun execute() {

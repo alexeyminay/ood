@@ -16,7 +16,7 @@ interface IDocument {
     fun canRedo(): Boolean
     fun redo()
     fun save(path: String)
-    fun getLastPosition(): Int
+    fun getDocumentSize(): Int
     fun close()
 }
 

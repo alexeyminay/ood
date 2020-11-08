@@ -15,9 +15,9 @@ class HTMLDocument : IDocument {
         if (position > mDocument.size) throw RuntimeException("$position is incorrectPosition")
         val paragraph = Paragraph(text)
         val documentItem = DocumentItem(paragraph = paragraph)
-        mDocument.add(position, documentItem)
         deleteOldState()
         saveState()
+        mDocument.add(position, documentItem)
         return paragraph
     }
 
@@ -25,9 +25,9 @@ class HTMLDocument : IDocument {
         if (position > mDocument.size) throw RuntimeException("Position $position doesn't exist")
         val item = mDocument[position]
         val paragraph = item.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
-        paragraph.setText(text)
         deleteOldState()
         saveState()
+        paragraph.setText(text)
         return paragraph
     }
 
@@ -36,9 +36,9 @@ class HTMLDocument : IDocument {
         val image = Image("img_${System.currentTimeMillis()}", IMAGE_PATH, width, height)
         writeFile(path, image.getPath(), image.getPath() + image.getName())
         val documentItem = DocumentItem(image = image)
-        mDocument.add(position, documentItem)
         deleteOldState()
         saveState()
+        mDocument.add(position, documentItem)
         return image
     }
 
@@ -46,15 +46,21 @@ class HTMLDocument : IDocument {
         if (position > mDocument.size) throw RuntimeException("Position $position doesn't exist")
         val item = mDocument[position]
         val image = item.getImage() ?: throw RuntimeException("Item doesn't have image")
-        image.resize(width, height)
         deleteOldState()
         saveState()
+        image.resize(width, height)
         return image
     }
 
-    override fun getItem(index: Int) = mDocument[index]
+    override fun getItem(index: Int): IDocumentItem {
+        if (index > mDocument.size) throw RuntimeException("Position $index doesn't exist")
+        return mDocument[index]
+    }
 
     override fun deleteItem(index: Int) {
+        if (index > mDocument.size) throw RuntimeException("Position $index doesn't exist")
+        deleteOldState()
+        saveState()
         mDocument.removeAt(index)
     }
 
@@ -65,15 +71,18 @@ class HTMLDocument : IDocument {
     override fun getTitle() = mTitle
 
     override fun setTitle(title: String) {
-        mTitle = title
+        deleteOldState()
         saveState()
+        mTitle = title
     }
 
     override fun canUndo() = mState.isNotEmpty()
 
     override fun undo() {
         if (!canUndo()) return
-        mCanceledState.add(mState.pollLast())
+        val document = mutableListOf<IDocumentItem>()
+        document.addAll(mDocument)
+        mCanceledState.add(DocumentState(document, mTitle))
         revertState()
     }
 
@@ -81,6 +90,9 @@ class HTMLDocument : IDocument {
 
     override fun redo() {
         if (!canRedo()) return
+        val document = mutableListOf<IDocumentItem>()
+        document.addAll(mDocument)
+        mState.add(DocumentState(document, mTitle))
         mState.add(mCanceledState.pollLast())
         revertState()
     }
@@ -104,7 +116,7 @@ class HTMLDocument : IDocument {
         file.writeText(getHtml())
     }
 
-    override fun getLastPosition() = mDocument.size
+    override fun getDocumentSize() = mDocument.size
 
     override fun close() {
         val dir = File(IMAGE_PATH)
@@ -141,7 +153,7 @@ class HTMLDocument : IDocument {
     }
 
     private fun revertState() {
-        val state = mState.lastOrNull() ?: return
+        val state = mState.pollLast() ?: return
         mTitle = state.title
         mDocument.clear()
         mDocument.addAll(state.document)

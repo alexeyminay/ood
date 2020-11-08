@@ -45,6 +45,7 @@ object CommandHandler {
             "ReplaceText" -> createReplaceTextCommand(document, splittedCommand)
             "ResizeImage" -> createResizeImageCommand(document, splittedCommand)
             "PrintDocument" -> PrintDocumentCommand(DocumentPrinter(document, ::println))
+            "DeleteItem" -> createDeleteItemCommand(document, splittedCommand)
             "Help" -> HelpCommand()
             "Undo" -> UndoCommand(document)
             "Redo" -> RedoCommand(document)
@@ -52,6 +53,12 @@ object CommandHandler {
             "Close" -> CloseDocumentCommand(document)
             else -> null
         }
+    }
+
+    private fun createDeleteItemCommand(document: IDocument, splittedCommand: List<String>): ICommand? {
+        if (splittedCommand.size < 2) return null
+        val position: Int = splittedCommand[1].toIntOrNull() ?: return null
+        return DeleteItemCommand(document, position)
     }
 
     private fun createInsertParagraphCommand(document: IDocument, splittedCommand: List<String>): ICommand? {

@@ -15,8 +15,8 @@ class ReplaceTextCommandTest {
     fun shouldReplaceTextAtTheLastPosition() {
         mReplaceTextCommand = ReplaceTextCommand(mDocument, mText)
         mReplaceTextCommand.execute()
-        verify(mDocument).getLastPosition()
-        verify(mDocument).replaceTextInParagraph(mText, mDocument.getLastPosition())
+        verify(mDocument).getDocumentSize()
+        verify(mDocument).replaceTextInParagraph(mText, mDocument.getDocumentSize())
     }
 
     @Test

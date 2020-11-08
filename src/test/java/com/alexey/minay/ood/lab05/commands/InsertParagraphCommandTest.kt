@@ -15,8 +15,8 @@ class InsertParagraphCommandTest {
     fun shouldInsertParagraphAtTheLastPosition() {
         mInsertParagraphCommand = InsertParagraphCommand(mDocument, mText)
         mInsertParagraphCommand.execute()
-        verify(mDocument).getLastPosition()
-        verify(mDocument).insertParagraph(mText, mDocument.getLastPosition())
+        verify(mDocument).getDocumentSize()
+        verify(mDocument).insertParagraph(mText, mDocument.getDocumentSize())
     }
 
     @Test

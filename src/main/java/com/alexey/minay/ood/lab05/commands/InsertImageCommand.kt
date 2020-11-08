@@ -7,7 +7,7 @@ class InsertImageCommand(
         private val path: String,
         private val width: Int,
         private val height: Int,
-        private val position: Int = document.getLastPosition()
+        private val position: Int = document.getDocumentSize()
 ) : ICommand {
 
     override fun execute() {

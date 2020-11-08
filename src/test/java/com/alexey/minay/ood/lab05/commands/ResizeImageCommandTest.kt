@@ -16,8 +16,8 @@ class ResizeImageCommandTest {
     fun shouldResizeImageAtTheLastPosition() {
         mResizeImageCommand = ResizeImageCommand(mDocument, mWidth, mHeight)
         mResizeImageCommand.execute()
-        verify(mDocument).getLastPosition()
-        verify(mDocument).resizeImage(mHeight, mWidth, mDocument.getLastPosition())
+        verify(mDocument).getDocumentSize()
+        verify(mDocument).resizeImage(mHeight, mWidth, mDocument.getDocumentSize())
     }
 
     @Test

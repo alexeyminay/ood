@@ -2,14 +2,13 @@ package com.alexey.minay.ood.lab05.commands
 
 import com.alexey.minay.ood.lab05.document.IDocument
 
-class InsertParagraphCommand(
+class DeleteItemCommand(
         private val document: IDocument,
-        private val text: String,
-        private val position: Int = document.getDocumentSize()
+        private val position: Int
 ) : ICommand {
 
     override fun execute() {
-        document.insertParagraph(text, position)
+        document.deleteItem(position)
     }
 
 }
