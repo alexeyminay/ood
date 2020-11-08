@@ -15,11 +15,11 @@ class Triangle(
             else -> canvas.setLineColor(RGBAColor.TRANSPARENT)
         }
         canvas.setLineType(FxCanvas.LineType.Shapes(lineStyle.lineWidth))
-        val vertex1X = (frame.right - frame.left) / 2 + frame.left
-        canvas.moveTo(vertex1X, frame.top)
+        val middleFrame = (frame.right - frame.left) / 2 + frame.left
+        canvas.moveTo(middleFrame, frame.top)
         canvas.lineTo(frame.left, frame.bottom)
         canvas.lineTo(frame.right, frame.bottom)
-        canvas.lineTo(vertex1X, frame.top)
+        canvas.lineTo(middleFrame, frame.top)
         when {
             fillStyle.isEnable -> canvas.fill(fillStyle.color)
             else -> Unit

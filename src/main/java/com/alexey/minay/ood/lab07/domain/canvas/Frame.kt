@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab07.domain.canvas
 
-class Frame(
+data class Frame(
         var left: Double,
         var right: Double,
         var top: Double,
