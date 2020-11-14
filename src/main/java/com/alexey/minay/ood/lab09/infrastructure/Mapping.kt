@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab09.infrastucture
+package com.alexey.minay.ood.lab09.infrastructure
 
 import com.alexey.minay.ood.lab09.domain.Point
 import com.alexey.minay.ood.lab09.domain.shapes.*

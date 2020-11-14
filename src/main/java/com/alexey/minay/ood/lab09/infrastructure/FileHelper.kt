@@ -1,10 +1,11 @@
-package com.alexey.minay.ood.lab09.infrastucture
+package com.alexey.minay.ood.lab09.infrastructure
 
 import com.alexey.minay.ood.lab09.domain.IFileHelper
 import com.alexey.minay.ood.lab09.domain.shapes.IShape
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -17,7 +18,9 @@ class FileHelper : IFileHelper {
                 val json = file.readText()
                 Gson().fromJson(json, ShapesJson::class.java)
             }
-            onOpened(shapes.toDomainData())
+            withContext(Dispatchers.JavaFx) {
+                onOpened(shapes.toDomainData())
+            }
         }
     }
 

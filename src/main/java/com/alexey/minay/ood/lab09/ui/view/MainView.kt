@@ -142,6 +142,7 @@ class MainView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onSaveButtonClicked() {
+        //TODO доработать сохранение открытого файла
         val file = mFileChooser.showSaveDialog(mCanvas.scene.window) ?: return
         mFilePresenter.onSave(file)
     }

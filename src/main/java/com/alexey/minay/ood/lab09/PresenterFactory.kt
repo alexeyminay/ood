@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab09
 
 import com.alexey.minay.ood.lab09.domain.Repository
 import com.alexey.minay.ood.lab09.domain.stateHandler.ImageStateHandler
-import com.alexey.minay.ood.lab09.infrastucture.FileHelper
+import com.alexey.minay.ood.lab09.infrastructure.FileHelper
 import com.alexey.minay.ood.lab09.ui.MVP
 import com.alexey.minay.ood.lab09.ui.presenters.FileTabPresenter
 import com.alexey.minay.ood.lab09.ui.presenters.MainPresenter

@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab09.infrastucture
+package com.alexey.minay.ood.lab09.infrastructure
 
 data class ShapesJson(
         val shapes: List<ShapeJson>
