@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab04.shapes
 
 import com.alexey.minay.ood.lab04.ICanvas
 
-class Rectangle(
+data class Rectangle(
         override val color: Color,
         val leftTop: Point,
         val rightBottom: Point

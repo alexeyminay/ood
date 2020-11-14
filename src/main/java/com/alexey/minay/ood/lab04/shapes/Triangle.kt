@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab04.shapes
 
 import com.alexey.minay.ood.lab04.ICanvas
 
-class Triangle(
+data class Triangle(
         override val color: Color,
         val vertex1: Point,
         val vertex2: Point,

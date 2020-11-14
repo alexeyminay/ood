@@ -5,7 +5,7 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
 
-class RegularPolygon(
+data class RegularPolygon(
         override val color: Color,
         val vertexCount: Int,
         val center: Point,

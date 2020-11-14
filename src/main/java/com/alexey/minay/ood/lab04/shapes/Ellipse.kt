@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab04.shapes
 
 import com.alexey.minay.ood.lab04.ICanvas
 
-class Ellipse(
+data class Ellipse(
         override val color: Color,
         val center: Point,
         val horizontalRadius: Int,
