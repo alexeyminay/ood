@@ -26,8 +26,8 @@
                                 <ButtonBar layoutX="6.0" layoutY="6.0" prefHeight="72.0" prefWidth="266.0">
                                     <buttons>
                                         <Button onMouseClicked="#onSaveButtonClicked" minWidth="68.0" mnemonicParsing="false" prefHeight="55.0" text="SAVE"/>
-                                        <Button mnemonicParsing="false" prefHeight="54.0" text="SAVE AS"/>
-                                        <Button mnemonicParsing="false" prefHeight="55.0" text="OPEN"/>
+                                        <Button onMouseClicked="#onSaveAsButtonClicked" mnemonicParsing="false" prefHeight="54.0" text="SAVE AS"/>
+                                        <Button onMouseClicked="#onOpenButtonClicked" mnemonicParsing="false" prefHeight="55.0" text="OPEN"/>
                                     </buttons>
                                 </ButtonBar>
                             </children>

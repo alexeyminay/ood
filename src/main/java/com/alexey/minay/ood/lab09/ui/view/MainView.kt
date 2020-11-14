@@ -1,5 +1,10 @@
 package com.alexey.minay.ood.lab09.ui.view
 
+import com.alexey.minay.ood.lab09.PresenterFactory
+import com.alexey.minay.ood.lab09.domain.Point
+import com.alexey.minay.ood.lab09.domain.ResizePointCrossState
+import com.alexey.minay.ood.lab09.domain.style.Style
+import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Cursor
@@ -12,11 +17,6 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.paint.Color
 import javafx.stage.FileChooser
-import com.alexey.minay.ood.lab09.PresenterFactory
-import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.ResizePointCrossState
-import com.alexey.minay.ood.lab09.domain.style.Style
-import com.alexey.minay.ood.lab09.ui.MVP
 import java.net.URL
 import java.util.*
 
@@ -26,15 +26,26 @@ class MainView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     private lateinit var mCanvas: Canvas
     val graphicsContext: GraphicsContext
         get() = mCanvas.graphicsContext2D
+
     @FXML
     private lateinit var mStrokePicker: ColorPicker
+
     @FXML
     private lateinit var mFillPicker: ColorPicker
+
     @FXML
     private lateinit var mTabPane: TabPane
 
     private lateinit var mCanvasPresenter: MVP.ICanvasPresenter
     private lateinit var mFilePresenter: MVP.IFileTabPresenter
+    private val mFileChooser by lazy {
+        FileChooser().apply {
+//            extensionFilters.addAll(
+//                    FileChooser.ExtensionFilter("JSON", ".json"),
+//                    FileChooser.ExtensionFilter("All files", ".")
+//            )
+        }
+    }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         mCanvasPresenter = PresenterFactory.createCanvasPresenterFor(this)
@@ -131,11 +142,19 @@ class MainView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onSaveButtonClicked() {
-        val fileChooser = FileChooser()
-        fileChooser.extensionFilters.addAll(
-                FileChooser.ExtensionFilter("JSON", ".json")
-        )
-        val file = fileChooser.showSaveDialog(mCanvas.scene.window) ?: return
+        val file = mFileChooser.showSaveDialog(mCanvas.scene.window) ?: return
+        mFilePresenter.onSave(file)
+    }
+
+    @FXML
+    fun onOpenButtonClicked() {
+        val file = mFileChooser.showOpenDialog(mCanvas.scene.window) ?: return
+        mFilePresenter.onOpen(file)
+    }
+
+    @FXML
+    fun onSaveAsButtonClicked() {
+        val file = mFileChooser.showSaveDialog(mCanvas.scene.window) ?: return
         mFilePresenter.onSave(file)
     }
 

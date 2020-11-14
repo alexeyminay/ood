@@ -70,6 +70,14 @@ class Repository(
     }
 
     override fun openFile(file: File) {
+        fileHelper.openFile(file) {
+            imageStateHandler.reloadImage(it)
+            imageStateMemento.deleteSnapshots()
+            mOnNext(ScreenStateChanges.ImageState(imageStateHandler.shapes))
+        }
+    }
+
+    override fun saveFile(file: File) {
         fileHelper.saveFile(file, imageStateHandler.shapes)
     }
 

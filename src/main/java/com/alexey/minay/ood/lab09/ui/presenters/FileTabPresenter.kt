@@ -15,14 +15,14 @@ class FileTabPresenter(
     }
 
     override fun onSave(file: File) {
+        fileRepository.saveFile(file)
+    }
+
+    override fun onSaveAs(file: File) {
+        fileRepository.saveFile(file)
+    }
+
+    override fun onOpen(file: File) {
         fileRepository.openFile(file)
-    }
-
-    override fun onSaveAs() {
-
-    }
-
-    override fun onLoad() {
-
     }
 }

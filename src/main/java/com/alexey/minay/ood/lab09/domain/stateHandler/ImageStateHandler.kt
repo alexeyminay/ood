@@ -128,6 +128,10 @@ class ImageStateHandler {
         mPressedPoint = newCenterPosition
     }
 
+    fun reloadImage(shapes: List<IShape>) {
+        this.shapes = shapes.toMutableList()
+    }
+
     private fun IShape.calculateNewLeftTopX(differenceX: Double) =
             when (resizePointCrossState) {
                 ResizePointCrossState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
@@ -193,6 +197,11 @@ class ImageStateHandler {
         override fun canRedo() = mCanceledState.isNotEmpty()
 
         override fun canUndo() = mState.isNotEmpty()
+
+        override fun deleteSnapshots() {
+            mCanceledState.clear()
+            mState.clear()
+        }
 
         private fun saveState(state: ArrayDeque<ImageStateSnapshot>) {
             val snapshotShapes = mutableListOf<IShape>()

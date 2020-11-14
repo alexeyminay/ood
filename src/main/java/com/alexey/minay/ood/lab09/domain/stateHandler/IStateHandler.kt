@@ -7,5 +7,6 @@ interface IStateHandler {
         fun saveState()
         fun canUndo(): Boolean
         fun canRedo(): Boolean
+        fun deleteSnapshots()
     }
 }

@@ -4,4 +4,5 @@ import java.io.File
 
 interface IFileRepository {
     fun openFile(file: File)
+    fun saveFile(file: File)
 }

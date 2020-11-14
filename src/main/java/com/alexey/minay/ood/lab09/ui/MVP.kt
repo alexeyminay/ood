@@ -33,8 +33,8 @@ interface MVP {
     interface IFileTabPresenter {
         fun onViewCreated(view: IFileTabView)
         fun onSave(file: File)
-        fun onSaveAs()
-        fun onLoad()
+        fun onSaveAs(file: File)
+        fun onOpen(file: File)
     }
 
 }
