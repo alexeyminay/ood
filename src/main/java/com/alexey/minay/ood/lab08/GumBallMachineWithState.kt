@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab08
 
 import com.alexey.minay.ood.lab08.states.*
 
-class GumBallMachine(private var count: Int) : IGumBallMachine, IStateHandler {
+class GumBallMachine(count: Int) : IGumBallMachine, IStateHandler {
 
     private val mSoldState: IState
     private val mSoldOutState: IState
@@ -20,36 +20,41 @@ class GumBallMachine(private var count: Int) : IGumBallMachine, IStateHandler {
         mFullCoinAcceptorState = FullCoinAcceptorState(this)
     }
 
-    private var mState: IState = when {
+    var state: IState = when {
         count > 0 -> mNoQuarterState
         else -> mSoldOutState
     }
+        private set
+
+    var count = count
+        private set
+
 
     override fun toString(): String {
-        return "GumBallMachine state: $mState \nGumBallCount = $count QuarterCount = $quarterCount \n"
+        return "GumBallMachine state: $state \nGumBallCount = $count QuarterCount = $quarterCount \n"
     }
 
     override fun ejectQuarters() {
-        mState.ejectQuarter()
+        state.ejectQuarter()
     }
 
     override fun insertQuarter() {
-        mState.insertQuarter()
+        state.insertQuarter()
     }
 
     override fun turnCrank() {
-        mState.turnCrank()
-        mState.dispense()
+        state.turnCrank()
+        state.dispense()
     }
 
     override fun refill(numBalls: Int) {
-        if (mState is SoldState) {
+        if (state is SoldState) {
             println("Wait please until gumball rolling out...\n")
             return
         }
         println("GumBallMachine has $numBalls gum balls...\n")
         count = numBalls
-        mState = when {
+        state = when {
             count > 0 -> mNoQuarterState
             else -> mSoldOutState
         }
@@ -63,25 +68,25 @@ class GumBallMachine(private var count: Int) : IGumBallMachine, IStateHandler {
     }
 
     override fun setSoldOutState() {
-        mState = mSoldOutState
+        state = mSoldOutState
         quarterCount = 0
     }
 
     override fun setNoQuarterState() {
-        mState = mNoQuarterState
+        state = mNoQuarterState
         quarterCount = 0
     }
 
     override fun setSoldState() {
-        mState = mSoldState
+        state = mSoldState
     }
 
     override fun setHasQuarterState() {
-        mState = mHasQuarterState
+        state = mHasQuarterState
     }
 
     override fun setFullCoinAcceptorState() {
-        mState = mFullCoinAcceptorState
+        state = mFullCoinAcceptorState
     }
 
     override fun getBallCount() = count
