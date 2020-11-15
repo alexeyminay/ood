@@ -83,15 +83,15 @@ class ImageStateHandler {
         shape.shapeStyle = style
     }
 
-    fun moveShape(newCenterPosition: Point, parentWidth: Double, parentHeight: Double) {
+    fun moveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         if (mPressedPoint == null) {
-            mPressedPoint = newCenterPosition
+            mPressedPoint = newPosition
             return
         }
         val oldPosition = mPressedPoint ?: return
-        val differenceX = oldPosition.x - newCenterPosition.x
-        val differenceY = oldPosition.y - newCenterPosition.y
+        val differenceX = oldPosition.x - newPosition.x
+        val differenceY = oldPosition.y - newPosition.y
         var newLeftTopX = shape.calculateNewLeftTopX(differenceX)
         var newLeftTopY = shape.calculateNewLeftTopY(differenceY)
         var newRightBottomX = shape.calculateNewRightBottomX(differenceX)
@@ -125,7 +125,7 @@ class ImageStateHandler {
         }
         shape.frame.leftTop = Point(newLeftTopX, newLeftTopY)
         shape.frame.rightBottom = Point(newRightBottomX, newRightBottomY)
-        mPressedPoint = newCenterPosition
+        mPressedPoint = newPosition
     }
 
     fun reloadImage(shapes: List<IShape>) {

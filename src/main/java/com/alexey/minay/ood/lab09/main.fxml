@@ -3,12 +3,13 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            onKeyPressed="#onKeyPressed" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.181"
+            onKeyPressed="#onKeyPressed" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexey.minay.ood.lab09.ui.view.MainView">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="446.0" layoutX="8.0" layoutY="121.0"
@@ -25,9 +26,12 @@
                             <children>
                                 <ButtonBar layoutX="6.0" layoutY="6.0" prefHeight="72.0" prefWidth="266.0">
                                     <buttons>
-                                        <Button onMouseClicked="#onSaveButtonClicked" minWidth="68.0" mnemonicParsing="false" prefHeight="55.0" text="SAVE"/>
-                                        <Button onMouseClicked="#onSaveAsButtonClicked" mnemonicParsing="false" prefHeight="54.0" text="SAVE AS"/>
-                                        <Button onMouseClicked="#onOpenButtonClicked" mnemonicParsing="false" prefHeight="55.0" text="OPEN"/>
+                                        <Button minWidth="68.0" mnemonicParsing="false"
+                                                onMouseClicked="#onSaveButtonClicked" prefHeight="55.0" text="SAVE"/>
+                                        <Button mnemonicParsing="false" onMouseClicked="#onSaveAsButtonClicked"
+                                                prefHeight="54.0" text="SAVE AS"/>
+                                        <Button mnemonicParsing="false" onMouseClicked="#onOpenButtonClicked"
+                                                prefHeight="55.0" text="OPEN"/>
                                     </buttons>
                                 </ButtonBar>
                             </children>
@@ -104,12 +108,25 @@
                                 <Button layoutX="16.0" layoutY="9.0" mnemonicParsing="false" onMouseClicked="#onUndo"
                                         prefHeight="25.0" prefWidth="26.0">
                                     <graphic>
-                                        <ImageView fitHeight="4.0" fitWidth="2.0" pickOnBounds="true"
-                                                   preserveRatio="true"/>
+                                        <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@res/undo.png"/>
+                                            </image>
+                                        </ImageView>
                                     </graphic>
                                 </Button>
                                 <Button layoutX="16.0" layoutY="42.0" mnemonicParsing="false" onMouseClicked="#onRedo"
-                                        prefHeight="25.0" prefWidth="26.0"/>
+                                        prefHeight="25.0" prefWidth="26.0">
+                                    <graphic>
+                                        <ImageView fitHeight="10.0" fitWidth="10.0" pickOnBounds="true"
+                                                   preserveRatio="true">
+                                            <image>
+                                                <Image url="@res/redo.png"/>
+                                            </image>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
                             </children>
                         </AnchorPane>
                     </content>
