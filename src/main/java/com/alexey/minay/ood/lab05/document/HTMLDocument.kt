@@ -8,8 +8,10 @@ class HTMLDocument : IDocument {
 
     private var mTitle: String = ""
     private var mDocument = mutableListOf<IDocumentItem>()
+
     private val mState = ArrayDeque<DocumentState>()
     private val mCanceledState = ArrayDeque<DocumentState>()
+    private val mDeletableImages = mutableMapOf<String, Int>()
 
     override fun insertParagraph(text: String, position: Int): IParagraph {
         if (position > mDocument.size) throw RuntimeException("$position is incorrectPosition")
@@ -33,8 +35,9 @@ class HTMLDocument : IDocument {
 
     override fun insertImages(path: String, height: Int, width: Int, position: Int): IImage {
         if (position > mDocument.size) throw RuntimeException("$position is incorrectPosition")
-        val image = Image("img_${System.currentTimeMillis()}", IMAGE_PATH, width, height)
+        val image = Image("$IMAGE_PREFIX${System.currentTimeMillis()}", IMAGE_PATH, width, height)
         writeFile(path, image.getPath(), image.getPath() + image.getName())
+        mDeletableImages[image.getName()] = 0
         val documentItem = DocumentItem(image = image)
         deleteOldState()
         saveState()
@@ -82,7 +85,14 @@ class HTMLDocument : IDocument {
         if (!canUndo()) return
         val document = mutableListOf<IDocumentItem>()
         document.addAll(mDocument)
-        mCanceledState.add(DocumentState(document, mTitle))
+        val canceledState = DocumentState(document, mTitle)
+        mCanceledState.add(canceledState)
+        canceledState.document.forEach {
+            val imageName = it.getImage()?.getName()
+            if (imageName != null && mDeletableImages[imageName] != null) {
+                mDeletableImages[imageName] = mDeletableImages[imageName]!! - 1
+            }
+        }
         revertState()
     }
 
@@ -93,7 +103,14 @@ class HTMLDocument : IDocument {
         val document = mutableListOf<IDocumentItem>()
         document.addAll(mDocument)
         mState.add(DocumentState(document, mTitle))
-        mState.add(mCanceledState.pollLast())
+        val revertedState = mCanceledState.pollLast()
+        mState.add(revertedState)
+        revertedState.document.forEach {
+            val imageName = it.getImage()?.getName()
+            if (imageName != null && mDeletableImages[imageName] != null) {
+                mDeletableImages[imageName] = mDeletableImages[imageName]!! + 1
+            }
+        }
         revertState()
     }
 
@@ -132,20 +149,31 @@ class HTMLDocument : IDocument {
     }
 
     private fun saveState() {
-        if (mState.size == 10) mState.pollFirst()
+        if (mState.size == MAX_SAVED_STATE) {
+            val deletingState = mState.pollFirst()
+            deletingState.document.forEach {
+                val imageDeleteStateValue = mDeletableImages[it.getImage()?.getName()]
+                if (imageDeleteStateValue != null && imageDeleteStateValue > MAX_SAVED_STATE) {
+                    mDeletableImages.remove(it.getImage()?.getName())
+                }
+            }
+        }
         val document = mutableListOf<IDocumentItem>()
         document.addAll(mDocument)
         mState.add(DocumentState(document, mTitle))
         mCanceledState.clear()
+        mDeletableImages.forEach { (imageName, savesStateCount) -> mDeletableImages[imageName] = savesStateCount + 1 }
     }
 
     private fun deleteOldState() {
         mCanceledState.forEach { state ->
             state.document.forEach { item ->
-                when {
-                    item.getImage() != null &&
-                            item.getImage()?.getPath() == IMAGE_PATH ->
-                        File(item.getImage()?.let { it.getPath() + it.getName() }).delete()
+                val imageName = item.getImage()?.getName()
+                if (item.getImage() != null &&
+                        item.getImage()?.getPath() == IMAGE_PATH &&
+                        mDeletableImages[imageName] == 0) {
+                    File(item.getImage()?.let { it.getPath() + it.getName() } ?: "").delete()
+                    mDeletableImages.remove(imageName)
                 }
             }
         }
@@ -182,6 +210,8 @@ class HTMLDocument : IDocument {
     companion object {
 
         private const val IMAGE_PATH = "image/"
+        private const val IMAGE_PREFIX = "img_"
+        private const val MAX_SAVED_STATE = 10
 
     }
 

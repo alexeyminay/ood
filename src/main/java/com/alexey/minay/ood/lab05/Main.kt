@@ -6,7 +6,7 @@ import com.alexey.minay.ood.lab05.document.HTMLDocument
 import com.alexey.minay.ood.lab05.document.IDocument
 import java.io.FileNotFoundException
 
-fun main(args: Array<String>) {
+fun main() {
     val document = HTMLDocument()
     val receiver = Receiver()
     val documentPrinter = DocumentPrinter(document, ::println)
