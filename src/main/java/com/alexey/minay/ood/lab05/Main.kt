@@ -4,7 +4,7 @@ import com.alexey.minay.ood.lab05.commands.*
 import com.alexey.minay.ood.lab05.document.*
 import java.io.FileNotFoundException
 
-fun main(args: Array<String>) {
+fun main() {
     val document = Document()
     val receiver = Receiver()
     val documentPrinter = DocumentPrinter(document, ::println)
