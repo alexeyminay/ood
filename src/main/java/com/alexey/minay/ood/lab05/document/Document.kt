@@ -1,13 +1,13 @@
 package com.alexey.minay.ood.lab05.document
 
-import com.alexey.minay.ood.lab05.dsl.Html
 import java.io.File
 import java.util.*
 
-class HTMLDocument : IDocument {
+class Document : IDocument {
 
     private var mTitle: String = ""
     private var mDocument = mutableListOf<IDocumentItem>()
+
     private val mState = ArrayDeque<DocumentState>()
     private val mCanceledState = ArrayDeque<DocumentState>()
 
@@ -21,16 +21,6 @@ class HTMLDocument : IDocument {
         return paragraph
     }
 
-    override fun replaceTextInParagraph(text: String, position: Int): IParagraph {
-        if (position > mDocument.size) throw RuntimeException("Position $position doesn't exist")
-        val item = mDocument[position]
-        val paragraph = item.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
-        deleteOldState()
-        saveState()
-        paragraph.setText(text)
-        return paragraph
-    }
-
     override fun insertImages(path: String, height: Int, width: Int, position: Int): IImage {
         if (position > mDocument.size) throw RuntimeException("$position is incorrectPosition")
         val image = Image("img_${System.currentTimeMillis()}", IMAGE_PATH, width, height)
@@ -39,16 +29,6 @@ class HTMLDocument : IDocument {
         deleteOldState()
         saveState()
         mDocument.add(position, documentItem)
-        return image
-    }
-
-    override fun resizeImage(height: Int, width: Int, position: Int): IImage {
-        if (position > mDocument.size) throw RuntimeException("Position $position doesn't exist")
-        val item = mDocument[position]
-        val image = item.getImage() ?: throw RuntimeException("Item doesn't have image")
-        deleteOldState()
-        saveState()
-        image.resize(width, height)
         return image
     }
 
@@ -97,25 +77,6 @@ class HTMLDocument : IDocument {
         revertState()
     }
 
-    override fun save(path: String) {
-        val fileName = when {
-            mTitle.isBlank() -> "new_document"
-            else -> mTitle
-        }
-        val dirPath = File(path)
-        if (!dirPath.exists()) dirPath.mkdirs()
-        val file = File("$path\\$fileName.html")
-        mDocument.forEach {
-            val image = it.getImage()
-            if (image != null) {
-                writeFile(donorFilePath = image.getPath() + image.getName(),
-                        newPath = path + "\\" + IMAGE_PATH,
-                        newFilePath = path + "\\" + IMAGE_PATH + image.getName())
-            }
-        }
-        file.writeText(getHtml())
-    }
-
     override fun getDocumentSize() = mDocument.size
 
     override fun close() {
@@ -158,18 +119,6 @@ class HTMLDocument : IDocument {
         mDocument.clear()
         mDocument.addAll(state.document)
     }
-
-    private fun getHtml() =
-            Html {
-                head(mTitle)
-                body {
-                    title(mTitle)
-                    mDocument.forEach {
-                        paragraph(it.getParagraph())
-                        image(it.getImage())
-                    }
-                }
-            }
 
     private fun writeFile(donorFilePath: String, newPath: String, newFilePath: String) {
         val file = File(donorFilePath)

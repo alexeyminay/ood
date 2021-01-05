@@ -10,7 +10,10 @@ class ResizeImageCommand(
 ) : ICommand {
 
     override fun execute() {
-        document.resizeImage(height, width, position)
+        if (position > document.getItems().size) throw RuntimeException("Position $position doesn't exist")
+        val item = document.getItems()[position]
+        val image = item.getImage() ?: throw RuntimeException("Item doesn't have image")
+        image.resize(width, height)
     }
 
 }

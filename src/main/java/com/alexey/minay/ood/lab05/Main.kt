@@ -1,20 +1,24 @@
 package com.alexey.minay.ood.lab05
 
 import com.alexey.minay.ood.lab05.commands.*
-import com.alexey.minay.ood.lab05.document.DocumentPrinter
-import com.alexey.minay.ood.lab05.document.HTMLDocument
-import com.alexey.minay.ood.lab05.document.IDocument
+import com.alexey.minay.ood.lab05.document.*
 import java.io.FileNotFoundException
 
 fun main(args: Array<String>) {
-    val document = HTMLDocument()
+    val document = Document()
     val receiver = Receiver()
     val documentPrinter = DocumentPrinter(document, ::println)
+    val documentSaver = DocumentSaver(document)
     println("введите команду:")
     println("Help - помощь")
     while (true) {
         val input = readLine() ?: continue
-        val command = CommandHandler.newCommand(document, documentPrinter, input)
+        val command = CommandHandler.newCommand(
+                document = document,
+                documentSaver = documentSaver,
+                documentPrinter = documentPrinter,
+                input = input
+        )
         if (command == null) {
             println("Incorrect command, print \"Help\"..")
             continue
@@ -33,7 +37,12 @@ fun main(args: Array<String>) {
 
 object CommandHandler {
 
-    fun newCommand(document: IDocument, documentPrinter: DocumentPrinter, input: String): ICommand? {
+    fun newCommand(
+            document: IDocument,
+            documentSaver: IDocumentSaver,
+            documentPrinter: DocumentPrinter,
+            input: String
+    ): ICommand? {
         val splittedCommand = input.split(" ")
         if (splittedCommand.isEmpty()) return null
         val commandName = splittedCommand[0]
@@ -49,7 +58,7 @@ object CommandHandler {
             "Help" -> HelpCommand()
             "Undo" -> UndoCommand(document)
             "Redo" -> RedoCommand(document)
-            "Save" -> createSaveCommand(document, splittedCommand)
+            "Save" -> createSaveCommand(documentSaver, splittedCommand)
             "Close" -> CloseDocumentCommand(document)
             else -> null
         }
@@ -103,9 +112,9 @@ object CommandHandler {
         return ResizeImageCommand(document, position, width, height)
     }
 
-    private fun createSaveCommand(document: IDocument, splittedCommand: List<String>): ICommand? {
-        if (splittedCommand.size != 2) return null
-        return SaveCommand(document, splittedCommand[1])
+    private fun createSaveCommand(documentSaver: IDocumentSaver, splitCommand: List<String>): ICommand? {
+        if (splitCommand.size != 2) return null
+        return SaveCommand(documentSaver, splitCommand[1])
     }
 
 }

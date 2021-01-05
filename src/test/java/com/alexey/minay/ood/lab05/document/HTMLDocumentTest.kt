@@ -9,7 +9,7 @@ import kotlin.test.assertFalse
 
 class HTMLDocumentTest {
 
-    private var mHtmlDocument = HTMLDocument()
+    private var mHtmlDocument = Document()
 
     @Test
     fun shouldInsertParagraph() {
@@ -269,7 +269,7 @@ class HTMLDocumentTest {
     @After
     fun recreateDocument() {
         mHtmlDocument.close()
-        mHtmlDocument = HTMLDocument()
+        mHtmlDocument = Document()
     }
 
 }

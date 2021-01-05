@@ -9,6 +9,9 @@ class ReplaceTextCommand(
 ) : ICommand {
 
     override fun execute() {
-        document.replaceTextInParagraph(text, position)
+        if (position > document.getItems().size) throw RuntimeException("Position $position doesn't exist")
+        val item = document.getItems()[position]
+        val paragraph = item.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
+        paragraph.setText(text)
     }
 }
