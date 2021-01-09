@@ -1,14 +1,21 @@
 package com.alexey.minay.ood.lab05.commands
 
-import com.alexey.minay.ood.lab05.document.IDocument
+import com.alexey.minay.ood.lab05.document.Title
 
 class SetTitleCommand(
-        private val document: IDocument,
-        private val title: String
-) : ICommand {
+        private val targetTitle: Title,
+        private val newTitle: String
+) : AbstractCommand() {
 
-    override fun execute() {
-        document.setTitle(title)
+    private var mOldTitle: String = ""
+
+    override fun doExecute() {
+        mOldTitle = targetTitle.data
+        targetTitle.data = newTitle
+    }
+
+    override fun doUnExecute() {
+        targetTitle.data = mOldTitle
     }
 
 }

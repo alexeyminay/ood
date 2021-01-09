@@ -1,17 +1,17 @@
 package com.alexey.minay.ood.lab05.document
 
 interface IDocument {
-    fun insertParagraph(text: String, position: Int): IParagraph
-    fun insertImages(path: String, height: Int, width: Int, position: Int): IImage
+    fun insertParagraph(text: String, position: Int?)
+    fun replaceTextParagraph(text: String, position: Int?)
+    fun insertImages(path: String, height: Int, width: Int, position: Int?)
+    fun resizeImage(width: Int, height: Int, position: Int?)
     fun getItem(index: Int): IDocumentItem
     fun getItems(): List<IDocumentItem>
     fun deleteItem(index: Int)
     fun getItemCount(): Int
     fun getTitle(): String
     fun setTitle(title: String)
-    fun canUndo(): Boolean
     fun undo()
-    fun canRedo(): Boolean
     fun redo()
     fun getDocumentSize(): Int
     fun close()

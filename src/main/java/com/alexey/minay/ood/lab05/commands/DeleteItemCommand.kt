@@ -1,14 +1,21 @@
 package com.alexey.minay.ood.lab05.commands
 
-import com.alexey.minay.ood.lab05.document.IDocument
+import com.alexey.minay.ood.lab05.document.IDocumentItem
 
 class DeleteItemCommand(
-        private val document: IDocument,
+        private val documentItems: MutableList<IDocumentItem>,
         private val position: Int
-) : ICommand {
+) : AbstractCommand() {
 
-    override fun execute() {
-        document.deleteItem(position)
+    private var deletedItem: IDocumentItem? = null
+
+    override fun doExecute() {
+        deletedItem = documentItems[position]
+        documentItems.removeAt(position)
+    }
+
+    override fun doUnExecute() {
+        deletedItem?.let { documentItems.add(it) }
     }
 
 }
