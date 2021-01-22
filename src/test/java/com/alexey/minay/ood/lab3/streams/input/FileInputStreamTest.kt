@@ -27,12 +27,8 @@ class FileInputStreamTest {
 
     @Test
     fun shouldReadBlock() {
-        val bytes = mutableListOf<Int>()
-        fun writeBufferInList(byte: Int) {
-            bytes.add(byte)
-        }
-        mFileInputStream.readBlock(::writeBufferInList, 2)
-        assertEquals('e'.toInt(), bytes[1])
+        val block = mFileInputStream.readBlock(2)
+        assertEquals('e'.toInt(), block[1])
     }
 
     @Before

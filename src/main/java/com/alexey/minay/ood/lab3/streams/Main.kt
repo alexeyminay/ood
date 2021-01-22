@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab3.streams
 
+
 import com.alexey.minay.ood.lab3.streams.input.DecompressInputStream
 import com.alexey.minay.ood.lab3.streams.input.DecryptInputStream
 import com.alexey.minay.ood.lab3.streams.input.FileInputStream
@@ -39,77 +40,61 @@ fun main(args: Array<String>) {
         }
     }
 
-    var byte = inputStream.readByte()
+    var byte: Int? = null
     while (byte != -1) {
-        outputStream.writeByte(byte)
-        byte = inputStream.readByte()
+        try {
+            byte = inputStream.readByte()
+            outputStream.writeByte(byte)
+        } catch (e: RuntimeException) {
+            println(e.message)
+        }
     }
 
 }
 
 
-//fun main() {
-//    val existsMemory = mutableListOf<Int>()
-//    val outputStream = CompressOutputStream(EncryptOutputStream(MemoryOutputStream(existsMemory), "key"))
-//    outputStream.writeBlock(mutableListOf('s'.toInt(), 'e'.toInt()).toIntArray(), 2)
-//    outputStream.writeByte('1'.toInt())
-//    outputStream.writeByte('s'.toInt())
-//    outputStream.writeByte('5'.toInt())
-//    outputStream.writeByte('5'.toInt())
-//    outputStream.writeByte('5'.toInt())
-//    outputStream.writeByte('5'.toInt())
-//    outputStream.writeByte('4'.toInt())
-//
-//    existsMemory.forEachIndexed { i, c ->
-//        if (i % 2 == 0)
-//            print("${c.toChar()} ")
-//        else
-//            print("$c ")
-//
-//    }
-//    println()
-//
-//    val inputStream = DecompressInputStream(DecryptInputStream(MemoryInputStream(existsMemory), "key"))
-//    inputStream.readBlock({ print("${it.toChar()} ") }, 8)
-//
-//    print("${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}" +
-//            " ${inputStream.readByte().toChar()}")
-//    testFileStream()
+//fun main(args: Array<String>) {
+//    readBytesFomMemory()
 //}
 //
-//fun testFileStream() {
-//    val outputFile = File("ou")
-//    val outputStream = EncryptOutputStream(FileOutputStream(outputFile), "key")
-//    outputStream.writeBlock(mutableListOf('s'.toInt(), 'e'.toInt()).toIntArray(), 2)
-//    outputStream.writeByte('1'.toInt())
-//    outputStream.writeByte('s'.toInt())
-//    outputStream.writeByte('5'.toInt())
-//    outputStream.writeByte('5'.toInt())
-//    outputStream.writeByte('4'.toInt())
+//fun readBytesFomMemory() {
+//    val memory = mutableListOf<Byte>()
+//    val outputStream = MemoryOutputStream(memory)
+//    for (i in 0..100) {
+//        outputStream.writeByte(i)
+//    }
+//    val inputStream = MemoryInputStream(memory)
+//    var readByte: Int? = null
+//    while (readByte != -1) {
+//        readByte = inputStream.readByte()
+//        println(readByte)
+//    }
+//}
 //
-//    val inputStream = DecryptInputStream(FileInputStream(outputFile), "key")
-//    inputStream.readBlock({ print("${it.toChar()} ") }, 2)
-//    print("${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " +
-//            "${inputStream.readByte().toChar()} " )
+//fun readBlockBytesFomMemory() {
+//    val memory = mutableListOf<Byte>()
+//    val outputStream = MemoryOutputStream(memory)
+//    for (i in 0..100) {
+//        outputStream.writeBlock(intArrayOf(i))
+//    }
+//    val inputStream = MemoryInputStream(memory)
+//    var readByte: Int? = null
+//    val input = inputStream.readBlock(100)
+//    input.forEach {
+//        print("$it ")
+//    }
+//}
+//
+//fun readBytesFomFile() {
+//    val file = File("test.txt")
+//    val outputStream = EncryptOutputStream(FileOutputStream(file), "asdf")
+//    for (i in 0..100) {
+//        outputStream.writeByte(i)
+//    }
+//    val inputStream = DecryptInputStream(FileInputStream(file), "asdf")
+//    var readByte: Int? = null
+//    while (readByte != -1) {
+//        readByte = inputStream.readByte()
+//        println(readByte)
+//    }
 //}

@@ -5,7 +5,7 @@ import org.junit.Test
 
 class MemoryInputStreamTest {
 
-    private val mMemory = mutableListOf('t'.toInt(), 'e'.toInt(), 's'.toInt(), 't'.toInt())
+    private val mMemory = mutableListOf('t'.toByte(), 'e'.toByte(), 's'.toByte(), 't'.toByte())
     private val mMemoryInputStream = MemoryInputStream(mMemory)
 
     @Test
@@ -24,12 +24,8 @@ class MemoryInputStreamTest {
 
     @Test
     fun shouldReadBlock() {
-        val bytes = mutableListOf<Int>()
-        fun writeBufferInList(byte: Int) {
-            bytes.add(byte)
-        }
-        mMemoryInputStream.readBlock(::writeBufferInList, 2)
-        Assert.assertEquals('e'.toInt(), bytes[1])
+        val block = mMemoryInputStream.readBlock(2)
+        Assert.assertEquals('e'.toInt(), block[1])
     }
 
 }

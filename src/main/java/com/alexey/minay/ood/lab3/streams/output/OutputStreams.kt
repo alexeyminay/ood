@@ -4,16 +4,18 @@ import com.alexey.minay.ood.lab3.streams.IOutputStream
 import java.io.File
 
 class MemoryOutputStream(
-        private val memory: MutableList<Int>
+        private val memory: MutableList<Byte>
 ) : IOutputStream {
 
     override fun writeByte(data: Int) {
-        memory.add(data)
+        if (data != -1)
+            memory.add(data.toByte())
     }
 
-    override fun writeBlock(srcData: IntArray) {
-        memory.addAll(srcData.toList())
+    override fun writeBlock(data: IntArray) {
+        data.forEach { writeByte(it) }
     }
+
 }
 
 class FileOutputStream(
@@ -21,13 +23,12 @@ class FileOutputStream(
 ) : IOutputStream {
 
     override fun writeByte(data: Int) {
-        file.appendText(data.toChar().toString(), Charsets.ISO_8859_1)
+        if (data != -1)
+            file.appendText(data.toChar().toString(), Charsets.ISO_8859_1)
     }
 
-    override fun writeBlock(srcData: IntArray) {
-        srcData.forEach {
-            writeByte(it)
-        }
+    override fun writeBlock(data: IntArray) {
+        data.forEach { writeByte(it) }
     }
 
 }

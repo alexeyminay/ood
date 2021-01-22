@@ -28,21 +28,20 @@ class DecompressInputStreamTest {
 
     @Test
     fun shouldDecompressBlock() {
-        val bytes = mutableListOf<Int>()
-        fun writeBufferInList(byte: Int) {
-            bytes.add(byte)
-        }
-        mDecompressInputStream.readBlock(::writeBufferInList, 5)
-        assertEquals('e'.toInt(), bytes[4])
+        val block = mDecompressInputStream.readBlock(8)
+        block.forEach { print(it.toChar()) }
+        assertEquals('e'.toInt(), block[3])
     }
 
     @Before
     fun setUp() {
         mFile = File("test")
         mFile.writeText('t'.toString())
-        mFile.appendBytes(ByteArray(1) { 3 })
+        mFile.appendText(3.toByte().toChar().toString())
         mFile.appendText('e'.toString())
-        mFile.appendBytes(ByteArray(1) { 4 })
+        mFile.appendText(4.toByte().toChar().toString())
+        mFile.appendText('s'.toString())
+        mFile.appendText(4.toByte().toChar().toString())
         mDecompressInputStream = DecompressInputStream(FileInputStream(mFile))
     }
 

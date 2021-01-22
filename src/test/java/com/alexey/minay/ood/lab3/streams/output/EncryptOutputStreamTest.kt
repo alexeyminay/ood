@@ -6,7 +6,7 @@ import org.junit.Test
 
 class EncryptOutputStreamTest {
 
-    private val mMemory = mutableListOf<Int>()
+    private val mMemory = mutableListOf<Byte>()
     private val mKey = "1234"
     private val mEncryptOutputStream = EncryptOutputStream(MemoryOutputStream(mMemory), mKey)
 
@@ -15,7 +15,7 @@ class EncryptOutputStreamTest {
         mEncryptOutputStream.writeByte('t'.toInt())
         val hashKey = mKey.hashCode().toString()
         val encrypted = 't'.toInt() xor hashKey[0].toInt()
-        assertEquals(encrypted, mMemory[0])
+        assertEquals(encrypted, mMemory[0].toInt())
     }
 
     @Test
@@ -24,7 +24,7 @@ class EncryptOutputStreamTest {
         mEncryptOutputStream.writeBlock(bytes)
         val hashKey = mKey.hashCode().toString()
         val encrypted = 'e'.toInt() xor hashKey[1].toInt()
-        assertEquals(encrypted, mMemory[1])
+        assertEquals(encrypted, mMemory[1].toInt())
     }
 
     @After

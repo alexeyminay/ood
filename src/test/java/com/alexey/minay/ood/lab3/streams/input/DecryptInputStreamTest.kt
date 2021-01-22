@@ -27,12 +27,8 @@ class DecryptInputStreamTest {
 
     @Test
     fun shouldDecryptBlock() {
-        val bytes = mutableListOf<Int>()
-        fun writeBufferInList(byte: Int) {
-            bytes.add(byte)
-        }
-        mDecryptInputStream.readBlock(::writeBufferInList, 2)
-        Assert.assertEquals('e'.toInt(), bytes[1])
+        val block = mDecryptInputStream.readBlock(2)
+        Assert.assertEquals('e'.toInt(), block[1])
     }
 
     @Before

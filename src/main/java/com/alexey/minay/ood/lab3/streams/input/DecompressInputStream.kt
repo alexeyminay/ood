@@ -7,34 +7,33 @@ class DecompressInputStream(
         inputStream: IInputStream
 ) : InputStreamDecorator(inputStream) {
 
-    private var mQueueBytes: Queue<Int> = LinkedList()
+    private val mReadByteQueue = ArrayDeque<Int>()
+    private var mIsDataByte = true
     private var mLastByte: Int? = null
-    private var mCount = 0
 
     override fun decorateByte(byte: Int): Int {
-        if (byte == -1 && mQueueBytes.isEmpty()) {
-            return -1
-        }
-        if (mLastByte == null) {
-            mLastByte = byte
-            mCount++
-            mQueueBytes.add(byte)
-            return mQueueBytes.poll()
-        }
-        return if (mCount % 2 != 0) {
-            for (i in 0 until byte - 1) mQueueBytes.add(mLastByte)
-            mCount++
-            mQueueBytes.poll() ?: -2
+        if (mIsDataByte) {
+            mReadByteQueue.add(byte)
         } else {
-            mLastByte = byte
-            mCount++
-            mQueueBytes.add(byte)
-            mQueueBytes.poll()
+            repeat(byte - 1) {
+                mReadByteQueue.add(mLastByte)
+            }
         }
+        mLastByte = byte
+        mIsDataByte = !mIsDataByte
+        return mReadByteQueue.poll() ?: throw RuntimeException("Empty queue")
     }
 
-    override fun decorateBlock(dstBuffer: (Int) -> Unit): (Int) -> Unit {
-        return { dstBuffer(decorateByte(it)) }
+    override fun decorateBlock(block: IntArray, size: Int): IntArray {
+        val decoratedBlock = mutableListOf<Int>()
+        repeat(size) {
+            if (it < block.size) {
+                decoratedBlock.add(decorateByte(block[it]))
+            } else {
+                decoratedBlock.add(mReadByteQueue.poll() ?: throw RuntimeException("Empty queue"))
+            }
+        }
+        return decoratedBlock.toIntArray()
     }
 
 }
