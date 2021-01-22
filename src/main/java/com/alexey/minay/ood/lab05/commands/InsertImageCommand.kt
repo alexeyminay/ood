@@ -34,7 +34,7 @@ class InsertImageCommand(
 
     companion object {
 
-        const val IMAGE_PATH = "image/"
+        private const val IMAGE_PATH = "image/"
         private const val IMAGE_PREFIX = "img_"
 
     }
