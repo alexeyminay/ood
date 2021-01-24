@@ -10,7 +10,7 @@ import com.alexey.minay.ood.lab07.domain.composite.shapes.Ellipse
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Rectangle
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Triangle
 
-object MockProvider {
+object FakeDataProvider {
 
     fun getSlides(): List<Slide> {
         val slides = mutableListOf<Slide>()

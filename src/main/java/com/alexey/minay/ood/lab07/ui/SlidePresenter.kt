@@ -9,7 +9,7 @@ class SlidePresenter : MVP.ISlidePresenter {
     private val mSlides = mutableListOf<Slide>()
 
     init {
-        mSlides.addAll(MockProvider.getSlides())
+        mSlides.addAll(FakeDataProvider.getSlides())
     }
 
     override fun setScene(scene: MVP.ISlideSceneView) {
