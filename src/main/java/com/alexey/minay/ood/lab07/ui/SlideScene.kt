@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab07.ui
 
 import com.alexey.minay.ood.lab07.domain.Slide
-import com.alexey.minay.ood.lab07.domain.canvas.FxCanvas
+import com.alexey.minay.ood.lab07.FxCanvas
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas

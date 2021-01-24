@@ -1,5 +1,7 @@
-package com.alexey.minay.ood.lab07.domain.canvas
+package com.alexey.minay.ood.lab07
 
+import com.alexey.minay.ood.lab07.domain.canvas.ICanvas
+import com.alexey.minay.ood.lab07.domain.canvas.RGBAColor
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
 

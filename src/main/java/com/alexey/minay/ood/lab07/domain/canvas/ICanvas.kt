@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab07.domain.canvas
 
+import com.alexey.minay.ood.lab07.FxCanvas
+
 interface ICanvas {
     fun fill(color: RGBAColor)
     fun fillEllipse(color: RGBAColor, left: Double, top: Double, width: Double, height: Double)

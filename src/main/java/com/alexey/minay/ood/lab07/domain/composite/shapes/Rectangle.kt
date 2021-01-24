@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab07.domain.composite.shapes
 
+import com.alexey.minay.ood.lab07.FxCanvas
 import com.alexey.minay.ood.lab07.domain.canvas.*
 
 class Rectangle(

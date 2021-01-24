@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab07.domain.composite.group
 
+import com.alexey.minay.ood.lab07.FxCanvas
 import com.alexey.minay.ood.lab07.domain.canvas.*
 import com.alexey.minay.ood.lab07.domain.composite.IShape
 import kotlin.math.max
