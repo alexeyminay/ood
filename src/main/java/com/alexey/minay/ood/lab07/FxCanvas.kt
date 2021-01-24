@@ -1,6 +1,7 @@
 package com.alexey.minay.ood.lab07
 
 import com.alexey.minay.ood.lab07.domain.canvas.ICanvas
+import com.alexey.minay.ood.lab07.domain.canvas.LineType
 import com.alexey.minay.ood.lab07.domain.canvas.RGBAColor
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
@@ -83,11 +84,6 @@ class FxCanvas(
 
         private fun Int.asFxColorChannel() = this.toDouble() / MAX_COLOR_VALUE
 
-    }
-
-    sealed class LineType {
-        class Shapes(val lineWidth: Double) : LineType()
-        object Frame : LineType()
     }
 
 }

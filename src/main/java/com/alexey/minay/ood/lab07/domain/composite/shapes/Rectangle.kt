@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab07.domain.composite.shapes
 
-import com.alexey.minay.ood.lab07.FxCanvas
 import com.alexey.minay.ood.lab07.domain.canvas.*
 
 class Rectangle(
@@ -14,7 +13,7 @@ class Rectangle(
             lineStyle.isEnable -> canvas.setLineColor(lineStyle.color)
             else -> canvas.setLineColor(RGBAColor.TRANSPARENT)
         }
-        canvas.setLineType(FxCanvas.LineType.Shapes(lineStyle.lineWidth))
+        canvas.setLineType(LineType.Shapes(lineStyle.lineWidth))
         canvas.moveTo(frame.left, frame.top)
         canvas.lineTo(frame.left, frame.bottom)
         canvas.lineTo(frame.right, frame.bottom)

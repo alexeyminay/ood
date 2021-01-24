@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab07.domain.composite.group
 
-import com.alexey.minay.ood.lab07.FxCanvas
 import com.alexey.minay.ood.lab07.domain.canvas.*
 import com.alexey.minay.ood.lab07.domain.composite.IShape
 import kotlin.math.max
@@ -88,7 +87,7 @@ class Group(
     private fun drawFrame(canvas: ICanvas) {
         val currentFrame = frame
         canvas.setLineColor(RGBAColor.GREY_TRANSLUCENT)
-        canvas.setLineType(FxCanvas.LineType.Frame)
+        canvas.setLineType(LineType.Frame)
         canvas.moveTo(currentFrame.left, currentFrame.top)
         canvas.lineTo(currentFrame.left, currentFrame.bottom)
         canvas.lineTo(currentFrame.right, currentFrame.bottom)

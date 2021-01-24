@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab07.domain.composite.shapes
 
-import com.alexey.minay.ood.lab07.FxCanvas
 import com.alexey.minay.ood.lab07.domain.canvas.*
 
 
@@ -15,7 +14,7 @@ class Triangle(
             lineStyle.isEnable -> canvas.setLineColor(lineStyle.color)
             else -> canvas.setLineColor(RGBAColor.TRANSPARENT)
         }
-        canvas.setLineType(FxCanvas.LineType.Shapes(lineStyle.lineWidth))
+        canvas.setLineType(LineType.Shapes(lineStyle.lineWidth))
         val middleFrame = (frame.right - frame.left) / 2 + frame.left
         canvas.moveTo(middleFrame, frame.top)
         canvas.lineTo(frame.left, frame.bottom)
