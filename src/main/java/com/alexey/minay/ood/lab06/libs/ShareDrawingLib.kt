@@ -15,10 +15,10 @@ class Triangle(
 
     override fun draw(canvas: ICanvas) {
         canvas.setColor(color)
-        canvas.lineTo(p1.x, p1.y)
-        canvas.moveTo(p2.x, p2.y)
-        canvas.moveTo(p3.x, p3.y)
         canvas.moveTo(p1.x, p1.y)
+        canvas.lineTo(p2.x, p2.y)
+        canvas.lineTo(p3.x, p3.y)
+        canvas.lineTo(p1.x, p1.y)
     }
 
 }
@@ -32,11 +32,11 @@ class Rectangle(
 
     override fun draw(canvas: ICanvas) {
         canvas.setColor(color)
-        canvas.lineTo(leftTop.x, leftTop.y)
-        canvas.moveTo(leftTop.x + width, leftTop.y)
-        canvas.moveTo(leftTop.x + width, leftTop.y - height)
-        canvas.moveTo(leftTop.x, leftTop.y - height)
         canvas.moveTo(leftTop.x, leftTop.y)
+        canvas.lineTo(leftTop.x + width, leftTop.y)
+        canvas.lineTo(leftTop.x + width, leftTop.y - height)
+        canvas.lineTo(leftTop.x, leftTop.y - height)
+        canvas.lineTo(leftTop.x, leftTop.y)
     }
 
 }

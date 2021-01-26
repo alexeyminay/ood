@@ -33,8 +33,8 @@ class ModernLibClassAdapterTest {
     fun shouldDrawBlackLine() {
         val startPoint = MPoint(1, 1)
         val endPoint = MPoint(1, 1)
-        mModernLibAdapter?.lineTo(startPoint.x, startPoint.y)
-        mModernLibAdapter?.moveTo(endPoint.x, endPoint.y)
+        mModernLibAdapter?.moveTo(startPoint.x, startPoint.y)
+        mModernLibAdapter?.lineTo(endPoint.x, endPoint.y)
         mBufferedWriter?.close()
         val lines = mFile?.readLines()
         assertEquals(" <line fromX=1 fromY=1 toX=1 toX=1>", lines!![1])
@@ -43,7 +43,7 @@ class ModernLibClassAdapterTest {
     @Test(expected = RuntimeException::class)
     fun shouldThrowExceptionIfDoNotChooseStartPosition() {
         val endPoint = MPoint(1, 1)
-        Mockito.`when`(mModernLibAdapter?.moveTo(endPoint.x, endPoint.y)).thenThrow(RuntimeException("Choose start point"))
+        Mockito.`when`(mModernLibAdapter?.lineTo(endPoint.x, endPoint.y)).thenThrow(RuntimeException("Choose start point"))
     }
 
     @Test
@@ -53,8 +53,8 @@ class ModernLibClassAdapterTest {
         val color = 0x00ff00
         val rgbaColor = RGBAColor(0f, 1f, 0f)
         mModernLibAdapter?.setColor(color)
-        mModernLibAdapter?.lineTo(startPoint.x, startPoint.y)
-        mModernLibAdapter?.moveTo(endPoint.x, endPoint.y)
+        mModernLibAdapter?.moveTo(startPoint.x, startPoint.y)
+        mModernLibAdapter?.lineTo(endPoint.x, endPoint.y)
         mBufferedWriter?.close()
         val lines = mFile?.readLines()
         assertEquals("  <color r=\"0.0\" g=\"1.0\" b=\"0.0\" a=\"1.0\" />", lines!![2])

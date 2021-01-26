@@ -23,8 +23,8 @@ class ModernLibAdapterTest {
     fun shouldDrawBlackLine() {
         val startPoint = MPoint(1, 1)
         val endPoint = MPoint(1, 1)
-        mModernLibAdapter?.lineTo(startPoint.x, startPoint.y)
-        mModernLibAdapter?.moveTo(endPoint.x, endPoint.y)
+        mModernLibAdapter?.moveTo(startPoint.x, startPoint.y)
+        mModernLibAdapter?.lineTo(endPoint.x, endPoint.y)
         val order = Mockito.inOrder(mModernGraphicsRender)
         order.verify(mModernGraphicsRender).beginDraw()
         order.verify(mModernGraphicsRender).drawLine(startPoint, endPoint, RGBAColor.BLACK)
@@ -34,7 +34,7 @@ class ModernLibAdapterTest {
     @Test(expected = RuntimeException::class)
     fun shouldThrowExceptionIfDoNotChooseStartPosition() {
         val endPoint = MPoint(1, 1)
-        `when`(mModernLibAdapter?.moveTo(endPoint.x, endPoint.y)).thenThrow(RuntimeException("Choose start point"))
+        `when`(mModernLibAdapter?.lineTo(endPoint.x, endPoint.y)).thenThrow(RuntimeException("Choose start point"))
     }
 
     @Test
@@ -44,8 +44,8 @@ class ModernLibAdapterTest {
         val color = 0x00ff00
         val rgbaColor = RGBAColor(0f, 1f, 0f)
         mModernLibAdapter?.setColor(color)
-        mModernLibAdapter?.lineTo(startPoint.x, startPoint.y)
-        mModernLibAdapter?.moveTo(endPoint.x, endPoint.y)
+        mModernLibAdapter?.moveTo(startPoint.x, startPoint.y)
+        mModernLibAdapter?.lineTo(endPoint.x, endPoint.y)
         val order = Mockito.inOrder(mModernGraphicsRender)
         order.verify(mModernGraphicsRender).beginDraw()
         order.verify(mModernGraphicsRender).drawLine(startPoint, endPoint, rgbaColor)

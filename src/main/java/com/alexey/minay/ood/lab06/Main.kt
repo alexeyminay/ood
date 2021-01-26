@@ -12,7 +12,7 @@ fun main() {
 }
 
 fun paintPicture(painter: CanvasPainter) {
-    val triangle = Triangle(Point(10, 15), Point(100, 200), Point(150, 250), 0xff3399)
+    val triangle = Triangle(Point(10, 15), Point(100, 200), Point(150, 250), 0xff5533)
     val rectangle = Rectangle(Point(30, 40), 18, 24)
     painter.draw(triangle)
     painter.draw(rectangle)
