@@ -1,9 +1,8 @@
 package com.alexey.minay.ood.lab07.ui
 
-import com.alexey.minay.ood.lab07.domain.Slide
 import com.alexey.minay.ood.lab07.FxCanvas
 import com.alexey.minay.ood.lab07.domain.ICanvas
-import com.alexey.minay.ood.lab07.domain.composite.Group
+import com.alexey.minay.ood.lab07.domain.Slide
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
@@ -29,16 +28,8 @@ class SlideScene(
     }
 
     override fun showSlide(slide: Slide) {
-        var f = true
         mCanvas?.clearRect(0.0, 0.0, CANVAS_WIDTH, CANVAS_WIDTH)
         slide.forEach { shape ->
-            when(shape) {
-                is Group -> if(f){
-                    shape.frame = shape.frame.copy(top = shape.frame.top + 20)
-                    shape.frame = shape.frame.copy(bottom = shape.frame.bottom - 20)
-                    f = false
-                }
-            }
             mCanvas?.let { shape.draw(it) }
         }
     }

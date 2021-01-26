@@ -114,9 +114,9 @@ object FakeDataProvider {
         val treeGroup = Group(
                 fillStyle = FillStyle(false),
                 lineStyle = LineStyle(false))
-        treeGroup.insertShape(Group(
-                fillStyle = FillStyle(false),
-                lineStyle = LineStyle(false)),0)
+//        treeGroup.insertShape(Group(
+//                fillStyle = FillStyle(false),
+//                lineStyle = LineStyle(false)),0)
         val trunkLeft = x
         val trunkRight = x + 15
         val trunkTop = y - 150

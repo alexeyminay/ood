@@ -30,6 +30,7 @@ class Group(
     }
 
     override fun removeAt(index: Int) {
+        if (mShapes.size == 1) return
         mShapes.removeAt(index)
     }
 
@@ -57,9 +58,9 @@ class Group(
     }
 
     private fun getCurrentFrame() =
-            when {
-                mShapes.size == 0 -> Frame(0.0, 0.0, 0.0, 0.0)
-                mShapes.size == 1 -> mShapes[0].frame
+            when (mShapes.size) {
+                0 -> throw RuntimeException("Нужно добавить фигуру")
+                1 -> mShapes[0].frame
                 else -> {
                     val offset = 10
                     val frame = Frame(
