@@ -2,6 +2,7 @@ package com.alexey.minay.ood.lab07.ui
 
 import com.alexey.minay.ood.lab07.domain.Slide
 import com.alexey.minay.ood.lab07.FxCanvas
+import com.alexey.minay.ood.lab07.domain.ICanvas
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
@@ -15,7 +16,7 @@ class SlideScene(
         private val slidePresenter: MVP.ISlidePresenter
 ) : MVP.ISlideSceneView {
 
-    private var mFxCanvas: FxCanvas? = null
+    private var mCanvas: ICanvas? = null
 
     fun onStart() {
         val root = HBox()
@@ -27,9 +28,9 @@ class SlideScene(
     }
 
     override fun showSlide(slide: Slide) {
-        mFxCanvas?.clearRect(0.0, 0.0, CANVAS_WIDTH, CANVAS_WIDTH)
+        mCanvas?.clearRect(0.0, 0.0, CANVAS_WIDTH, CANVAS_WIDTH)
         slide.forEach { shape ->
-            mFxCanvas?.let { shape.draw(it) }
+            mCanvas?.let { shape.draw(it) }
         }
     }
 
@@ -65,7 +66,7 @@ class SlideScene(
     private fun initCanvas(root: HBox) {
         val canvas = Canvas(CANVAS_WIDTH, CANVAS_HEIGHT)
         val graphicsContext = canvas.graphicsContext2D
-        mFxCanvas = FxCanvas(graphicsContext)
+        mCanvas = FxCanvas(graphicsContext)
         root.children.add(canvas)
     }
 

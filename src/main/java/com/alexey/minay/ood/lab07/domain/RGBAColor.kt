@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab07.domain.canvas
+package com.alexey.minay.ood.lab07.domain
 
 data class RGBAColor(val r: Int, val g: Int, val b: Int, val a: Double) {
 

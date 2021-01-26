@@ -1,6 +1,9 @@
 package com.alexey.minay.ood.lab07.domain.composite.shapes
 
-import com.alexey.minay.ood.lab07.domain.canvas.*
+import com.alexey.minay.ood.lab07.domain.*
+import com.alexey.minay.ood.lab07.domain.composite.FillStyle
+import com.alexey.minay.ood.lab07.domain.composite.LineStyle
+import com.alexey.minay.ood.lab07.domain.composite.Shape
 
 class Rectangle(
         fillStyle: FillStyle,

@@ -1,10 +1,11 @@
-package com.alexey.minay.ood.lab07.ui
+package com.alexey.minay.ood.lab07.fakedata
 
 import com.alexey.minay.ood.lab07.domain.Slide
-import com.alexey.minay.ood.lab07.domain.canvas.FillStyle
-import com.alexey.minay.ood.lab07.domain.canvas.Frame
-import com.alexey.minay.ood.lab07.domain.canvas.LineStyle
-import com.alexey.minay.ood.lab07.domain.canvas.RGBAColor
+import com.alexey.minay.ood.lab07.domain.composite.FillStyle
+import com.alexey.minay.ood.lab07.domain.Frame
+import com.alexey.minay.ood.lab07.domain.composite.LineStyle
+import com.alexey.minay.ood.lab07.domain.RGBAColor
+import com.alexey.minay.ood.lab07.domain.composite.Group
 import com.alexey.minay.ood.lab07.domain.composite.IShape
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Ellipse
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Rectangle
@@ -31,13 +32,13 @@ object FakeDataProvider {
                 lineStyle = LineStyle(true, RGBAColor.BLUE),
                 frame = Frame(110.0, 170.0, 300.0, 350.0)
         )
-        val houseGroup = com.alexey.minay.ood.lab07.domain.composite.group.Group(
+        val houseGroup = Group(
                 fillStyle = FillStyle(false),
                 lineStyle = LineStyle(false))
         houseGroup.insertShape(house, houseGroup.getShapeCount())
         houseGroup.insertShape(window, houseGroup.getShapeCount())
 
-        val roofGroup = com.alexey.minay.ood.lab07.domain.composite.group.Group(
+        val roofGroup = Group(
                 fillStyle = FillStyle(false),
                 lineStyle = LineStyle(false))
         val chimney = Rectangle(
@@ -60,7 +61,7 @@ object FakeDataProvider {
                 frame = Frame(700.0, 800.0, 30.0, 130.0)
         )
 
-        val treeGroup = com.alexey.minay.ood.lab07.domain.composite.group.Group(
+        val treeGroup = Group(
                 fillStyle = FillStyle(false),
                 lineStyle = LineStyle(false))
         val trunk = Rectangle(
@@ -110,7 +111,7 @@ object FakeDataProvider {
     }
 
     private fun createTree(x: Double, y: Double): IShape {
-        val treeGroup = com.alexey.minay.ood.lab07.domain.composite.group.Group(
+        val treeGroup = Group(
                 fillStyle = FillStyle(false),
                 lineStyle = LineStyle(false))
         val trunkLeft = x

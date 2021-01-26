@@ -1,6 +1,7 @@
 package com.alexey.minay.ood.lab07.ui
 
 import com.alexey.minay.ood.lab07.domain.Slide
+import com.alexey.minay.ood.lab07.fakedata.FakeDataProvider
 
 class SlidePresenter : MVP.ISlidePresenter {
 

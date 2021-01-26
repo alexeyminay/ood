@@ -1,9 +1,10 @@
 package com.alexey.minay.ood.lab07.domain.composite.group
 
-import com.alexey.minay.ood.lab07.domain.canvas.FillStyle
-import com.alexey.minay.ood.lab07.domain.canvas.Frame
-import com.alexey.minay.ood.lab07.domain.canvas.ICanvas
-import com.alexey.minay.ood.lab07.domain.canvas.LineStyle
+import com.alexey.minay.ood.lab07.domain.composite.FillStyle
+import com.alexey.minay.ood.lab07.domain.Frame
+import com.alexey.minay.ood.lab07.domain.ICanvas
+import com.alexey.minay.ood.lab07.domain.composite.LineStyle
+import com.alexey.minay.ood.lab07.domain.composite.Group
 import com.alexey.minay.ood.lab07.domain.composite.IShape
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify

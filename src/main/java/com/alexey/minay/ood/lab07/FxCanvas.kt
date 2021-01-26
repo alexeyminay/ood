@@ -1,8 +1,8 @@
 package com.alexey.minay.ood.lab07
 
-import com.alexey.minay.ood.lab07.domain.canvas.ICanvas
-import com.alexey.minay.ood.lab07.domain.canvas.LineType
-import com.alexey.minay.ood.lab07.domain.canvas.RGBAColor
+import com.alexey.minay.ood.lab07.domain.ICanvas
+import com.alexey.minay.ood.lab07.domain.LineType
+import com.alexey.minay.ood.lab07.domain.RGBAColor
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
 

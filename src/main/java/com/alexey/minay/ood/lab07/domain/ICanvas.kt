@@ -1,6 +1,4 @@
-package com.alexey.minay.ood.lab07.domain.canvas
-
-import com.alexey.minay.ood.lab07.FxCanvas
+package com.alexey.minay.ood.lab07.domain
 
 interface ICanvas {
     fun fill(color: RGBAColor)

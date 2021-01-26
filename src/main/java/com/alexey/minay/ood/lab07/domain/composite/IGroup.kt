@@ -1,6 +1,4 @@
-package com.alexey.minay.ood.lab07.domain.composite.group
-
-import com.alexey.minay.ood.lab07.domain.composite.IShape
+package com.alexey.minay.ood.lab07.domain.composite
 
 interface IGroup : IShape {
     fun getShapeCount(): Int

@@ -1,6 +1,10 @@
 package com.alexey.minay.ood.lab07.domain.composite.shape
 
-import com.alexey.minay.ood.lab07.domain.canvas.*
+import com.alexey.minay.ood.lab07.domain.Frame
+import com.alexey.minay.ood.lab07.domain.ICanvas
+import com.alexey.minay.ood.lab07.domain.composite.LineStyle
+import com.alexey.minay.ood.lab07.domain.RGBAColor
+import com.alexey.minay.ood.lab07.domain.composite.FillStyle
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Ellipse
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.mock

@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab07.domain.canvas
+package com.alexey.minay.ood.lab07.domain
 
 sealed class LineType {
     class Shapes(val lineWidth: Double) : LineType()
