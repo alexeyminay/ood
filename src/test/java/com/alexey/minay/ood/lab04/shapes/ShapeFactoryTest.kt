@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab04.shapes
 
+import com.alexey.minay.ood.lab04.ShapeFactory
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab04.shapes
 
-import com.alexey.minay.ood.lab04.ICanvas
+import com.alexey.minay.ood.lab04.Shape
 
 data class Triangle(
         override val color: Color,

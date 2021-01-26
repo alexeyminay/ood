@@ -1,6 +1,7 @@
 package com.alexey.minay.ood.lab04
 
 import com.alexey.minay.ood.lab04.shapes.Color
+import com.alexey.minay.ood.lab04.shapes.ICanvas
 import com.alexey.minay.ood.lab04.shapes.Point
 import javafx.scene.canvas.GraphicsContext
 

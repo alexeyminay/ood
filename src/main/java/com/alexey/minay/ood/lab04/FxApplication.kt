@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab04
 
-import com.alexey.minay.ood.lab04.shapes.ShapeFactory
 import javafx.application.Application
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas

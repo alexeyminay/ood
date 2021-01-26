@@ -1,6 +1,6 @@
-package com.alexey.minay.ood.lab04.shapes
+package com.alexey.minay.ood.lab04
 
-import com.alexey.minay.ood.lab04.IShapeFactory
+import com.alexey.minay.ood.lab04.shapes.*
 
 class ShapeFactory : IShapeFactory {
 

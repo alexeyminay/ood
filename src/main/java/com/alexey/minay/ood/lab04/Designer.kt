@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab04
 
-import com.alexey.minay.ood.lab04.shapes.Shape
 import java.io.InputStream
 
 class Designer(

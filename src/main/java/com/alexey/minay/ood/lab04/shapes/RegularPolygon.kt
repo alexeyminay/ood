@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab04.shapes
 
-import com.alexey.minay.ood.lab04.ICanvas
+import com.alexey.minay.ood.lab04.Shape
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin

@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab04
 
-import com.alexey.minay.ood.lab04.shapes.Shape
+import com.alexey.minay.ood.lab04.shapes.ICanvas
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
