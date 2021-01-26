@@ -20,7 +20,7 @@ class Document(
         history.addAnExecute(ReplaceTextCommand(mDocument, text, position ?: mDocument.size))
     }
 
-    override fun insertImages(path: String, height: Int, width: Int, position: Int?) {
+    override fun insertImage(path: String, height: Int, width: Int, position: Int?) {
         history.addAnExecute(
                 InsertImageCommand(
                         documentItems = mDocument,

@@ -3,7 +3,7 @@ package com.alexey.minay.ood.lab05.document
 interface IDocument {
     fun insertParagraph(text: String, position: Int?)
     fun replaceTextParagraph(text: String, position: Int?)
-    fun insertImages(path: String, height: Int, width: Int, position: Int?)
+    fun insertImage(path: String, height: Int, width: Int, position: Int?)
     fun resizeImage(width: Int, height: Int, position: Int?)
     fun getItem(index: Int): IDocumentItem
     fun getItems(): List<IDocumentItem>

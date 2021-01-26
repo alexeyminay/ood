@@ -5,9 +5,9 @@ import java.io.File
 
 class DocumentSaver(
         private val document: IDocument
-) : IDocumentSaver {
+) {
 
-    override fun saveHtmlDocument(path: String) {
+    fun saveHtmlDocument(path: String) {
         val fileName = when {
             document.getTitle().isBlank() -> "new_document"
             else -> document.getTitle()

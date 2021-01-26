@@ -1,6 +1,9 @@
 package com.alexey.minay.ood.lab05
 
-import com.alexey.minay.ood.lab05.document.*
+import com.alexey.minay.ood.lab05.document.Document
+import com.alexey.minay.ood.lab05.document.DocumentPrinter
+import com.alexey.minay.ood.lab05.document.DocumentSaver
+import com.alexey.minay.ood.lab05.document.IDocument
 
 fun main() {
     val history = History()
@@ -61,10 +64,10 @@ private fun handleInsertImageCommand(document: IDocument, splittedCommand: List<
     val height: Int = splittedCommand[3].toIntOrNull() ?: throw RuntimeException("Incorrect params")
     val path: String = splittedCommand[4]
     if (splittedCommand[1] == "end") {
-        document.insertImages(path, width, height, null)
+        document.insertImage(path, width, height, null)
     }
     val position: Int = splittedCommand[1].toIntOrNull() ?: throw RuntimeException("Incorrect params")
-    document.insertImages(path, width, height, position)
+    document.insertImage(path, width, height, position)
 }
 
 private fun handleSetTitleCommand(document: IDocument, splittedCommand: List<String>) {
@@ -87,7 +90,7 @@ private fun handleResizeImageCommand(document: IDocument, splittedCommand: List<
     document.resizeImage(width, height, position)
 }
 
-private fun handleSaveCommand(documentSaver: IDocumentSaver, splitCommand: List<String>) {
+private fun handleSaveCommand(documentSaver: DocumentSaver, splitCommand: List<String>) {
     if (splitCommand.size != 2) return
     documentSaver.saveHtmlDocument(splitCommand[1])
 }
