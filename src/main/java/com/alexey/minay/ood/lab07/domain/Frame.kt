@@ -5,4 +5,12 @@ data class Frame(
         var right: Double,
         var top: Double,
         var bottom: Double
-)
+) {
+
+    val height: Double
+        get() = bottom - top
+
+    val width: Double
+        get() = right - left
+
+}

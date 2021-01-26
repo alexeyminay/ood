@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab08.states
+package com.alexey.minay.ood.lab08
 
 interface IState {
     fun insertQuarter()

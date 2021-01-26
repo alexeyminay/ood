@@ -1,6 +1,9 @@
 package com.alexey.minay.ood.lab07.domain.composite
 
-import com.alexey.minay.ood.lab07.domain.*
+import com.alexey.minay.ood.lab07.domain.Frame
+import com.alexey.minay.ood.lab07.domain.ICanvas
+import com.alexey.minay.ood.lab07.domain.LineType
+import com.alexey.minay.ood.lab07.domain.RGBAColor
 import kotlin.math.max
 import kotlin.math.min
 
@@ -41,17 +44,13 @@ class Group(
 
     private fun resizeFrame(newFrame: Frame) {
         val currentFrame = getCurrentFrame()
-        val leftChanges = newFrame.left - currentFrame.left
-        val rightChanges = newFrame.right - currentFrame.right
-        val topChanges = newFrame.top - currentFrame.top
-        val bottomChanges = newFrame.bottom - currentFrame.bottom
         mShapes.forEach {
             it.apply {
                 frame = Frame(
-                        left = frame.left + leftChanges,
-                        right = frame.right + rightChanges,
-                        top = frame.top + topChanges,
-                        bottom = frame.bottom + bottomChanges
+                        left = frame.left * newFrame.width / currentFrame.width,
+                        right = frame.right * newFrame.width / currentFrame.width,
+                        top = frame.top * newFrame.height / currentFrame.height,
+                        bottom = frame.bottom * newFrame.height / currentFrame.height
                 )
             }
         }

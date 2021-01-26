@@ -1,12 +1,12 @@
 package com.alexey.minay.ood.lab07.fakedata
 
+import com.alexey.minay.ood.lab07.domain.Frame
+import com.alexey.minay.ood.lab07.domain.RGBAColor
 import com.alexey.minay.ood.lab07.domain.Slide
 import com.alexey.minay.ood.lab07.domain.composite.FillStyle
-import com.alexey.minay.ood.lab07.domain.Frame
-import com.alexey.minay.ood.lab07.domain.composite.LineStyle
-import com.alexey.minay.ood.lab07.domain.RGBAColor
 import com.alexey.minay.ood.lab07.domain.composite.Group
 import com.alexey.minay.ood.lab07.domain.composite.IShape
+import com.alexey.minay.ood.lab07.domain.composite.LineStyle
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Ellipse
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Rectangle
 import com.alexey.minay.ood.lab07.domain.composite.shapes.Triangle
@@ -114,6 +114,9 @@ object FakeDataProvider {
         val treeGroup = Group(
                 fillStyle = FillStyle(false),
                 lineStyle = LineStyle(false))
+        treeGroup.insertShape(Group(
+                fillStyle = FillStyle(false),
+                lineStyle = LineStyle(false)),0)
         val trunkLeft = x
         val trunkRight = x + 15
         val trunkTop = y - 150

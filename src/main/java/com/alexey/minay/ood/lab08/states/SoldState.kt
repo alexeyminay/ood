@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab08.states
 
+import com.alexey.minay.ood.lab08.IState
 import com.alexey.minay.ood.lab08.IStateHandler
 
 
