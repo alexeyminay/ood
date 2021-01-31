@@ -7,7 +7,7 @@ import com.alexey.minay.ood.lab09.domain.style.Style
 import java.io.File
 
 class Repository(
-        private val imageStateHandler: ImageStateHandler,
+        private val imageStateHandler: IImageStateHandler,
         private val imageStateMemento: IStateMemento,
         private val fileHelper: IFileHelper
 ) : ICanvasRepository, IFileRepository {
