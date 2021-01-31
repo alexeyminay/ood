@@ -1,28 +1,12 @@
 package com.alexey.minay.ood.lab09.ui.view
 
 import com.alexey.minay.ood.lab09.domain.ICanvas
-import javafx.scene.canvas.GraphicsContext
 import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.style.Color
-import com.alexey.minay.ood.lab09.domain.style.Style
+import javafx.scene.canvas.GraphicsContext
 
 class FxCanvasAdapter(
-        private val graphicsContext: GraphicsContext
+    private val graphicsContext: GraphicsContext
 ) : ICanvas {
-
-    override fun setStyle(style: Style) {
-        when (style) {
-            is Style.Shape -> {
-                graphicsContext.lineWidth = 1.0
-                graphicsContext.stroke = style.strokeColor.asFxColor()
-                graphicsContext.fill = style.fillColor.asFxColor()
-            }
-            Style.Frame -> {
-                graphicsContext.lineWidth = 1.0
-                graphicsContext.stroke = Color.SKY_BLUE.asFxColor(0.4)
-            }
-        }
-    }
 
     override fun drawLine(from: Point, to: Point) {
         graphicsContext.strokeLine(from.x, from.y, to.x, to.y)

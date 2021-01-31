@@ -1,9 +1,8 @@
 package com.alexey.minay.ood.lab09.domain.repository
 
+import com.alexey.minay.ood.lab09.application.ShapeType
 import com.alexey.minay.ood.lab09.domain.*
 import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.stateHandler.ImageStateHandler
-import com.alexey.minay.ood.lab09.domain.style.Style
 import java.io.File
 
 class Repository(
@@ -18,9 +17,9 @@ class Repository(
         mOnNext = onNext
     }
 
-    override fun createNewShape(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape) {
+    override fun createNewShape(shapeType: ShapeType, parentWidth: Double, parentHeight: Double) {
         imageStateMemento.saveState()
-        imageStateHandler.createImage(shapeType, parentWidth, parentHeight, style)
+        imageStateHandler.createImage(shapeType, parentWidth, parentHeight)
         mOnNext(RepositoryResult.ImageResult(imageStateHandler.shapes))
     }
 
@@ -55,11 +54,11 @@ class Repository(
         imageStateHandler.deleteLastPressState()
     }
 
-    override fun modifySelectedShapeStyle(style: Style.Shape) {
-        imageStateMemento.saveState()
-        imageStateHandler.modifySelectedShapeStyle(style)
-        mOnNext(RepositoryResult.ImageResult(imageStateHandler.shapes))
-    }
+//    override fun modifySelectedShapeStyle(style: Style.Shape) {
+//        imageStateMemento.saveState()
+//        imageStateHandler.modifySelectedShapeStyle(style)
+//        mOnNext(RepositoryResult.ImageResult(imageStateHandler.shapes))
+//    }
 
     override fun onRedo() {
         imageStateMemento.redo()

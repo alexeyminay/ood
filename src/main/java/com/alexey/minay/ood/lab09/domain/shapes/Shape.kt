@@ -1,7 +1,6 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
 import com.alexey.minay.ood.lab09.domain.IShape
-import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.domain.ICanvas
 
 abstract class Shape(
@@ -19,7 +18,6 @@ abstract class Shape(
         val leftOffsetBottom = Point(frame.leftBottom.x - offset, frame.leftBottom.y + offset)
         val rightOffsetBottom = Point(frame.rightBottom.x + offset, frame.rightBottom.y + offset)
         val rightOffsetTop = Point(frame.rightTop.x + offset, frame.rightTop.y - offset)
-        canvasAdapter.setStyle(Style.Frame)
         canvasAdapter.drawLine(leftOffsetTop, leftOffsetBottom)
         canvasAdapter.drawLine(leftOffsetBottom, rightOffsetBottom)
         canvasAdapter.drawLine(rightOffsetBottom, rightOffsetTop)

@@ -6,8 +6,7 @@ data class ShapesJson(
 
 data class ShapeJson(
         val type: String,
-        val frame: FrameJson,
-        val style: StyleJson
+        val frame: FrameJson
 )
 
 data class FrameJson(

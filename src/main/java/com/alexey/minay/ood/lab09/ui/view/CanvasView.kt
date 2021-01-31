@@ -3,7 +3,6 @@ package com.alexey.minay.ood.lab09.ui.view
 import com.alexey.minay.ood.lab09.PresenterFactory
 import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -48,13 +47,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
         mFilePresenter = PresenterFactory.createFilePresenterFor(this)
         mStrokePicker.value = Color.CADETBLUE
         mFillPicker.value = Color.BISQUE
-        setColorPaneActionListeners()
         mTabPane.selectionModel.selectLast()
-    }
-
-    override fun updateColorPane(style: Style.Shape) {
-        mFillPicker.value = style.fillColor.asFxColor()
-        mStrokePicker.value = style.strokeColor.asFxColor()
     }
 
     @FXML
@@ -72,8 +65,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     fun onDrawRectangle() {
         mCanvasPresenter.onDrawNewRectangle(
             mCanvas.width,
-            mCanvas.height,
-            createStyle(mStrokePicker.value, mFillPicker.value)
+            mCanvas.height
         )
     }
 
@@ -81,8 +73,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     fun onDrawTriangle() {
         mCanvasPresenter.onDrawNewTriangle(
             mCanvas.width,
-            mCanvas.height,
-            createStyle(mStrokePicker.value, mFillPicker.value)
+            mCanvas.height
         )
     }
 
@@ -90,8 +81,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     fun onDrawEllipse() {
         mCanvasPresenter.onDrawNewEllipse(
             mCanvas.width,
-            mCanvas.height,
-            createStyle(mStrokePicker.value, mFillPicker.value)
+            mCanvas.height
         )
     }
 
@@ -160,17 +150,5 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
         val file = mFileChooser.showSaveDialog(mCanvas.scene.window) ?: return
         mFilePresenter.onSave(file)
     }
-
-    private fun setColorPaneActionListeners() {
-        mStrokePicker.setOnAction {
-            mCanvasPresenter.onStyleModified(createStyle(mStrokePicker.value, mFillPicker.value))
-        }
-        mFillPicker.setOnAction {
-            mCanvasPresenter.onStyleModified(createStyle(mStrokePicker.value, mFillPicker.value))
-        }
-    }
-
-    private fun createStyle(strokeColor: Color, fillColor: Color) =
-        Style.Shape(strokeColor.asDomainColor(), fillColor.asDomainColor())
 
 }

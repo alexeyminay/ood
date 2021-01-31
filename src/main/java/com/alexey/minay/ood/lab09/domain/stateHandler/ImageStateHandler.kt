@@ -1,12 +1,13 @@
 package com.alexey.minay.ood.lab09.domain.stateHandler
 
 import com.alexey.minay.ood.lab09.application.ResizableState
-import com.alexey.minay.ood.lab09.domain.*
-import com.alexey.minay.ood.lab09.domain.shapes.Ellipse
+import com.alexey.minay.ood.lab09.application.ShapeType
+import com.alexey.minay.ood.lab09.domain.IImageStateHandler
+import com.alexey.minay.ood.lab09.domain.IShape
+import com.alexey.minay.ood.lab09.domain.IStateMemento
 import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.shapes.Rectangle
-import com.alexey.minay.ood.lab09.domain.shapes.Triangle
-import com.alexey.minay.ood.lab09.domain.style.Style
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.util.*
 import kotlin.math.pow
 
@@ -17,57 +18,60 @@ class ImageStateHandler : IImageStateHandler {
     override var resizableState: ResizableState = ResizableState.NOT_RESIZE
     private var mPressedPoint: Point? = null
 
+    //
+    //
+    //
+
+    val state: Observable<MutableList<IShape>>
+        get() = mState
+    private val mState = BehaviorSubject.createDefault(mutableListOf<IShape>())
 
 
+    fun getShapeCount() = mState.value.size
+
+    fun getShape(index: Int): IShape = mState.value[index]
+
+    fun insertShapeAt(index: Int, shape: IShape) {
+        mState.onNext(mState.value.apply { add(index, shape) })
+    }
+
+    fun removeShapeAt(index: Int) = mState.value.removeAt(index)
 
 
-    fun getShapeCount() = shapes.size
+    //
+    //
+    //
 
-    fun getShape(index: Int): IShape = shapes[index]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    override fun createImage(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape) {
-        shapes
-                .asReversed()
-                .forEach { shape ->
-                    shape.isSelected = false
-                }
-        val shape = when (shapeType) {
-            ShapeType.ELLIPSE ->
-                Ellipse.createDefault(Point(parentWidth / 2, parentHeight / 2), style)
-            ShapeType.RECTANGLE ->
-                Rectangle.createDefault(Point(parentWidth / 2, parentHeight / 2), style)
-            ShapeType.TRIANGLE ->
-                Triangle.createDefault(Point(parentWidth / 2, parentHeight / 2), style)
-        }
-        shapes.add(shape)
+    override fun createImage(shapeType: ShapeType, parentWidth: Double, parentHeight: Double) {
+//        shapes
+//            .asReversed()
+//            .forEach { shape ->
+//                shape.isSelected = false
+//            }
+//        val shape = when (shapeType) {
+//            ShapeType.ELLIPSE ->
+//                Ellipse.createDefault(Point(parentWidth / 2, parentHeight / 2), style)
+//            ShapeType.RECTANGLE ->
+//                Rectangle.createDefault(Point(parentWidth / 2, parentHeight / 2), style)
+//            ShapeType.TRIANGLE ->
+//                Triangle.createDefault(Point(parentWidth / 2, parentHeight / 2), style)
+//        }
+//        shapes.add(shape)
+        TODO()
     }
 
     override fun updateShapesSelection(mousePosition: Point) {
         var isSelected = false
         shapes
-                .asReversed()
-                .forEach { shape ->
-                    if (shape.isIncluding(mousePosition) && !isSelected) {
-                        shape.isSelected = true
-                        isSelected = true
-                    } else {
-                        shape.isSelected = false
-                    }
+            .asReversed()
+            .forEach { shape ->
+                if (shape.isIncluding(mousePosition) && !isSelected) {
+                    shape.isSelected = true
+                    isSelected = true
+                } else {
+                    shape.isSelected = false
                 }
+            }
     }
 
     override fun rememberPressedPoint(pressesPoint: Point) {
@@ -99,10 +103,9 @@ class ImageStateHandler : IImageStateHandler {
         resizableState = ResizableState.NOT_RESIZE
     }
 
-    override fun modifySelectedShapeStyle(style: Style.Shape) {
-        val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
-        shape.shapeStyle = style
-    }
+//    override fun modifySelectedShapeStyle(style: Style.Shape) {
+//        val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
+//    }
 
     override fun moveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
@@ -146,32 +149,32 @@ class ImageStateHandler : IImageStateHandler {
     }
 
     private fun IShape.calculateNewLeftTopX(differenceX: Double) =
-            when (resizableState) {
-                ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
-                ResizableState.RIGHT_TOP_RESIZE -> frame.leftTop.x
-                else -> frame.leftTop.x - differenceX
-            }
+        when (resizableState) {
+            ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
+            ResizableState.RIGHT_TOP_RESIZE -> frame.leftTop.x
+            else -> frame.leftTop.x - differenceX
+        }
 
     private fun IShape.calculateNewLeftTopY(differenceY: Double) =
-            when (resizableState) {
-                ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
-                ResizableState.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
-                else -> frame.leftTop.y - differenceY
-            }
+        when (resizableState) {
+            ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
+            ResizableState.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
+            else -> frame.leftTop.y - differenceY
+        }
 
     private fun IShape.calculateNewRightBottomX(differenceX: Double) =
-            when (resizableState) {
-                ResizableState.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
-                ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.x
-                else -> frame.rightBottom.x - differenceX
-            }
+        when (resizableState) {
+            ResizableState.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
+            ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.x
+            else -> frame.rightBottom.x - differenceX
+        }
 
     private fun IShape.calculateNewRightBottomY(differenceY: Double) =
-            when (resizableState) {
-                ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.y
-                ResizableState.RIGHT_TOP_RESIZE -> frame.rightBottom.y
-                else -> frame.rightBottom.y - differenceY
-            }
+        when (resizableState) {
+            ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.y
+            ResizableState.RIGHT_TOP_RESIZE -> frame.rightBottom.y
+            else -> frame.rightBottom.y - differenceY
+        }
 
     private fun Point.isCross(point: Point): Boolean {
         val resizeChangePositionRadius = 3.0
@@ -187,18 +190,18 @@ class ImageStateHandler : IImageStateHandler {
         override fun undo() {
             if (!canUndo()) return
             shapes = mState
-                    .poll()
-                    .shapes
-                    .toMutableList()
+                .poll()
+                .shapes
+                .toMutableList()
             saveState(mCanceledState)
         }
 
         override fun redo() {
             if (!canRedo()) return
             shapes = mCanceledState
-                    .poll()
-                    .shapes
-                    .toMutableList()
+                .poll()
+                .shapes
+                .toMutableList()
             saveState(mState)
         }
 
@@ -222,15 +225,16 @@ class ImageStateHandler : IImageStateHandler {
             if (shapes.size != state.firstOrNull()?.shapes?.size) hasChanges = true
             shapes.forEachIndexed { index, shape ->
                 if (shape.frame != state
-                                .firstOrNull()
-                                ?.shapes
-                                ?.getOrNull(index)
-                                ?.frame
-                        || shape.isSelected != state
-                                .firstOrNull()
-                                ?.shapes
-                                ?.getOrNull(index)
-                                ?.isSelected) {
+                        .firstOrNull()
+                        ?.shapes
+                        ?.getOrNull(index)
+                        ?.frame
+                    || shape.isSelected != state
+                        .firstOrNull()
+                        ?.shapes
+                        ?.getOrNull(index)
+                        ?.isSelected
+                ) {
                     hasChanges = true
                 }
                 snapshotShapes.add(shape.copy())
@@ -243,16 +247,18 @@ class ImageStateHandler : IImageStateHandler {
             }
         }
 
-        private fun IShape.copy() =
-                when (this) {
-                    is Triangle -> Triangle(frame.copy(), shapeStyle)
-                    is Rectangle -> Rectangle(frame.copy(), shapeStyle)
-                    is Ellipse -> Ellipse(frame.copy(), shapeStyle)
-                    else -> throw RuntimeException("Incorrect shape type")
-                }.let {
-                    it.isSelected = isSelected
-                    it
-                }
+        private fun IShape.copy(): IShape {
+            TODO()
+        }
+//            when (this) {
+//                is Triangle -> Triangle(frame.copy(), shapeStyle)
+//                is Rectangle -> Rectangle(frame.copy(), shapeStyle)
+//                is Ellipse -> Ellipse(frame.copy(), shapeStyle)
+//                else -> throw RuntimeException("Incorrect shape type")
+//            }.let {
+//                it.isSelected = isSelected
+//                it
+//            }
 
     }
 
