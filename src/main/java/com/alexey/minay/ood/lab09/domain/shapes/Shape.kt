@@ -1,9 +1,8 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
-import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.stateHandler.IShape
+import com.alexey.minay.ood.lab09.domain.IShape
 import com.alexey.minay.ood.lab09.domain.style.Style
-import com.alexey.minay.ood.lab09.ui.view.ICanvasAdapter
+import com.alexey.minay.ood.lab09.domain.ICanvas
 
 abstract class Shape(
         override val frame: Frame
@@ -11,7 +10,7 @@ abstract class Shape(
 
     override var isSelected: Boolean = true
 
-    override fun draw(canvasAdapter: ICanvasAdapter) {
+    override fun draw(canvasAdapter: ICanvas) {
         if (!isSelected) {
             return
         }
@@ -36,7 +35,7 @@ abstract class Shape(
             point.x in frame.leftBottom.x..frame.rightBottom.x
                     && point.y in frame.leftTop.y..frame.leftBottom.y
 
-    private fun drawResizeElement(canvasAdapter: ICanvasAdapter, center: Point) {
+    private fun drawResizeElement(canvasAdapter: ICanvas, center: Point) {
         val halfResizeElementWidth = 1
         val leftTop = Point(center.x - halfResizeElementWidth, center.y - halfResizeElementWidth)
         val rightTop = Point(center.x + halfResizeElementWidth, center.y - halfResizeElementWidth)

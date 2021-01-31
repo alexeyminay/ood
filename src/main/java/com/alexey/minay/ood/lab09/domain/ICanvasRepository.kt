@@ -1,9 +1,10 @@
 package com.alexey.minay.ood.lab09.domain
 
+import com.alexey.minay.ood.lab09.domain.shapes.Point
 import com.alexey.minay.ood.lab09.domain.style.Style
 
 interface ICanvasRepository {
-    fun subscribe(onNext: (ScreenStateChanges) -> Unit)
+    fun subscribe(onNext: (RepositoryResult) -> Unit)
     fun createNewShape(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape)
     fun updateCursor(mousePosition: Point)
     fun updateShapesSelection(mousePosition: Point)

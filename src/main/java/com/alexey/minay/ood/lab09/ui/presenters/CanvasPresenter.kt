@@ -1,20 +1,20 @@
 package com.alexey.minay.ood.lab09.ui.presenters
 
 import com.alexey.minay.ood.lab09.domain.ICanvasRepository
-import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.ScreenStateChanges
+import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.domain.RepositoryResult
 import com.alexey.minay.ood.lab09.domain.ShapeType
 import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.ui.MVP
-import com.alexey.minay.ood.lab09.ui.view.ICanvasAdapter
+import com.alexey.minay.ood.lab09.domain.ICanvas
 
-class MainPresenter(
+class CanvasPresenter(
         private val canvasRepository: ICanvasRepository,
-        private val canvasAdapter: ICanvasAdapter
+        private val canvasAdapter: ICanvas
 ) : MVP.ICanvasPresenter {
 
     init {
-        canvasRepository.subscribe(::handleScreenStateChanges)
+        canvasRepository.subscribe(::handleRepositoryResult)
     }
 
     private var mView: MVP.ICanvasView? = null
@@ -71,17 +71,17 @@ class MainPresenter(
         canvasRepository.onUndo()
     }
 
-    private fun handleScreenStateChanges(state: ScreenStateChanges) {
+    private fun handleRepositoryResult(state: RepositoryResult) {
         when (state) {
-            is ScreenStateChanges.ImageState -> {
+            is RepositoryResult.ImageResult -> {
                 canvasAdapter.clear()
-                state.imageState.forEach { shape ->
+                state.state.forEach { shape ->
                     shape.draw(canvasAdapter)
                     if (shape.isSelected) mView?.updateColorPane(shape.shapeStyle)
                 }
             }
-            is ScreenStateChanges.ResizableState -> {
-                mView?.updateCursor(state.resizableState)
+            is RepositoryResult.ResizableStateResult -> {
+                mView?.updateCursor(state.state)
             }
         }
 

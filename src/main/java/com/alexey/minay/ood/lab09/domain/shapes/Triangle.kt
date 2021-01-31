@@ -1,8 +1,7 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
-import com.alexey.minay.ood.lab09.domain.Point
 import com.alexey.minay.ood.lab09.domain.style.Style
-import com.alexey.minay.ood.lab09.ui.view.ICanvasAdapter
+import com.alexey.minay.ood.lab09.domain.ICanvas
 import kotlin.math.abs
 
 class Triangle(
@@ -25,7 +24,7 @@ class Triangle(
     private val mListY: List<Double>
         get() = listOf(mVertex1.y, mVertex2.y, mVertex3.y)
 
-    override fun draw(canvasAdapter: ICanvasAdapter) {
+    override fun draw(canvasAdapter: ICanvas) {
         canvasAdapter.setStyle(shapeStyle)
         canvasAdapter.fill(mListX, mListY)
         canvasAdapter.drawLine(mVertex1, mVertex2)

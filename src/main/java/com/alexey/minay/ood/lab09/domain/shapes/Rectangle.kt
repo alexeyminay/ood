@@ -1,8 +1,7 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
-import com.alexey.minay.ood.lab09.domain.Point
 import com.alexey.minay.ood.lab09.domain.style.Style
-import com.alexey.minay.ood.lab09.ui.view.ICanvasAdapter
+import com.alexey.minay.ood.lab09.domain.ICanvas
 
 class Rectangle(
         override val frame: Frame,
@@ -14,7 +13,7 @@ class Rectangle(
     private val mListY: List<Double>
         get() = listOf(frame.leftBottom.y, frame.rightBottom.y, frame.rightTop.y, frame.leftTop.y)
 
-    override fun draw(canvasAdapter: ICanvasAdapter) {
+    override fun draw(canvasAdapter: ICanvas) {
         canvasAdapter.setStyle(shapeStyle)
         canvasAdapter.fill(mListX, mListY)
         canvasAdapter.drawLine(frame.leftTop, frame.leftBottom)

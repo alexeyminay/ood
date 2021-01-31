@@ -1,7 +1,5 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
-import com.alexey.minay.ood.lab09.domain.Point
-
 data class Frame(
         var leftTop: Point,
         var rightBottom: Point

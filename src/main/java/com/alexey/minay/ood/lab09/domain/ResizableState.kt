@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab09.domain
 
-enum class Resizable {
+enum class ResizableState {
     NOT_RESIZE,
     LEFT_BOTTOM_RESIZE,
     LEFT_TOP_RESIZE,

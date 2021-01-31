@@ -1,8 +1,7 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
-import com.alexey.minay.ood.lab09.domain.Point
 import com.alexey.minay.ood.lab09.domain.style.Style
-import com.alexey.minay.ood.lab09.ui.view.ICanvasAdapter
+import com.alexey.minay.ood.lab09.domain.ICanvas
 import kotlin.math.pow
 
 class Ellipse(
@@ -17,7 +16,7 @@ class Ellipse(
     private val verticalDiameter: Double
         get() = frame.rightBottom.y - frame.rightTop.y
 
-    override fun draw(canvasAdapter: ICanvasAdapter) {
+    override fun draw(canvasAdapter: ICanvas) {
         canvasAdapter.setStyle(shapeStyle)
         canvasAdapter.fillEllipse(leftTop, horizontalDiameter, verticalDiameter)
         canvasAdapter.drawEllipse(leftTop, horizontalDiameter, verticalDiameter)

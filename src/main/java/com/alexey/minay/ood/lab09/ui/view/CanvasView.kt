@@ -1,8 +1,8 @@
 package com.alexey.minay.ood.lab09.ui.view
 
 import com.alexey.minay.ood.lab09.PresenterFactory
-import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.Resizable
+import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.domain.ResizableState
 import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.fxml.FXML
@@ -20,7 +20,7 @@ import javafx.stage.FileChooser
 import java.net.URL
 import java.util.*
 
-class MainView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
+class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     private lateinit var mCanvas: Canvas
@@ -62,13 +62,13 @@ class MainView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     }
 
     @FXML
-    override fun updateCursor(cursorState: Resizable) {
+    override fun updateCursor(cursorState: ResizableState) {
         mCanvas.scene.cursor = when (cursorState) {
-            Resizable.NOT_RESIZE -> Cursor.DEFAULT
-            Resizable.RIGHT_BOTTOM_RESIZE -> Cursor.NW_RESIZE
-            Resizable.LEFT_TOP_RESIZE -> Cursor.NW_RESIZE
-            Resizable.LEFT_BOTTOM_RESIZE -> Cursor.NE_RESIZE
-            Resizable.RIGHT_TOP_RESIZE -> Cursor.NE_RESIZE
+            ResizableState.NOT_RESIZE -> Cursor.DEFAULT
+            ResizableState.RIGHT_BOTTOM_RESIZE -> Cursor.NW_RESIZE
+            ResizableState.LEFT_TOP_RESIZE -> Cursor.NW_RESIZE
+            ResizableState.LEFT_BOTTOM_RESIZE -> Cursor.NE_RESIZE
+            ResizableState.RIGHT_TOP_RESIZE -> Cursor.NE_RESIZE
         }
     }
 

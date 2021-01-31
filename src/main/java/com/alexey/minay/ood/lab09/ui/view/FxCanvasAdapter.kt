@@ -1,13 +1,14 @@
 package com.alexey.minay.ood.lab09.ui.view
 
+import com.alexey.minay.ood.lab09.domain.ICanvas
 import javafx.scene.canvas.GraphicsContext
-import com.alexey.minay.ood.lab09.domain.Point
+import com.alexey.minay.ood.lab09.domain.shapes.Point
 import com.alexey.minay.ood.lab09.domain.style.Color
 import com.alexey.minay.ood.lab09.domain.style.Style
 
 class FxCanvasAdapter(
         private val graphicsContext: GraphicsContext
-) : ICanvasAdapter {
+) : ICanvas {
 
     override fun setStyle(style: Style) {
         when (style) {

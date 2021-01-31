@@ -1,8 +1,8 @@
 package com.alexey.minay.ood.lab09.infrastructure
 
-import com.alexey.minay.ood.lab09.domain.Point
+import com.alexey.minay.ood.lab09.domain.shapes.Point
 import com.alexey.minay.ood.lab09.domain.shapes.*
-import com.alexey.minay.ood.lab09.domain.stateHandler.IShape
+import com.alexey.minay.ood.lab09.domain.IShape
 import com.alexey.minay.ood.lab09.domain.style.Color
 import com.alexey.minay.ood.lab09.domain.style.Style
 

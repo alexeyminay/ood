@@ -1,24 +1,22 @@
 package com.alexey.minay.ood.lab09.domain.stateHandler
 
-import com.alexey.minay.ood.lab09.domain.IStateMemento
-import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.Resizable
-import com.alexey.minay.ood.lab09.domain.ShapeType
+import com.alexey.minay.ood.lab09.domain.*
 import com.alexey.minay.ood.lab09.domain.shapes.Ellipse
+import com.alexey.minay.ood.lab09.domain.shapes.Point
 import com.alexey.minay.ood.lab09.domain.shapes.Rectangle
 import com.alexey.minay.ood.lab09.domain.shapes.Triangle
 import com.alexey.minay.ood.lab09.domain.style.Style
 import java.util.*
 import kotlin.math.pow
 
-class ImageStateHandler {
+class ImageStateHandler : IImageStateHandler {
 
-    var shapes = mutableListOf<IShape>()
+    override var shapes = mutableListOf<IShape>()
         private set
-    var resizableState: Resizable = Resizable.NOT_RESIZE
+    override var resizableState: ResizableState = ResizableState.NOT_RESIZE
     private var mPressedPoint: Point? = null
 
-    fun createImage(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape) {
+    override fun createImage(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape) {
         shapes
                 .asReversed()
                 .forEach { shape ->
@@ -35,7 +33,7 @@ class ImageStateHandler {
         shapes.add(shape)
     }
 
-    fun updateShapesSelection(mousePosition: Point) {
+    override fun updateShapesSelection(mousePosition: Point) {
         var isSelected = false
         shapes
                 .asReversed()
@@ -49,41 +47,41 @@ class ImageStateHandler {
                 }
     }
 
-    fun rememberPressedPoint(pressesPoint: Point) {
+    override fun rememberPressedPoint(pressesPoint: Point) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         if (shape.isIncluding(pressesPoint)) {
             mPressedPoint = pressesPoint
         }
     }
 
-    fun deleteSelectedShape() {
+    override fun deleteSelectedShape() {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         shapes.remove(shape)
     }
 
-    fun updateCursor(mousePosition: Point) {
+    override fun updateCursor(mousePosition: Point) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
 
         resizableState = when {
-            mousePosition.isCross(shape.frame.rightBottom) -> Resizable.RIGHT_BOTTOM_RESIZE
-            mousePosition.isCross(shape.frame.leftTop) -> Resizable.LEFT_TOP_RESIZE
-            mousePosition.isCross(shape.frame.rightTop) -> Resizable.RIGHT_TOP_RESIZE
-            mousePosition.isCross(shape.frame.leftBottom) -> Resizable.LEFT_BOTTOM_RESIZE
-            else -> Resizable.NOT_RESIZE
+            mousePosition.isCross(shape.frame.rightBottom) -> ResizableState.RIGHT_BOTTOM_RESIZE
+            mousePosition.isCross(shape.frame.leftTop) -> ResizableState.LEFT_TOP_RESIZE
+            mousePosition.isCross(shape.frame.rightTop) -> ResizableState.RIGHT_TOP_RESIZE
+            mousePosition.isCross(shape.frame.leftBottom) -> ResizableState.LEFT_BOTTOM_RESIZE
+            else -> ResizableState.NOT_RESIZE
         }
     }
 
-    fun deleteLastPressState() {
+    override fun deleteLastPressState() {
         mPressedPoint = null
-        resizableState = Resizable.NOT_RESIZE
+        resizableState = ResizableState.NOT_RESIZE
     }
 
-    fun modifySelectedShapeStyle(style: Style.Shape) {
+    override fun modifySelectedShapeStyle(style: Style.Shape) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         shape.shapeStyle = style
     }
 
-    fun moveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
+    override fun moveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         if (mPressedPoint == null) {
             mPressedPoint = newPosition
@@ -120,35 +118,35 @@ class ImageStateHandler {
         mPressedPoint = newPosition
     }
 
-    fun reloadImage(shapes: List<IShape>) {
+    override fun reloadImage(shapes: List<IShape>) {
         this.shapes = shapes.toMutableList()
     }
 
     private fun IShape.calculateNewLeftTopX(differenceX: Double) =
             when (resizableState) {
-                Resizable.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
-                Resizable.RIGHT_TOP_RESIZE -> frame.leftTop.x
+                ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
+                ResizableState.RIGHT_TOP_RESIZE -> frame.leftTop.x
                 else -> frame.leftTop.x - differenceX
             }
 
     private fun IShape.calculateNewLeftTopY(differenceY: Double) =
             when (resizableState) {
-                Resizable.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
-                Resizable.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
+                ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
+                ResizableState.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
                 else -> frame.leftTop.y - differenceY
             }
 
     private fun IShape.calculateNewRightBottomX(differenceX: Double) =
             when (resizableState) {
-                Resizable.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
-                Resizable.LEFT_TOP_RESIZE -> frame.rightBottom.x
+                ResizableState.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
+                ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.x
                 else -> frame.rightBottom.x - differenceX
             }
 
     private fun IShape.calculateNewRightBottomY(differenceY: Double) =
             when (resizableState) {
-                Resizable.LEFT_TOP_RESIZE -> frame.rightBottom.y
-                Resizable.RIGHT_TOP_RESIZE -> frame.rightBottom.y
+                ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.y
+                ResizableState.RIGHT_TOP_RESIZE -> frame.rightBottom.y
                 else -> frame.rightBottom.y - differenceY
             }
 
