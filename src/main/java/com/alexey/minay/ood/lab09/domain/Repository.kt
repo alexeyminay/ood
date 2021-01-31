@@ -6,7 +6,7 @@ import java.io.File
 
 class Repository(
         private val imageStateHandler: ImageStateHandler,
-        private val imageStateMemento: ImageStateHandler.ImageStateMemento,
+        private val imageStateMemento: IStateMemento,
         private val fileHelper: IFileHelper
 ) : ICanvasRepository, IFileRepository {
 
@@ -24,7 +24,7 @@ class Repository(
 
     override fun updateCursor(mousePosition: Point) {
         imageStateHandler.updateCursor(mousePosition)
-        mOnNext(ScreenStateChanges.CursorState(imageStateHandler.resizePointCrossState))
+        mOnNext(ScreenStateChanges.ResizableState(imageStateHandler.resizableState))
     }
 
     override fun updateShapesSelection(mousePosition: Point) {

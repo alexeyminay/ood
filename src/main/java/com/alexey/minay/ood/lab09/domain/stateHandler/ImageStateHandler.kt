@@ -1,10 +1,10 @@
 package com.alexey.minay.ood.lab09.domain.stateHandler
 
+import com.alexey.minay.ood.lab09.domain.IStateMemento
 import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.ResizePointCrossState
+import com.alexey.minay.ood.lab09.domain.Resizable
 import com.alexey.minay.ood.lab09.domain.ShapeType
 import com.alexey.minay.ood.lab09.domain.shapes.Ellipse
-import com.alexey.minay.ood.lab09.domain.shapes.IShape
 import com.alexey.minay.ood.lab09.domain.shapes.Rectangle
 import com.alexey.minay.ood.lab09.domain.shapes.Triangle
 import com.alexey.minay.ood.lab09.domain.style.Style
@@ -15,7 +15,7 @@ class ImageStateHandler {
 
     var shapes = mutableListOf<IShape>()
         private set
-    var resizePointCrossState: ResizePointCrossState = ResizePointCrossState.NOT_CROSS
+    var resizableState: Resizable = Resizable.NOT_RESIZE
     private var mPressedPoint: Point? = null
 
     fun createImage(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape) {
@@ -64,18 +64,18 @@ class ImageStateHandler {
     fun updateCursor(mousePosition: Point) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
 
-        resizePointCrossState = when {
-            mousePosition.isCross(shape.frame.rightBottom) -> ResizePointCrossState.RIGHT_BOTTOM_RESIZE
-            mousePosition.isCross(shape.frame.leftTop) -> ResizePointCrossState.LEFT_TOP_RESIZE
-            mousePosition.isCross(shape.frame.rightTop) -> ResizePointCrossState.RIGHT_TOP_RESIZE
-            mousePosition.isCross(shape.frame.leftBottom) -> ResizePointCrossState.LEFT_BOTTOM_RESIZE
-            else -> ResizePointCrossState.NOT_CROSS
+        resizableState = when {
+            mousePosition.isCross(shape.frame.rightBottom) -> Resizable.RIGHT_BOTTOM_RESIZE
+            mousePosition.isCross(shape.frame.leftTop) -> Resizable.LEFT_TOP_RESIZE
+            mousePosition.isCross(shape.frame.rightTop) -> Resizable.RIGHT_TOP_RESIZE
+            mousePosition.isCross(shape.frame.leftBottom) -> Resizable.LEFT_BOTTOM_RESIZE
+            else -> Resizable.NOT_RESIZE
         }
     }
 
     fun deleteLastPressState() {
         mPressedPoint = null
-        resizePointCrossState = ResizePointCrossState.NOT_CROSS
+        resizableState = Resizable.NOT_RESIZE
     }
 
     fun modifySelectedShapeStyle(style: Style.Shape) {
@@ -99,29 +99,21 @@ class ImageStateHandler {
         val offset = 1.0
         val shapeWidth = shape.frame.rightBottom.x - shape.frame.leftBottom.x
         val shapeHeight = shape.frame.leftBottom.y - shape.frame.leftTop.y
-        when (newLeftTopX + offset > parentWidth - shapeWidth) {
-            true -> {
-                newLeftTopX = parentWidth - shapeWidth - offset
-                newRightBottomX = parentWidth - offset
-            }
+        if (newLeftTopX + offset > parentWidth - shapeWidth) {
+            newLeftTopX = parentWidth - shapeWidth - offset
+            newRightBottomX = parentWidth - offset
         }
-        when (newLeftTopX - offset < 0.0) {
-            true -> {
-                newLeftTopX = 0.0 + offset
-                newRightBottomX = shapeWidth + offset
-            }
+        if (newLeftTopX - offset < 0.0) {
+            newLeftTopX = 0.0 + offset
+            newRightBottomX = shapeWidth + offset
         }
-        when (newLeftTopY + offset > parentHeight - shapeHeight) {
-            true -> {
-                newLeftTopY = parentHeight - shapeHeight - offset
-                newRightBottomY = parentHeight - offset
-            }
+        if (newLeftTopY + offset > parentHeight - shapeHeight) {
+            newLeftTopY = parentHeight - shapeHeight - offset
+            newRightBottomY = parentHeight - offset
         }
-        when (newLeftTopY < 0.0) {
-            true -> {
-                newLeftTopY = 0.0 + offset
-                newRightBottomY = shapeHeight + offset
-            }
+        if (newLeftTopY < 0.0) {
+            newLeftTopY = 0.0 + offset
+            newRightBottomY = shapeHeight + offset
         }
         shape.frame.leftTop = Point(newLeftTopX, newLeftTopY)
         shape.frame.rightBottom = Point(newRightBottomX, newRightBottomY)
@@ -133,30 +125,30 @@ class ImageStateHandler {
     }
 
     private fun IShape.calculateNewLeftTopX(differenceX: Double) =
-            when (resizePointCrossState) {
-                ResizePointCrossState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
-                ResizePointCrossState.RIGHT_TOP_RESIZE -> frame.leftTop.x
+            when (resizableState) {
+                Resizable.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
+                Resizable.RIGHT_TOP_RESIZE -> frame.leftTop.x
                 else -> frame.leftTop.x - differenceX
             }
 
     private fun IShape.calculateNewLeftTopY(differenceY: Double) =
-            when (resizePointCrossState) {
-                ResizePointCrossState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
-                ResizePointCrossState.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
+            when (resizableState) {
+                Resizable.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
+                Resizable.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
                 else -> frame.leftTop.y - differenceY
             }
 
     private fun IShape.calculateNewRightBottomX(differenceX: Double) =
-            when (resizePointCrossState) {
-                ResizePointCrossState.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
-                ResizePointCrossState.LEFT_TOP_RESIZE -> frame.rightBottom.x
+            when (resizableState) {
+                Resizable.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
+                Resizable.LEFT_TOP_RESIZE -> frame.rightBottom.x
                 else -> frame.rightBottom.x - differenceX
             }
 
     private fun IShape.calculateNewRightBottomY(differenceY: Double) =
-            when (resizePointCrossState) {
-                ResizePointCrossState.LEFT_TOP_RESIZE -> frame.rightBottom.y
-                ResizePointCrossState.RIGHT_TOP_RESIZE -> frame.rightBottom.y
+            when (resizableState) {
+                Resizable.LEFT_TOP_RESIZE -> frame.rightBottom.y
+                Resizable.RIGHT_TOP_RESIZE -> frame.rightBottom.y
                 else -> frame.rightBottom.y - differenceY
             }
 
@@ -166,7 +158,7 @@ class ImageStateHandler {
                 (y - point.y).pow(2) <= resizeChangePositionRadius.pow(2)
     }
 
-    inner class ImageStateMemento : IStateHandler.IStateMemento {
+    inner class ImageStateMemento : IStateMemento {
 
         private val mState = ArrayDeque<ImageStateSnapshot>()
         private val mCanceledState = ArrayDeque<ImageStateSnapshot>()

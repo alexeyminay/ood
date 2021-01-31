@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.domain
 
-enum class ResizePointCrossState {
-    NOT_CROSS,
+enum class Resizable {
+    NOT_RESIZE,
     LEFT_BOTTOM_RESIZE,
     LEFT_TOP_RESIZE,
     RIGHT_BOTTOM_RESIZE,

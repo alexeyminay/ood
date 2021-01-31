@@ -80,8 +80,8 @@ class MainPresenter(
                     if (shape.isSelected) mView?.updateColorPane(shape.shapeStyle)
                 }
             }
-            is ScreenStateChanges.CursorState -> {
-                mView?.updateCursor(state.cursorState)
+            is ScreenStateChanges.ResizableState -> {
+                mView?.updateCursor(state.resizableState)
             }
         }
 

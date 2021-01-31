@@ -2,15 +2,15 @@ package com.alexey.minay.ood.lab09.infrastructure
 
 import com.alexey.minay.ood.lab09.domain.Point
 import com.alexey.minay.ood.lab09.domain.shapes.*
+import com.alexey.minay.ood.lab09.domain.stateHandler.IShape
 import com.alexey.minay.ood.lab09.domain.style.Color
 import com.alexey.minay.ood.lab09.domain.style.Style
-
 
 private const val TRIANGLE = "triangle"
 private const val RECTANGLE = "rectangle"
 private const val ELLIPSE = "ellipse"
 
-fun IShape.ToJsonData(): ShapeJson {
+fun IShape.toJsonData(): ShapeJson {
     val type = when (this) {
         is Triangle -> TRIANGLE
         is Rectangle -> RECTANGLE

@@ -1,8 +1,8 @@
 package com.alexey.minay.ood.lab09.domain
 
-import com.alexey.minay.ood.lab09.domain.shapes.IShape
+import com.alexey.minay.ood.lab09.domain.stateHandler.IShape
 
 sealed class ScreenStateChanges {
     class ImageState(val imageState: List<IShape>) : ScreenStateChanges()
-    class CursorState(val cursorState: ResizePointCrossState) : ScreenStateChanges()
+    class ResizableState(val resizableState: Resizable) : ScreenStateChanges()
 }

@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.infrastructure
 
 import com.alexey.minay.ood.lab09.domain.IFileHelper
-import com.alexey.minay.ood.lab09.domain.shapes.IShape
+import com.alexey.minay.ood.lab09.domain.stateHandler.IShape
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -27,7 +27,7 @@ class FileHelper : IFileHelper {
     override fun saveFile(file: File, imageState: List<IShape>) {
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
-                val shapesJson = ShapesJson(imageState.map { it.ToJsonData() })
+                val shapesJson = ShapesJson(imageState.map { it.toJsonData() })
                 val json = Gson().toJson(shapesJson)
                 val jsonFile = File(file.absoluteFile.toString() + ".json")
                 jsonFile.writeText(json.toString())

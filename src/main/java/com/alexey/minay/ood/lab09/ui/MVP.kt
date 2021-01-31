@@ -1,14 +1,14 @@
 package com.alexey.minay.ood.lab09.ui
 
 import com.alexey.minay.ood.lab09.domain.Point
-import com.alexey.minay.ood.lab09.domain.ResizePointCrossState
+import com.alexey.minay.ood.lab09.domain.Resizable
 import com.alexey.minay.ood.lab09.domain.style.Style
 import java.io.File
 
 interface MVP {
 
     interface ICanvasView {
-        fun updateCursor(cursorState: ResizePointCrossState)
+        fun updateCursor(cursorState: Resizable)
         fun updateColorPane(style: Style.Shape)
     }
 
