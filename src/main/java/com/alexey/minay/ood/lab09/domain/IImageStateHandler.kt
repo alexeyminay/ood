@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab09.domain
 
+import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.domain.shapes.Point
 import com.alexey.minay.ood.lab09.domain.style.Style
 

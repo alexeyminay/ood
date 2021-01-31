@@ -5,7 +5,7 @@ import com.alexey.minay.ood.lab09.domain.ICanvas
 import kotlin.math.pow
 
 class Ellipse(
-        override val frame: Frame,
+        override var frame: Frame,
         override var shapeStyle: Style.Shape
 ) : Shape(frame) {
 

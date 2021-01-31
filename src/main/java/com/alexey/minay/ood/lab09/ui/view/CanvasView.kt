@@ -1,8 +1,8 @@
 package com.alexey.minay.ood.lab09.ui.view
 
 import com.alexey.minay.ood.lab09.PresenterFactory
+import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.ResizableState
 import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.fxml.FXML
@@ -40,10 +40,6 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     private lateinit var mFilePresenter: MVP.IFileTabPresenter
     private val mFileChooser by lazy {
         FileChooser().apply {
-//            extensionFilters.addAll(
-//                    FileChooser.ExtensionFilter("JSON", ".json"),
-//                    FileChooser.ExtensionFilter("All files", ".")
-//            )
         }
     }
 
@@ -74,31 +70,37 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onDrawRectangle() {
-        mCanvasPresenter.onDrawNewRectangle(mCanvas.width,
-                mCanvas.height,
-                createStyle(mStrokePicker.value, mFillPicker.value))
+        mCanvasPresenter.onDrawNewRectangle(
+            mCanvas.width,
+            mCanvas.height,
+            createStyle(mStrokePicker.value, mFillPicker.value)
+        )
     }
 
     @FXML
     fun onDrawTriangle() {
-        mCanvasPresenter.onDrawNewTriangle(mCanvas.width,
-                mCanvas.height,
-                createStyle(mStrokePicker.value, mFillPicker.value))
+        mCanvasPresenter.onDrawNewTriangle(
+            mCanvas.width,
+            mCanvas.height,
+            createStyle(mStrokePicker.value, mFillPicker.value)
+        )
     }
 
     @FXML
     fun onDrawEllipse() {
-        mCanvasPresenter.onDrawNewEllipse(mCanvas.width,
-                mCanvas.height,
-                createStyle(mStrokePicker.value, mFillPicker.value))
+        mCanvasPresenter.onDrawNewEllipse(
+            mCanvas.width,
+            mCanvas.height,
+            createStyle(mStrokePicker.value, mFillPicker.value)
+        )
     }
 
     @FXML
     fun onMouseDragged(mouseEvent: MouseEvent) {
         mCanvasPresenter.onMoveShape(
-                newPosition = Point(mouseEvent.x, mouseEvent.y),
-                parentWidth = mCanvas.width,
-                parentHeight = mCanvas.height
+            newPosition = Point(mouseEvent.x, mouseEvent.y),
+            parentWidth = mCanvas.width,
+            parentHeight = mCanvas.height
         )
     }
 
@@ -169,6 +171,6 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     }
 
     private fun createStyle(strokeColor: Color, fillColor: Color) =
-            Style.Shape(strokeColor.asDomainColor(), fillColor.asDomainColor())
+        Style.Shape(strokeColor.asDomainColor(), fillColor.asDomainColor())
 
 }

@@ -5,7 +5,7 @@ import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.domain.ICanvas
 
 abstract class Shape(
-        override val frame: Frame
+        override var frame: Frame
 ) : IShape {
 
     override var isSelected: Boolean = true

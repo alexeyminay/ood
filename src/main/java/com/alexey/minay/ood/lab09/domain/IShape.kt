@@ -5,7 +5,7 @@ import com.alexey.minay.ood.lab09.domain.shapes.Point
 import com.alexey.minay.ood.lab09.domain.style.Style
 
 interface IShape {
-    val frame: Frame
+    var frame: Frame
     var isSelected: Boolean
     var shapeStyle: Style.Shape
     fun draw(canvasAdapter: ICanvas)

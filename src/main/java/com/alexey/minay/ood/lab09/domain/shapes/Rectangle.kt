@@ -4,7 +4,7 @@ import com.alexey.minay.ood.lab09.domain.style.Style
 import com.alexey.minay.ood.lab09.domain.ICanvas
 
 class Rectangle(
-        override val frame: Frame,
+        override var frame: Frame,
         override var shapeStyle: Style.Shape
 ) : Shape(frame) {
 

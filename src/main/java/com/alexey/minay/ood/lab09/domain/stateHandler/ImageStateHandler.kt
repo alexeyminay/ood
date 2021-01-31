@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab09.domain.stateHandler
 
+import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.domain.*
 import com.alexey.minay.ood.lab09.domain.shapes.Ellipse
 import com.alexey.minay.ood.lab09.domain.shapes.Point
@@ -15,6 +16,28 @@ class ImageStateHandler : IImageStateHandler {
         private set
     override var resizableState: ResizableState = ResizableState.NOT_RESIZE
     private var mPressedPoint: Point? = null
+
+
+
+
+
+    fun getShapeCount() = shapes.size
+
+    fun getShape(index: Int): IShape = shapes[index]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     override fun createImage(shapeType: ShapeType, parentWidth: Double, parentHeight: Double, style: Style.Shape) {
         shapes

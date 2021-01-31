@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab09.domain
+package com.alexey.minay.ood.lab09.application
 
 enum class ResizableState {
     NOT_RESIZE,

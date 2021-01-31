@@ -90,6 +90,12 @@
             <artifactId>kotlinx-coroutines-javafx</artifactId>
             <version>1.3.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>16-ea+6</version>
+        </dependency>
     </dependencies>
 
     <repositories>
