@@ -1,89 +1,88 @@
-//package com.alexey.minay.ood.lab09.ui.presenters
-//
-//import com.alexey.minay.ood.lab09.domain.ICanvasRepository
-//import com.alexey.minay.ood.lab09.domain.shapes.Point
-//import com.alexey.minay.ood.lab09.domain.RepositoryResult
-//import com.alexey.minay.ood.lab09.application.ShapeType
-//import com.alexey.minay.ood.lab09.ui.MVP
-//import com.alexey.minay.ood.lab09.domain.ICanvas
-//
-//class CanvasPresenter(
-//        private val canvasRepository: ICanvasRepository,
-//        private val canvasAdapter: ICanvas
-//) : MVP.ICanvasPresenter {
-//
-//    init {
-//        canvasRepository.subscribe(::handleRepositoryResult)
-//    }
-//
-//    private var mView: MVP.ICanvasView? = null
-//
-//    override fun onViewCreated(view: MVP.ICanvasView) {
-//        mView = view
-//    }
-//
-//    override fun onDrawNewRectangle(parentWidth: Double, parentHeight: Double) {
-//        canvasRepository.createNewShape(ShapeType.RECTANGLE, parentWidth, parentHeight)
-//    }
-//
-//    override fun onDrawNewTriangle(parentWidth: Double, parentHeight: Double) {
-//        canvasRepository.createNewShape(ShapeType.TRIANGLE, parentWidth, parentHeight)
-//    }
-//
-//    override fun onDrawNewEllipse(parentWidth: Double, parentHeight: Double) {
-//        canvasRepository.createNewShape(ShapeType.ELLIPSE, parentWidth, parentHeight)
-//    }
-//
-//    override fun onMoveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
-//        canvasRepository.moveShape(newPosition, parentWidth, parentHeight)
-//    }
-//
-//    override fun onMouseMoved(mousePosition: Point) {
-//        canvasRepository.updateCursor(mousePosition)
-//    }
-//
-//    override fun onMouseClicked(mousePosition: Point) {
-//        canvasRepository.updateShapesSelection(mousePosition)
-//    }
-//
-//    override fun onMousePressed(pressedPoint: Point) {
-//        canvasRepository.rememberPressedPoint(pressedPoint)
-//    }
-//
-//    override fun onDeleteShape() {
-//        canvasRepository.deleteSelectedShape()
-//    }
-//
-//    override fun onMouseReleased() {
-//        canvasRepository.deleteLastPressedState()
-//    }
-//
-//    override fun onStyleModified() {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun onRedo() {
-//        canvasRepository.onRedo()
-//    }
-//
-//    override fun onUndo() {
-//        canvasRepository.onUndo()
-//    }
-//
-//    private fun handleRepositoryResult(state: RepositoryResult) {
-////        when (state) {
-////            is RepositoryResult.ImageResult -> {
-////                canvasAdapter.clear()
-////                state.state.forEach { shape ->
-////                    shape.draw(canvasAdapter)
-////                    if (shape.isSelected) mView?.updateColorPane(shape.shapeStyle)
-////                }
-////            }
-////            is RepositoryResult.ResizableStateResult -> {
-////                mView?.updateCursor(state.state)
-////            }
-////        }
-//
-//    }
-//
-//}
+package com.alexey.minay.ood.lab09.ui.presenters
+
+import com.alexey.minay.ood.lab09.application.CanvasAppModel
+import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
+import com.alexey.minay.ood.lab09.application.ShapeType
+import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.ui.MVP
+import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
+
+class CanvasPresenter(
+    private val insertShapeUseCase: InsertShapeUseCase,
+    private val canvasAppModel: CanvasAppModel,
+    private val canvasAdapter: FxCanvasAdapter
+) : MVP.ICanvasPresenter {
+
+    private var mView: MVP.ICanvasView? = null
+
+    override fun onViewCreated(view: MVP.ICanvasView) {
+        mView = view
+        canvasAppModel.shapesObservable.subscribe {
+            canvasAdapter.clear()
+            it.forEach { shape ->
+                shape.shape.draw(canvasAdapter)
+            }
+        }
+    }
+
+    override fun onDrawNewRectangle(parentWidth: Double, parentHeight: Double) {
+        insertShapeUseCase(
+            shapeType = ShapeType.RECTANGLE,
+            insertWidth = parentWidth,
+            insetHeight = parentHeight
+        )
+    }
+
+    override fun onDrawNewTriangle(parentWidth: Double, parentHeight: Double) {
+        insertShapeUseCase(
+            shapeType = ShapeType.TRIANGLE,
+            insertWidth = parentWidth,
+            insetHeight = parentHeight
+        )
+    }
+
+    override fun onDrawNewEllipse(parentWidth: Double, parentHeight: Double) {
+        insertShapeUseCase(
+            shapeType = ShapeType.ELLIPSE,
+            insertWidth = parentWidth,
+            insetHeight = parentHeight
+        )
+    }
+
+    override fun onMoveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMouseMoved(mousePosition: Point) {
+
+    }
+
+    override fun onMouseClicked(mousePosition: Point) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMousePressed(pressedPoint: Point) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDeleteShape() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMouseReleased() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onStyleModified() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onUndo() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRedo() {
+        TODO("Not yet implemented")
+    }
+
+}

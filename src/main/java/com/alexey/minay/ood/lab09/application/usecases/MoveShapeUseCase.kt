@@ -1,5 +1,8 @@
-package com.alexey.minay.ood.lab09.application
+package com.alexey.minay.ood.lab09.application.usecases
 
+import com.alexey.minay.ood.lab09.application.CommandHistory
+import com.alexey.minay.ood.lab09.application.ResizableState
+import com.alexey.minay.ood.lab09.application.ShapeAppModel
 import com.alexey.minay.ood.lab09.application.commands.ChangeFrameCommand
 import com.alexey.minay.ood.lab09.domain.IShape
 import com.alexey.minay.ood.lab09.domain.shapes.Frame

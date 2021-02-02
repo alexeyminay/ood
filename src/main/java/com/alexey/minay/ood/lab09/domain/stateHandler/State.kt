@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.util.*
 import kotlin.math.pow
 
-class ImageStateHandler : IImageStateHandler {
+class State : IImageStateHandler {
 
     override var shapes = mutableListOf<IShape>()
         private set

@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab09.domain.repository
 
+import com.alexey.minay.ood.lab09.application.IFileHelper
 import com.alexey.minay.ood.lab09.application.ShapeType
 import com.alexey.minay.ood.lab09.domain.*
 import com.alexey.minay.ood.lab09.domain.shapes.Point

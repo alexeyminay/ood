@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab09.ui.view
+package com.alexey.minay.ood.lab09.ui
 
 import com.alexey.minay.ood.lab09.domain.ICanvas
 import com.alexey.minay.ood.lab09.domain.shapes.Point

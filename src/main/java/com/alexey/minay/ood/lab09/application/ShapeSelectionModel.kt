@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab09.application
 
+import com.alexey.minay.ood.lab09.application.usecases.MoveShapeUseCase
+
 class ShapeSelectionModel(
     private val history: CommandHistory
 ) {

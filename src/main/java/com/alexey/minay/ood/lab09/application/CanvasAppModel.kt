@@ -1,13 +1,11 @@
 package com.alexey.minay.ood.lab09.application
 
+import com.alexey.minay.ood.lab09.domain.Document
 import com.alexey.minay.ood.lab09.domain.IShape
-import com.alexey.minay.ood.lab09.domain.stateHandler.ImageStateHandler
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class CanvasAppModel(
-    private val stateHandler: ImageStateHandler
+    private val stateHandler: Document
 ) {
 
     val shapesObservable: Observable<List<ShapeAppModel>>

@@ -1,5 +1,6 @@
-package com.alexey.minay.ood.lab09.domain
+package com.alexey.minay.ood.lab09.application
 
+import com.alexey.minay.ood.lab09.domain.IShape
 import java.io.File
 
 interface IFileHelper {
