@@ -3,7 +3,7 @@ package com.alexey.minay.ood.lab09.domain.repository
 import com.alexey.minay.ood.lab09.application.IFileHelper
 import com.alexey.minay.ood.lab09.application.ShapeType
 import com.alexey.minay.ood.lab09.domain.*
-import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import java.io.File
 
 class Repository(
@@ -24,23 +24,23 @@ class Repository(
         mOnNext(RepositoryResult.ImageResult(imageStateHandler.shapes))
     }
 
-    override fun updateCursor(mousePosition: Point) {
+    override fun updateCursor(mousePosition: AppPoint) {
         imageStateHandler.updateCursor(mousePosition)
         mOnNext(RepositoryResult.ResizableStateResult(imageStateHandler.resizableState))
     }
 
-    override fun updateShapesSelection(mousePosition: Point) {
+    override fun updateShapesSelection(mousePosition: AppPoint) {
         imageStateMemento.saveState()
         imageStateHandler.updateShapesSelection(mousePosition)
         mOnNext(RepositoryResult.ImageResult(imageStateHandler.shapes))
     }
 
-    override fun rememberPressedPoint(pressedPoint: Point) {
+    override fun rememberPressedPoint(pressedPoint: AppPoint) {
         imageStateMemento.saveState()
         imageStateHandler.rememberPressedPoint(pressedPoint)
     }
 
-    override fun moveShape(newCenterPosition: Point, parentWidth: Double, parentHeight: Double) {
+    override fun moveShape(newCenterPosition: AppPoint, parentWidth: Double, parentHeight: Double) {
         imageStateHandler.moveShape(newCenterPosition, parentWidth, parentHeight)
         mOnNext(RepositoryResult.ImageResult(imageStateHandler.shapes))
     }

@@ -3,9 +3,9 @@ package com.alexey.minay.ood.lab09.domain.stateHandler
 import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.application.ShapeType
 import com.alexey.minay.ood.lab09.domain.IImageStateHandler
-import com.alexey.minay.ood.lab09.domain.IShape
+import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.domain.IStateMemento
-import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.util.*
@@ -13,25 +13,25 @@ import kotlin.math.pow
 
 class State : IImageStateHandler {
 
-    override var shapes = mutableListOf<IShape>()
+    override var shapes = mutableListOf<IAppShape>()
         private set
     override var resizableState: ResizableState = ResizableState.NOT_RESIZE
-    private var mPressedPoint: Point? = null
+    private var mPressedPoint: AppPoint? = null
 
     //
     //
     //
 
-    val state: Observable<MutableList<IShape>>
+    val state: Observable<MutableList<IAppShape>>
         get() = mState
-    private val mState = BehaviorSubject.createDefault(mutableListOf<IShape>())
+    private val mState = BehaviorSubject.createDefault(mutableListOf<IAppShape>())
 
 
     fun getShapeCount() = mState.value.size
 
-    fun getShape(index: Int): IShape = mState.value[index]
+    fun getShape(index: Int): IAppShape = mState.value[index]
 
-    fun insertShapeAt(index: Int, shape: IShape) {
+    fun insertShapeAt(index: Int, shape: IAppShape) {
         mState.onNext(mState.value.apply { add(index, shape) })
     }
 
@@ -60,7 +60,7 @@ class State : IImageStateHandler {
         TODO()
     }
 
-    override fun updateShapesSelection(mousePosition: Point) {
+    override fun updateShapesSelection(mousePosition: AppPoint) {
         var isSelected = false
         shapes
             .asReversed()
@@ -74,7 +74,7 @@ class State : IImageStateHandler {
             }
     }
 
-    override fun rememberPressedPoint(pressesPoint: Point) {
+    override fun rememberPressedPoint(pressesPoint: AppPoint) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         if (shape.isIncluding(pressesPoint)) {
             mPressedPoint = pressesPoint
@@ -86,7 +86,7 @@ class State : IImageStateHandler {
         shapes.remove(shape)
     }
 
-    override fun updateCursor(mousePosition: Point) {
+    override fun updateCursor(mousePosition: AppPoint) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
 
         resizableState = when {
@@ -107,7 +107,7 @@ class State : IImageStateHandler {
 //        val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
 //    }
 
-    override fun moveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
+    override fun moveShape(newPosition: AppPoint, parentWidth: Double, parentHeight: Double) {
         val shape = shapes.asReversed().firstOrNull { it.isSelected } ?: return
         if (mPressedPoint == null) {
             mPressedPoint = newPosition
@@ -139,44 +139,44 @@ class State : IImageStateHandler {
             newLeftTopY = 0.0 + offset
             newRightBottomY = shapeHeight + offset
         }
-        shape.frame.leftTop = Point(newLeftTopX, newLeftTopY)
-        shape.frame.rightBottom = Point(newRightBottomX, newRightBottomY)
+        shape.frame.leftTop = AppPoint(newLeftTopX, newLeftTopY)
+        shape.frame.rightBottom = AppPoint(newRightBottomX, newRightBottomY)
         mPressedPoint = newPosition
     }
 
-    override fun reloadImage(shapes: List<IShape>) {
+    override fun reloadImage(shapes: List<IAppShape>) {
         this.shapes = shapes.toMutableList()
     }
 
-    private fun IShape.calculateNewLeftTopX(differenceX: Double) =
+    private fun IAppShape.calculateNewLeftTopX(differenceX: Double) =
         when (resizableState) {
             ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.x
             ResizableState.RIGHT_TOP_RESIZE -> frame.leftTop.x
             else -> frame.leftTop.x - differenceX
         }
 
-    private fun IShape.calculateNewLeftTopY(differenceY: Double) =
+    private fun IAppShape.calculateNewLeftTopY(differenceY: Double) =
         when (resizableState) {
             ResizableState.RIGHT_BOTTOM_RESIZE -> frame.leftTop.y
             ResizableState.LEFT_BOTTOM_RESIZE -> frame.leftTop.y
             else -> frame.leftTop.y - differenceY
         }
 
-    private fun IShape.calculateNewRightBottomX(differenceX: Double) =
+    private fun IAppShape.calculateNewRightBottomX(differenceX: Double) =
         when (resizableState) {
             ResizableState.LEFT_BOTTOM_RESIZE -> frame.rightBottom.x
             ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.x
             else -> frame.rightBottom.x - differenceX
         }
 
-    private fun IShape.calculateNewRightBottomY(differenceY: Double) =
+    private fun IAppShape.calculateNewRightBottomY(differenceY: Double) =
         when (resizableState) {
             ResizableState.LEFT_TOP_RESIZE -> frame.rightBottom.y
             ResizableState.RIGHT_TOP_RESIZE -> frame.rightBottom.y
             else -> frame.rightBottom.y - differenceY
         }
 
-    private fun Point.isCross(point: Point): Boolean {
+    private fun AppPoint.isCross(point: AppPoint): Boolean {
         val resizeChangePositionRadius = 3.0
         return (x - point.x).pow(2) +
                 (y - point.y).pow(2) <= resizeChangePositionRadius.pow(2)
@@ -220,7 +220,7 @@ class State : IImageStateHandler {
         }
 
         private fun saveState(state: ArrayDeque<ImageStateSnapshot>) {
-            val snapshotShapes = mutableListOf<IShape>()
+            val snapshotShapes = mutableListOf<IAppShape>()
             var hasChanges = false
             if (shapes.size != state.firstOrNull()?.shapes?.size) hasChanges = true
             shapes.forEachIndexed { index, shape ->
@@ -247,7 +247,7 @@ class State : IImageStateHandler {
             }
         }
 
-        private fun IShape.copy(): IShape {
+        private fun IAppShape.copy(): IAppShape {
             TODO()
         }
 //            when (this) {

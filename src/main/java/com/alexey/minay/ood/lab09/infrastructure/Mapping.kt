@@ -1,14 +1,15 @@
 package com.alexey.minay.ood.lab09.infrastructure
 
-import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.shapes.*
-import com.alexey.minay.ood.lab09.domain.IShape
+import com.alexey.minay.ood.lab09.application.common.AppFrame
+import com.alexey.minay.ood.lab09.application.common.AppPoint
+import com.alexey.minay.ood.lab09.application.shapes.*
+import com.alexey.minay.ood.lab09.application.IAppShape
 
 private const val TRIANGLE = "triangle"
 private const val RECTANGLE = "rectangle"
 private const val ELLIPSE = "ellipse"
 
-fun IShape.toJsonData(): ShapeJson {
+fun IAppShape.toJsonData(): ShapeJson {
     val type = when (this) {
         is Triangle -> TRIANGLE
         is Rectangle -> RECTANGLE
@@ -21,7 +22,7 @@ fun IShape.toJsonData(): ShapeJson {
     )
 }
 
-private fun Frame.toJsonData(): FrameJson =
+private fun AppFrame.toJsonData(): FrameJson =
         FrameJson(
                 PointJson(
                         x = leftTop.x,
@@ -32,7 +33,7 @@ private fun Frame.toJsonData(): FrameJson =
         )
 
 fun ShapesJson.toDomainData() =
-        mutableListOf<IShape>().apply {
+        mutableListOf<IAppShape>().apply {
             shapes.forEach { shapeJson ->
                 val shape = when (shapeJson.type) {
                     RECTANGLE -> Rectangle(
@@ -51,10 +52,10 @@ fun ShapesJson.toDomainData() =
         }
 
 private fun FrameJson.toDomainData() =
-        Frame(
+        AppFrame(
                 leftTop = leftTop.toDomainJson(),
                 rightBottom = rightBottom.toDomainJson()
         )
 
 private fun PointJson.toDomainJson() =
-        Point(x, y)
+        AppPoint(x, y)

@@ -1,17 +1,17 @@
 package com.alexey.minay.ood.lab09.application.commands
 
-import com.alexey.minay.ood.lab09.application.CanvasAppModel
+import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.ICommand
 import com.alexey.minay.ood.lab09.application.ShapeType
-import com.alexey.minay.ood.lab09.domain.shapes.Ellipse
-import com.alexey.minay.ood.lab09.domain.shapes.Point
-import com.alexey.minay.ood.lab09.domain.shapes.Rectangle
-import com.alexey.minay.ood.lab09.domain.shapes.Triangle
+import com.alexey.minay.ood.lab09.application.shapes.Ellipse
+import com.alexey.minay.ood.lab09.application.common.AppPoint
+import com.alexey.minay.ood.lab09.application.shapes.Rectangle
+import com.alexey.minay.ood.lab09.application.shapes.Triangle
 
 class InsertShapeCommand(
-    private val model: CanvasAppModel,
+    private val model: ApplicationDocument,
     private val shapeType: ShapeType,
-    private val insertPoint: Point,
+    private val insertPoint: AppPoint,
 ) : ICommand {
 
     override fun execute() {

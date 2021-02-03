@@ -1,13 +1,15 @@
-package com.alexey.minay.ood.lab09.domain.shapes
+package com.alexey.minay.ood.lab09.application.shapes
 
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.domain.ICanvas
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.pow
 
 class Ellipse(
-    override var frame: Frame
-) : Shape(frame) {
+    override var frame: AppFrame
+) : DrawableFrame(frame) {
 
-    private val leftTop: Point
+    private val leftTop: AppPoint
         get() = frame.leftTop
     private val horizontalDiameter: Double
         get() = frame.rightTop.x - frame.leftTop.x
@@ -20,7 +22,7 @@ class Ellipse(
         super.draw(canvasAdapter)
     }
 
-    override fun isIncluding(point: Point) =
+    override fun isIncluding(point: AppPoint) =
         when (isSelected) {
             true -> super.isIncluding(point)
             false -> (point.x - frame.center.x).pow(2) +
@@ -29,13 +31,13 @@ class Ellipse(
 
     companion object {
 
-        fun createDefault(position: Point) = Ellipse(
-            frame = Frame(
-                leftTop = Point(
+        fun createDefault(position: AppPoint) = Ellipse(
+            frame = AppFrame(
+                leftTop = AppPoint(
                     x = position.x - 50,
                     y = position.y - 50
                 ),
-                rightBottom = Point(
+                rightBottom = AppPoint(
                     x = position.x + 50,
                     y = position.y + 50
                 )

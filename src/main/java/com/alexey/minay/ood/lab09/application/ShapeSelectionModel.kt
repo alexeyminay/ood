@@ -6,13 +6,13 @@ class ShapeSelectionModel(
     private val history: CommandHistory
 ) {
 
-    private val mSelectedShapes = mutableListOf<ShapeAppModel>()
+    private val mSelectedShapes = mutableListOf<IAppShape>()
 
-    fun getSelectedShapes(): List<ShapeAppModel> {
+    fun getSelectedShapes(): List<IAppShape> {
         TODO()
     }
 
-    fun setSelectedShapes(shapes: List<ShapeAppModel>) {
+    fun setSelectedShapes(shapes: List<IAppShape>) {
         TODO()
     }
 

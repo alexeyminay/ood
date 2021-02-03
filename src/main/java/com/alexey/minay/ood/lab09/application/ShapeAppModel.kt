@@ -1,13 +1,12 @@
 package com.alexey.minay.ood.lab09.application
 
-import com.alexey.minay.ood.lab09.domain.IShape
-import com.alexey.minay.ood.lab09.domain.shapes.Frame
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 
 class ShapeAppModel(
-    val shape: IShape
+    val shape: IAppShape
 ) {
 
-    val frame: Frame
+    val frame: AppFrame
         get() = shape.frame
 
 }

@@ -1,15 +1,12 @@
 package com.alexey.minay.ood.lab09.ui.presenters
 
-import com.alexey.minay.ood.lab09.application.CanvasAppModel
-import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
-import com.alexey.minay.ood.lab09.application.ShapeType
-import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.application.ApplicationDocument
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.ui.MVP
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
 
 class CanvasPresenter(
-    private val insertShapeUseCase: InsertShapeUseCase,
-    private val canvasAppModel: CanvasAppModel,
+    private val canvasAppModel: ApplicationDocument,
     private val canvasAdapter: FxCanvasAdapter
 ) : MVP.ICanvasPresenter {
 
@@ -25,43 +22,20 @@ class CanvasPresenter(
         }
     }
 
-    override fun onDrawNewRectangle(parentWidth: Double, parentHeight: Double) {
-        insertShapeUseCase(
-            shapeType = ShapeType.RECTANGLE,
-            insertWidth = parentWidth,
-            insetHeight = parentHeight
-        )
-    }
 
-    override fun onDrawNewTriangle(parentWidth: Double, parentHeight: Double) {
-        insertShapeUseCase(
-            shapeType = ShapeType.TRIANGLE,
-            insertWidth = parentWidth,
-            insetHeight = parentHeight
-        )
-    }
-
-    override fun onDrawNewEllipse(parentWidth: Double, parentHeight: Double) {
-        insertShapeUseCase(
-            shapeType = ShapeType.ELLIPSE,
-            insertWidth = parentWidth,
-            insetHeight = parentHeight
-        )
-    }
-
-    override fun onMoveShape(newPosition: Point, parentWidth: Double, parentHeight: Double) {
+    override fun onMoveShape(newPosition: AppPoint, parentWidth: Double, parentHeight: Double) {
         TODO("Not yet implemented")
     }
 
-    override fun onMouseMoved(mousePosition: Point) {
+    override fun onMouseMoved(mousePosition: AppPoint) {
 
     }
 
-    override fun onMouseClicked(mousePosition: Point) {
+    override fun onMouseClicked(mousePosition: AppPoint) {
         TODO("Not yet implemented")
     }
 
-    override fun onMousePressed(pressedPoint: Point) {
+    override fun onMousePressed(pressedPoint: AppPoint) {
         TODO("Not yet implemented")
     }
 

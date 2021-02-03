@@ -1,10 +1,12 @@
-package com.alexey.minay.ood.lab09.domain.shapes
+package com.alexey.minay.ood.lab09.application.shapes
 
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.domain.ICanvas
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 
 class Rectangle(
-    override var frame: Frame,
-) : Shape(frame) {
+    override var frame: AppFrame,
+) : DrawableFrame(frame) {
 
     private val mListX: List<Double>
         get() = listOf(frame.leftBottom.x, frame.rightBottom.x, frame.rightTop.x, frame.leftTop.x)
@@ -22,13 +24,13 @@ class Rectangle(
 
     companion object {
 
-        fun createDefault(position: Point) = Rectangle(
-            frame = Frame(
-                leftTop = Point(
+        fun createDefault(position: AppPoint) = Rectangle(
+            frame = AppFrame(
+                leftTop = AppPoint(
                     x = position.x - 50,
                     y = position.y - 50
                 ),
-                rightBottom = Point(
+                rightBottom = AppPoint(
                     x = position.x + 50,
                     y = position.y + 50
                 )

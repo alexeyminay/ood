@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab09.ui.view
 
 import com.alexey.minay.ood.lab09.PresenterFactory
 import com.alexey.minay.ood.lab09.application.ResizableState
-import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
@@ -37,6 +37,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     private lateinit var mCanvasPresenter: MVP.ICanvasPresenter
     private lateinit var mFilePresenter: MVP.IFileTabPresenter
+    private lateinit var mHomeTabPresenter: MVP.IHomeTabPresenter
     private val mFileChooser by lazy {
         FileChooser().apply {
         }
@@ -45,6 +46,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         mCanvasPresenter = PresenterFactory.createCanvasPresenterFor(this)
         mFilePresenter = PresenterFactory.createFilePresenterFor(this)
+        mHomeTabPresenter = PresenterFactory.createHomeTabPresenter(this)
         mStrokePicker.value = Color.CADETBLUE
         mFillPicker.value = Color.BISQUE
         mTabPane.selectionModel.selectLast()
@@ -63,7 +65,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onDrawRectangle() {
-        mCanvasPresenter.onDrawNewRectangle(
+        mHomeTabPresenter.onDrawNewRectangle(
             mCanvas.width,
             mCanvas.height
         )
@@ -71,7 +73,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onDrawTriangle() {
-        mCanvasPresenter.onDrawNewTriangle(
+        mHomeTabPresenter.onDrawNewTriangle(
             mCanvas.width,
             mCanvas.height
         )
@@ -79,7 +81,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onDrawEllipse() {
-        mCanvasPresenter.onDrawNewEllipse(
+        mHomeTabPresenter.onDrawNewEllipse(
             mCanvas.width,
             mCanvas.height
         )
@@ -88,7 +90,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     @FXML
     fun onMouseDragged(mouseEvent: MouseEvent) {
         mCanvasPresenter.onMoveShape(
-            newPosition = Point(mouseEvent.x, mouseEvent.y),
+            newPosition = AppPoint(mouseEvent.x, mouseEvent.y),
             parentWidth = mCanvas.width,
             parentHeight = mCanvas.height
         )
@@ -96,17 +98,17 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onMouseMoved(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMouseMoved(Point(mouseEvent.x, mouseEvent.y))
+        mCanvasPresenter.onMouseMoved(AppPoint(mouseEvent.x, mouseEvent.y))
     }
 
     @FXML
     fun onMouseClicked(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMouseClicked(Point(mouseEvent.x, mouseEvent.y))
+        mCanvasPresenter.onMouseClicked(AppPoint(mouseEvent.x, mouseEvent.y))
     }
 
     @FXML
     fun onMousePressed(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMousePressed(Point(mouseEvent.x, mouseEvent.y))
+        mCanvasPresenter.onMousePressed(AppPoint(mouseEvent.x, mouseEvent.y))
     }
 
     @FXML

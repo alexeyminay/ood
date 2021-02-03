@@ -3,12 +3,12 @@ package com.alexey.minay.ood.lab09.application.usecases
 import com.alexey.minay.ood.lab09.application.CommandHistory
 import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.application.commands.ChangeFrameCommand
-import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.application.common.AppFrame
+import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.pow
 
-class MoveShapeUseCase(
+class ResizeShapeUseCase(
     private val shapes: List<IAppShape>,
     private val history: CommandHistory
 ) {
