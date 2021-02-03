@@ -1,23 +1,20 @@
 package com.alexey.minay.ood.lab09.application
 
-import com.alexey.minay.ood.lab09.application.usecases.MoveShapeUseCase
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class ShapeSelectionModel(
-    private val history: CommandHistory
-) {
+class ShapeSelectionModel {
 
-    private val mSelectedShapes = mutableListOf<IAppShape>()
+    val selectedShapes: Observable<List<DrawableFrame>>
+        get() = mSelectedShapes
+    private val mSelectedShapes = BehaviorSubject.create<List<DrawableFrame>>()
 
-    fun getSelectedShapes(): List<IAppShape> {
-        TODO()
+    fun setSelection(selections: List<DrawableFrame>) {
+        mSelectedShapes.onNext(selections)
     }
 
-    fun setSelectedShapes(shapes: List<IAppShape>) {
-        TODO()
-    }
-
-    fun createMoveShapeUseCase(): MoveShapeUseCase {
-        return MoveShapeUseCase(mSelectedShapes, history)
+    fun clearSelection() {
+        mSelectedShapes.onNext(emptyList())
     }
 
 }

@@ -2,8 +2,8 @@ package com.alexey.minay.ood.lab09.ui.presenters
 
 import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.common.AppPoint
-import com.alexey.minay.ood.lab09.ui.MVP
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
+import com.alexey.minay.ood.lab09.ui.MVP
 
 class CanvasPresenter(
     private val canvasAppModel: ApplicationDocument,
@@ -17,7 +17,7 @@ class CanvasPresenter(
         canvasAppModel.shapesObservable.subscribe {
             canvasAdapter.clear()
             it.forEach { shape ->
-                shape.shape.draw(canvasAdapter)
+                shape.draw(canvasAdapter)
             }
         }
     }

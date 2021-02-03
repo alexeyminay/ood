@@ -11,24 +11,24 @@ class HomeTabPresenter(
     override fun onDrawNewRectangle(parentWidth: Double, parentHeight: Double) {
         insertShapeUseCase(
             shapeType = ShapeType.RECTANGLE,
-            insertWidth = parentWidth,
-            insetHeight = parentHeight
+            parentWidth = parentWidth,
+            parentHeight = parentHeight
         )
     }
 
     override fun onDrawNewTriangle(parentWidth: Double, parentHeight: Double) {
         insertShapeUseCase(
             shapeType = ShapeType.TRIANGLE,
-            insertWidth = parentWidth,
-            insetHeight = parentHeight
+            parentWidth = parentWidth,
+            parentHeight = parentHeight
         )
     }
 
     override fun onDrawNewEllipse(parentWidth: Double, parentHeight: Double) {
         insertShapeUseCase(
             shapeType = ShapeType.ELLIPSE,
-            insertWidth = parentWidth,
-            insetHeight = parentHeight
+            parentWidth = parentWidth,
+            parentHeight = parentHeight
         )
     }
 

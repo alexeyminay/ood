@@ -1,17 +1,22 @@
 package com.alexey.minay.ood.lab09.application.commands
 
+import com.alexey.minay.ood.lab09.application.DrawableFrame
 import com.alexey.minay.ood.lab09.application.ICommand
-import com.alexey.minay.ood.lab09.application.IAppShape
+import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 
 class SelectShapeCommand(
-    private val shape: IAppShape
-): ICommand {
+    private val frames: List<AppFrame>,
+    private val shapeSelectionModel: ShapeSelectionModel
+) : ICommand {
 
     override fun execute() {
-        shape.isSelected = true
+        val drawableFrames = frames.map(::DrawableFrame)
+        shapeSelectionModel.setSelection(drawableFrames)
     }
 
     override fun unexecute() {
-        shape.isSelected = false
+        shapeSelectionModel.clearSelection()
     }
+
 }

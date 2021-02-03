@@ -1,13 +1,15 @@
 package com.alexey.minay.ood.lab09.application.shapes
 
+import com.alexey.minay.ood.lab09.application.IAppShape
+import com.alexey.minay.ood.lab09.application.ICanvas
+import com.alexey.minay.ood.lab09.application.Style
 import com.alexey.minay.ood.lab09.application.common.AppFrame
-import com.alexey.minay.ood.lab09.domain.ICanvas
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.pow
 
 class Ellipse(
     override var frame: AppFrame
-) : DrawableFrame(frame) {
+) : IAppShape {
 
     private val leftTop: AppPoint
         get() = frame.leftTop
@@ -16,18 +18,15 @@ class Ellipse(
     private val verticalDiameter: Double
         get() = frame.rightBottom.y - frame.rightTop.y
 
-    override fun draw(canvasAdapter: ICanvas) {
-        canvasAdapter.fillEllipse(leftTop, horizontalDiameter, verticalDiameter)
-        canvasAdapter.drawEllipse(leftTop, horizontalDiameter, verticalDiameter)
-        super.draw(canvasAdapter)
+    override fun draw(canvasAdapter: ICanvas) = with(canvasAdapter) {
+        setStyle(Style.SHAPE)
+        fillEllipse(leftTop, horizontalDiameter, verticalDiameter)
+        drawEllipse(leftTop, horizontalDiameter, verticalDiameter)
     }
 
     override fun isIncluding(point: AppPoint) =
-        when (isSelected) {
-            true -> super.isIncluding(point)
-            false -> (point.x - frame.center.x).pow(2) +
-                    (point.y - frame.center.y).pow(2) <= (verticalDiameter / 2).pow(2)
-        }
+        (point.x - frame.center.x).pow(2) +
+                (point.y - frame.center.y).pow(2) <= (verticalDiameter / 2).pow(2)
 
     companion object {
 
