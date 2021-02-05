@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab09.application
 
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.domain.Document
 import com.alexey.minay.ood.lab09.domain.domainshapes.Shape
 import io.reactivex.rxjava3.core.Observable
@@ -9,6 +10,9 @@ class ApplicationDocument(
     private val document: Document,
     private val selectionModel: ShapeSelectionModel
 ) {
+
+    val shapeCount: Int
+        get() = document.getShapeCount()
 
     val shapesObservable: Observable<List<IDrawable>>
         get() = Observable.combineLatest(
@@ -20,16 +24,13 @@ class ApplicationDocument(
             }
         )
 
-    private val mAppShapesState = BehaviorSubject.create<List<IAppShape>>()
+    private val mAppShapesState = BehaviorSubject.createDefault<List<IAppShape>>(mutableListOf())
 
     init {
         document.subscribe { mAppShapesState.onNext(it.map(Shape::asAppShape)) }
     }
 
-    val shapeCount: Int
-        get() = document.getShapeCount()
-
-    fun getShape(index: Int) = document.getShape(index).asAppShape()
+    fun getShapeContains(point: AppPoint) = mAppShapesState.value.findLast { it.isIncluding(point) }
 
     fun insertShapeAt(index: Int, shape: IAppShape) {
         document.insertShapeAt(index, shape.asDomainShape())

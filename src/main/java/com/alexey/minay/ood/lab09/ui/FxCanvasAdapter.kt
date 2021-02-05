@@ -14,12 +14,13 @@ class FxCanvasAdapter(
         when (style) {
             Style.SHAPE -> {
                 graphicsContext.lineWidth = 2.0
-                graphicsContext.stroke = Color.AQUAMARINE
-                graphicsContext.fill = Color.ANTIQUEWHITE
+                graphicsContext.stroke = Color.web("#07575b")
+                graphicsContext.fill = Color.web("#ffe4c4")
             }
             Style.FRAME -> {
                 graphicsContext.lineWidth = 1.0
-                graphicsContext.stroke = Color.BLUE
+                graphicsContext.stroke = Color.web("#66a5ad")
+                graphicsContext.fill = Color.web("#ffffff")
             }
         }
     }

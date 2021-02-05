@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab09.application.commands
 
-import com.alexey.minay.ood.lab09.application.DrawableFrame
 import com.alexey.minay.ood.lab09.application.ICommand
 import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
 import com.alexey.minay.ood.lab09.application.common.AppFrame
@@ -11,8 +10,7 @@ class SelectShapeCommand(
 ) : ICommand {
 
     override fun execute() {
-        val drawableFrames = frames.map(::DrawableFrame)
-        shapeSelectionModel.setSelection(drawableFrames)
+        shapeSelectionModel.setSelection(frames)
     }
 
     override fun unexecute() {

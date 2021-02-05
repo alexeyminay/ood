@@ -7,6 +7,7 @@ import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Cursor
+import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.ColorPicker
@@ -14,8 +15,11 @@ import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
+import javafx.scene.layout.StackPane
+import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.stage.FileChooser
+import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 
@@ -89,7 +93,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onMouseDragged(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMoveShape(
+        mCanvasPresenter.onMouseDragged(
             newPosition = AppPoint(mouseEvent.x, mouseEvent.y),
             parentWidth = mCanvas.width,
             parentHeight = mCanvas.height
@@ -103,7 +107,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onMouseClicked(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMouseClicked(AppPoint(mouseEvent.x, mouseEvent.y))
+        mCanvasPresenter.onMouseClicked(mouseEvent.x, mouseEvent.y)
     }
 
     @FXML
@@ -151,6 +155,20 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     fun onSaveAsButtonClicked() {
         val file = mFileChooser.showSaveDialog(mCanvas.scene.window) ?: return
         mFilePresenter.onSave(file)
+    }
+
+    @FXML
+    fun onOpenNewWindow(mouseEvent: MouseEvent) {
+        val layout = StackPane()
+        val stage = Stage()
+        val canvas = Canvas(800.0, 600.0)
+        val graphicsContext = canvas.graphicsContext2D
+        layout.children.add(canvas)
+        val scene = Scene(layout, 800.0, 600.0)
+        stage.isResizable = false
+        stage.scene = scene
+        stage.show()
+        val presenter = PresenterFactory.createCanvasPresenterFor(this, graphicsContext)
     }
 
 }

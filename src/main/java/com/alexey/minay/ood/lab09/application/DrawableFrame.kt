@@ -26,15 +26,10 @@ class DrawableFrame(
     }
 
     private fun drawResizeElement(canvasAdapter: ICanvas, center: AppPoint) = with(canvasAdapter) {
-        val halfResizeElementWidth = 1
-        val leftTop = AppPoint(center.x - halfResizeElementWidth, center.y - halfResizeElementWidth)
-        val rightTop = AppPoint(center.x + halfResizeElementWidth, center.y - halfResizeElementWidth)
-        val rightBottom = AppPoint(center.x + halfResizeElementWidth, center.y + halfResizeElementWidth)
-        val leftBottom = AppPoint(center.x - halfResizeElementWidth, center.y + halfResizeElementWidth)
-        drawLine(leftTop, rightTop)
-        drawLine(rightTop, rightBottom)
-        drawLine(rightBottom, leftBottom)
-        drawLine(leftBottom, leftTop)
+        val resizeElementWidth = 6.0
+        val leftTop = AppPoint(center.x - resizeElementWidth / 2, center.y - resizeElementWidth / 2)
+        drawEllipse(leftTop, resizeElementWidth, resizeElementWidth)
+        fillEllipse(leftTop, resizeElementWidth, resizeElementWidth)
     }
 
 }

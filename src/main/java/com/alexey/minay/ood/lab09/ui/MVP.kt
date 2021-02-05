@@ -12,9 +12,9 @@ interface MVP {
 
     interface ICanvasPresenter {
         fun onViewCreated(view: ICanvasView)
-        fun onMoveShape(newPosition: AppPoint, parentWidth: Double, parentHeight: Double)
+        fun onMouseDragged(newPosition: AppPoint, parentWidth: Double, parentHeight: Double)
         fun onMouseMoved(mousePosition: AppPoint)
-        fun onMouseClicked(mousePosition: AppPoint)
+        fun onMouseClicked(x: Double, y: Double)
         fun onMousePressed(pressedPoint: AppPoint)
         fun onDeleteShape()
         fun onMouseReleased()

@@ -11,7 +11,7 @@ import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 
 class InsertShapeUseCase(
-    private val canvasAppModel: ApplicationDocument,
+    private val document: ApplicationDocument,
     private val history: CommandHistory,
     private val shapeSelectionModel: ShapeSelectionModel
 ) {
@@ -21,21 +21,31 @@ class InsertShapeUseCase(
         parentWidth: Double,
         parentHeight: Double
     ) {
+        val frame = AppFrame(
+            leftTop = AppPoint(parentWidth / 2 - FRAME_HALF_SIZE, parentHeight / 2 - FRAME_HALF_SIZE),
+            rightBottom = AppPoint(parentWidth / 2 + FRAME_HALF_SIZE, parentHeight / 2 + FRAME_HALF_SIZE)
+        )
         val insertCommand = InsertShapeCommand(
-            model = canvasAppModel,
+            model = document,
             shapeType = shapeType,
-            insertPoint = AppPoint(parentWidth / 2, parentHeight / 2)
+            frame = frame
         )
         history.addAnExecute(
             command = SelectMacroCommand(
                 targetCommand = insertCommand,
                 selectShapeCommand =
                 SelectShapeCommand(
-                    mutableListOf(AppFrame(AppPoint(20.0, 30.0), AppPoint(100.0, 100.0))),
+                    mutableListOf(frame),
                     shapeSelectionModel
                 )
             )
         )
+    }
+
+    companion object {
+
+        private const val FRAME_HALF_SIZE = 50
+
     }
 
 }

@@ -5,7 +5,8 @@ import com.alexey.minay.ood.lab09.domain.domainshapes.Shape
 class Document {
 
     private val mShapes = mutableListOf<Shape>()
-    private var mOnNext: (List<Shape>) -> Unit = {}
+    //TODO переписать, тут будет утечка памяти
+    private val callbacks = mutableListOf<(List<Shape>) -> Unit>()
 
     fun getShapeCount() = mShapes.size
 
@@ -13,13 +14,20 @@ class Document {
 
     fun insertShapeAt(index: Int, shape: Shape) {
         mShapes.add(index, shape)
-        mOnNext(mShapes)
+        observeAll()
     }
 
-    fun removeShapeAt(index: Int) = mShapes.removeAt(index).also { mOnNext(mShapes) }
+    fun removeShapeAt(index: Int) = mShapes.removeAt(index).also { observeAll() }
 
     fun subscribe(onNext: (List<Shape>) -> Unit) {
-        mOnNext = onNext
+        callbacks.add(onNext)
+        observeAll()
+    }
+
+    private fun observeAll() {
+        callbacks.forEach { onNext ->
+            onNext(mShapes)
+        }
     }
 
 }

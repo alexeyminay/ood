@@ -3,25 +3,25 @@ package com.alexey.minay.ood.lab09.application.commands
 import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.ICommand
 import com.alexey.minay.ood.lab09.application.ShapeType
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.shapes.Ellipse
-import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.application.shapes.Rectangle
 import com.alexey.minay.ood.lab09.application.shapes.Triangle
 
 class InsertShapeCommand(
     private val model: ApplicationDocument,
     private val shapeType: ShapeType,
-    private val insertPoint: AppPoint,
+    private val frame: AppFrame
 ) : ICommand {
 
     override fun execute() {
         val shape = when (shapeType) {
             ShapeType.ELLIPSE ->
-                Ellipse.createDefault(insertPoint)
+                Ellipse(frame)
             ShapeType.RECTANGLE ->
-                Rectangle.createDefault(insertPoint)
+                Rectangle(frame)
             ShapeType.TRIANGLE ->
-                Triangle.createDefault(insertPoint)
+                Triangle(frame)
         }
         model.insertShapeAt(model.shapeCount, shape)
     }
