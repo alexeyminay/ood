@@ -2,6 +2,7 @@ package com.alexey.minay.ood.lab09
 
 import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.CommandHistory
+import com.alexey.minay.ood.lab09.application.DocumentAdapter
 import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
 import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
 import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
@@ -24,6 +25,7 @@ object PresenterFactory {
 
     private val mShapeSelectionModel = ShapeSelectionModel()
     private val mApplicationDocument = ApplicationDocument(mDocument, mShapeSelectionModel)
+    private val mDocumentAdapter = DocumentAdapter(mDocument)
 
     fun createCanvasPresenterFor(view: CanvasView): MVP.ICanvasPresenter {
         val mChangeSelectionUseCase = ChangeSelectionUseCase(mApplicationDocument, mShapeSelectionModel)
@@ -31,7 +33,7 @@ object PresenterFactory {
             canvasAdapter = FxCanvasAdapter(view.graphicsContext),
             document = mApplicationDocument,
             changeSelectionUseCase = mChangeSelectionUseCase,
-            moveShapeUseCase = MoveShapeUseCase(mShapeSelectionModel, history, mApplicationDocument)
+            moveShapeUseCase = MoveShapeUseCase(mShapeSelectionModel, history, mApplicationDocument, mDocumentAdapter)
         ).apply { onViewCreated(view) }
     }
 
@@ -43,14 +45,14 @@ object PresenterFactory {
             canvasAdapter = FxCanvasAdapter(graphicsContext),
             document = applicationDocument,
             changeSelectionUseCase = changeSelectionUseCase,
-            moveShapeUseCase = MoveShapeUseCase(shapeSelectionModel, history, applicationDocument)
+            moveShapeUseCase = MoveShapeUseCase(shapeSelectionModel, history, applicationDocument, mDocumentAdapter)
         ).apply { onViewCreated(view) }
     }
 
     fun createHomeTabPresenter(view: CanvasView): MVP.IHomeTabPresenter =
         HomeTabPresenter(
             insertShapeUseCase = InsertShapeUseCase(
-                document = mApplicationDocument,
+                document = mDocumentAdapter,
                 history = history,
                 shapeSelectionModel = mShapeSelectionModel
             )

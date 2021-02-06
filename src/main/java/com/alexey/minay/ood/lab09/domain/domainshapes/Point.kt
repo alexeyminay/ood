@@ -1,3 +1,3 @@
 package com.alexey.minay.ood.lab09.domain.domainshapes
 
-data class Point(val x: Double, val y: Double)
+data class Point(var x: Double, var y: Double)

@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.application.usecases
 
-import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.CommandHistory
+import com.alexey.minay.ood.lab09.application.DocumentAdapter
 import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
 import com.alexey.minay.ood.lab09.application.ShapeType
 import com.alexey.minay.ood.lab09.application.commands.InsertShapeCommand
@@ -14,7 +14,7 @@ import com.alexey.minay.ood.lab09.application.shapes.Rectangle
 import com.alexey.minay.ood.lab09.application.shapes.Triangle
 
 class InsertShapeUseCase(
-    private val document: ApplicationDocument,
+    private val document: DocumentAdapter,
     private val history: CommandHistory,
     private val shapeSelectionModel: ShapeSelectionModel
 ) {

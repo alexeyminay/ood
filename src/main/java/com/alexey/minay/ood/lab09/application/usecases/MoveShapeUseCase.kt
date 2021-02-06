@@ -1,22 +1,20 @@
 package com.alexey.minay.ood.lab09.application.usecases
 
 import com.alexey.minay.ood.lab09.application.*
-import com.alexey.minay.ood.lab09.application.common.AppFrame
+import com.alexey.minay.ood.lab09.application.commands.MoveShapeCommand
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.pow
 
 class MoveShapeUseCase(
     private val shapeSelectionModel: ShapeSelectionModel,
     private val history: CommandHistory,
-    private val document: ApplicationDocument
+    private val document: ApplicationDocument,
+    private val documentAdapter: DocumentAdapter
 ) {
 
     private val mSelectedShapes = mutableListOf<IAppShape>()
-
     private var mOldPosition: AppPoint? = null
     private var mResizableState: ResizableState = ResizableState.NOT_RESIZE
-    private var mNewFrame: AppFrame? = null
-    private var mTargetShape: IAppShape? = null
 
     fun startMoving(x: Double, y: Double) {
         mSelectedShapes.addAll(document.getShapesBy(shapeSelectionModel.getSelectionShapeUids()))
@@ -24,6 +22,12 @@ class MoveShapeUseCase(
     }
 
     fun commit() {
+        history.addAnExecute(
+            MoveShapeCommand(
+                documentAdapter = documentAdapter,
+                changedShapes = mSelectedShapes
+            )
+        )
         mSelectedShapes.clear()
         mOldPosition = null
     }
