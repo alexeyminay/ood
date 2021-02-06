@@ -1,9 +1,6 @@
 package com.alexey.minay.ood.lab09
 
-import com.alexey.minay.ood.lab09.application.ApplicationDocument
-import com.alexey.minay.ood.lab09.application.CommandHistory
-import com.alexey.minay.ood.lab09.application.DocumentAdapter
-import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
+import com.alexey.minay.ood.lab09.application.*
 import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
 import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
 import com.alexey.minay.ood.lab09.application.usecases.MoveShapeUseCase
@@ -22,6 +19,7 @@ object PresenterFactory {
     private val mDocument by lazy { Document() }
     private val mFileHelper by lazy { FileHelper() }
     private val history = CommandHistory()
+    private val mHistoryInteractor = CommandHistoryInteractor(history)
 
     private val mShapeSelectionModel = ShapeSelectionModel()
     private val mApplicationDocument = ApplicationDocument(mDocument, mShapeSelectionModel)
@@ -55,7 +53,8 @@ object PresenterFactory {
                 document = mDocumentAdapter,
                 history = history,
                 shapeSelectionModel = mShapeSelectionModel
-            )
+            ),
+            historyInteractor = mHistoryInteractor
         )
 
     fun createFilePresenterFor(view: MVP.IFileTabView) =

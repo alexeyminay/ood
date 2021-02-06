@@ -1,6 +1,8 @@
 package com.alexey.minay.ood.lab09.domain.shapes
 
 data class Frame(
-    var leftTop: Point,
-    var rightBottom: Point
-)
+    val leftTop: Point,
+    val rightBottom: Point
+) {
+    fun copy() = Frame(leftTop.copy(), rightBottom.copy())
+}

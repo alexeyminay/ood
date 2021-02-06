@@ -1,7 +1,9 @@
 package com.alexey.minay.ood.lab09.application.usecases
 
 import com.alexey.minay.ood.lab09.application.*
-import com.alexey.minay.ood.lab09.application.commands.MoveShapeCommand
+import com.alexey.minay.ood.lab09.application.commands.ChangeShapeFrameCommand
+import com.alexey.minay.ood.lab09.application.commands.SelectMacroCommand
+import com.alexey.minay.ood.lab09.application.commands.SelectShapeCommand
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.pow
 
@@ -15,26 +17,44 @@ class MoveShapeUseCase(
     private val mSelectedShapes = mutableListOf<IAppShape>()
     private var mOldPosition: AppPoint? = null
     private var mResizableState: ResizableState = ResizableState.NOT_RESIZE
+    private var isDrugget = false
 
     fun startMoving(x: Double, y: Double) {
+        if (mOldPosition != null) return
         mSelectedShapes.addAll(document.getShapesBy(shapeSelectionModel.getSelectionShapeUids()))
         mOldPosition = AppPoint(x, y)
-        shapeSelectionModel.clearSelection()
     }
 
     fun commit() {
-        history.addAnExecute(
-            MoveShapeCommand(
+        if (isDrugget) {
+            val selections = mutableListOf<IAppShape>().apply { addAll(mSelectedShapes) }
+            val changeShapeFrameCommand = ChangeShapeFrameCommand(
                 documentAdapter = documentAdapter,
-                changedShapes = mSelectedShapes
+                changedShapes = selections,
+                selectionModel = shapeSelectionModel
             )
-        )
-        shapeSelectionModel.setSelection(mSelectedShapes)
+            history.addAnExecute(
+//                command = SelectMacroCommand(
+//                    targetCommand = changeShapeFrameCommand,
+//                    selectShapeCommand = SelectShapeCommand(
+//                        selections,
+//                        shapeSelectionModel
+//                    )
+//                )
+            changeShapeFrameCommand
+            )
+        }
         mSelectedShapes.clear()
         mOldPosition = null
+        isDrugget = false
     }
 
     fun moveShape(newPositionX: Double, newPositionY: Double, parentWidth: Double, parentHeight: Double) {
+        if (newPositionX == mOldPosition?.x || newPositionY == mOldPosition?.y) {
+            return
+        }
+        isDrugget = true
+        shapeSelectionModel.clearSelection()
         val newPosition = AppPoint(newPositionX, newPositionY)
         val oldPosition = mOldPosition ?: return
         val differenceX = oldPosition.x - newPosition.x

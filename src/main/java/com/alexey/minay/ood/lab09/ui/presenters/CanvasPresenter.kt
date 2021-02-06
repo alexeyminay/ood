@@ -50,19 +50,11 @@ class CanvasPresenter(
         TODO("Not yet implemented")
     }
 
-    override fun onMouseReleased() {
+    override fun onMouseReleased(x: Double, y: Double) {
         moveShapeUseCase.commit()
     }
 
     override fun onStyleModified() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onUndo() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onRedo() {
         TODO("Not yet implemented")
     }
 

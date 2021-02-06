@@ -125,18 +125,18 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     }
 
     @FXML
-    fun onMouseReleased() {
-        mCanvasPresenter.onMouseReleased()
+    fun onMouseReleased(mouseEvent: MouseEvent) {
+        mCanvasPresenter.onMouseReleased(mouseEvent.x, mouseEvent.y)
     }
 
     @FXML
     fun onUndo() {
-        mCanvasPresenter.onUndo()
+        mHomeTabPresenter.onUndo()
     }
 
     @FXML
     fun onRedo() {
-        mCanvasPresenter.onRedo()
+        mHomeTabPresenter.onRedo()
     }
 
     @FXML
@@ -177,7 +177,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
             presenter.onMouseDragged(it.x, it.y, canvas.width, canvas.height)
         }
         canvas.onMouseReleased = EventHandler {
-            presenter.onMouseReleased()
+            presenter.onMouseReleased(it.x, it.y)
         }
     }
 

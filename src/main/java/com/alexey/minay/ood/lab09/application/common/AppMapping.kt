@@ -1,5 +1,6 @@
-package com.alexey.minay.ood.lab09.application
+package com.alexey.minay.ood.lab09.application.common
 
+import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.application.shapes.Ellipse

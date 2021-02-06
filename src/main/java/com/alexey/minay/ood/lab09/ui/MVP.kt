@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.ui
 
-import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.application.ResizableState
+import com.alexey.minay.ood.lab09.application.common.AppPoint
 import java.io.File
 
 interface MVP {
@@ -17,16 +17,16 @@ interface MVP {
         fun onMouseClicked(x: Double, y: Double)
         fun onMousePressed(x: Double, y: Double)
         fun onDeleteShape()
-        fun onMouseReleased()
+        fun onMouseReleased(x: Double, y: Double)
         fun onStyleModified()
-        fun onUndo()
-        fun onRedo()
     }
 
     interface IHomeTabPresenter {
         fun onDrawNewRectangle(parentWidth: Double, parentHeight: Double)
         fun onDrawNewTriangle(parentWidth: Double, parentHeight: Double)
         fun onDrawNewEllipse(parentWidth: Double, parentHeight: Double)
+        fun onUndo()
+        fun onRedo()
     }
 
     interface IFileTabView

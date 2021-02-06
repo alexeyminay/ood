@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab09.application
 
-class UndoInteractor(
+class CommandHistoryInteractor(
     private val history: CommandHistory
 ) {
 
@@ -11,6 +11,5 @@ class UndoInteractor(
     fun redo() {
         history.redo()
     }
-
 
 }

@@ -14,6 +14,6 @@ class InsertShapeCommand(
     }
 
     override fun unexecute() {
-        model.removeShapeAt(model.getShapeCount())
+        model.removeShapeAt(model.getShapeCount() - 1)
     }
 }
