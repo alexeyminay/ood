@@ -4,6 +4,7 @@ import com.alexey.minay.ood.lab09.PresenterFactory
 import com.alexey.minay.ood.lab09.application.ResizableState
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.ui.MVP
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Cursor
@@ -158,17 +159,26 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     }
 
     @FXML
-    fun onOpenNewWindow(mouseEvent: MouseEvent) {
+    fun onOpenNewWindow() {
         val layout = StackPane()
         val stage = Stage()
-        val canvas = Canvas(800.0, 600.0)
+        val canvas = Canvas(800.0, 450.0)
         val graphicsContext = canvas.graphicsContext2D
         layout.children.add(canvas)
-        val scene = Scene(layout, 800.0, 600.0)
+        val scene = Scene(layout, 800.0, 450.0)
         stage.isResizable = false
         stage.scene = scene
         stage.show()
         val presenter = PresenterFactory.createCanvasPresenterFor(this, graphicsContext)
+        canvas.onMousePressed = EventHandler {
+            presenter.onMousePressed(it.x, it.y)
+        }
+        canvas.onMouseDragged = EventHandler {
+            presenter.onMouseDragged(it.x, it.y, canvas.width, canvas.height)
+        }
+        canvas.onMouseReleased = EventHandler {
+            presenter.onMouseReleased()
+        }
     }
 
 }

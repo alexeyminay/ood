@@ -3,7 +3,7 @@ package com.alexey.minay.ood.lab09.application.commands
 import com.alexey.minay.ood.lab09.application.DocumentAdapter
 import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.application.ICommand
-import com.alexey.minay.ood.lab09.domain.domainshapes.Shape
+import com.alexey.minay.ood.lab09.domain.shapes.Shape
 
 class MoveShapeCommand(
     private val documentAdapter: DocumentAdapter,

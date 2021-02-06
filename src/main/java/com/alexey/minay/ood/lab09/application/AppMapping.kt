@@ -5,10 +5,10 @@ import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.application.shapes.Ellipse
 import com.alexey.minay.ood.lab09.application.shapes.Rectangle
 import com.alexey.minay.ood.lab09.application.shapes.Triangle
-import com.alexey.minay.ood.lab09.domain.domainshapes.Frame
-import com.alexey.minay.ood.lab09.domain.domainshapes.Point
-import com.alexey.minay.ood.lab09.domain.domainshapes.Shape
-import com.alexey.minay.ood.lab09.domain.domainshapes.ShapeType
+import com.alexey.minay.ood.lab09.domain.shapes.Frame
+import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.domain.shapes.Shape
+import com.alexey.minay.ood.lab09.domain.shapes.ShapeType
 
 fun Shape.asAppShape(): IAppShape =
     when (type) {

@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab09.domain
 
-import com.alexey.minay.ood.lab09.domain.domainshapes.Shape
+import com.alexey.minay.ood.lab09.domain.shapes.Shape
 
 class Document {
 

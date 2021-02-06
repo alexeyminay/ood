@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab09.application
 
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.domain.Document
-import com.alexey.minay.ood.lab09.domain.domainshapes.Shape
+import com.alexey.minay.ood.lab09.domain.shapes.Shape
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
