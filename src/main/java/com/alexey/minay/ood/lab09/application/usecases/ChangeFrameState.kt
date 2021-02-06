@@ -1,6 +1,6 @@
-package com.alexey.minay.ood.lab09.application
+package com.alexey.minay.ood.lab09.application.usecases
 
-enum class ResizableState {
+enum class ChangeFrameState {
     NOT_RESIZE,
     LEFT_BOTTOM_RESIZE,
     LEFT_TOP_RESIZE,

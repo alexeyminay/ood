@@ -1,13 +1,13 @@
 package com.alexey.minay.ood.lab09.ui
 
-import com.alexey.minay.ood.lab09.application.ResizableState
+import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameState
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import java.io.File
 
 interface MVP {
 
     interface ICanvasView {
-        fun updateCursor(cursorState: ResizableState)
+        fun updateCursor(cursorState: ChangeFrameState)
     }
 
     interface ICanvasPresenter {

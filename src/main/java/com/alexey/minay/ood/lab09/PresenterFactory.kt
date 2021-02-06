@@ -2,8 +2,9 @@ package com.alexey.minay.ood.lab09
 
 import com.alexey.minay.ood.lab09.application.*
 import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
+import com.alexey.minay.ood.lab09.application.usecases.FramePositionCalculator
 import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
-import com.alexey.minay.ood.lab09.application.usecases.MoveShapeUseCase
+import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameShapeUseCase
 import com.alexey.minay.ood.lab09.domain.Document
 import com.alexey.minay.ood.lab09.infrastructure.FileHelper
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
@@ -21,9 +22,10 @@ object PresenterFactory {
     private val history = CommandHistory()
     private val mHistoryInteractor = CommandHistoryInteractor(history)
 
-    private val mShapeSelectionModel = ShapeSelectionModel()
-    private val mApplicationDocument = ApplicationDocument(mDocument, mShapeSelectionModel)
-    private val mDocumentAdapter = DocumentAdapter(mDocument)
+    private val mShapeSelectionModel by lazy { ShapeSelectionModel() }
+    private val mApplicationDocument by lazy { ApplicationDocument(mDocument, mShapeSelectionModel) }
+    private val mDocumentAdapter by lazy { DocumentAdapter(mDocument) }
+    private val mFramePositionCalculator by lazy { FramePositionCalculator() }
 
     fun createCanvasPresenterFor(view: CanvasView): MVP.ICanvasPresenter {
         val mChangeSelectionUseCase = ChangeSelectionUseCase(mApplicationDocument, mShapeSelectionModel)
@@ -31,7 +33,13 @@ object PresenterFactory {
             canvasAdapter = FxCanvasAdapter(view.graphicsContext),
             document = mApplicationDocument,
             changeSelectionUseCase = mChangeSelectionUseCase,
-            moveShapeUseCase = MoveShapeUseCase(mShapeSelectionModel, history, mApplicationDocument, mDocumentAdapter)
+            changeFrameShapeUseCase = ChangeFrameShapeUseCase(
+                shapeSelectionModel = mShapeSelectionModel,
+                history = history,
+                document = mApplicationDocument,
+                documentAdapter = mDocumentAdapter,
+                framePositionCalculator = mFramePositionCalculator
+            )
         ).apply { onViewCreated(view) }
     }
 
@@ -43,7 +51,13 @@ object PresenterFactory {
             canvasAdapter = FxCanvasAdapter(graphicsContext),
             document = applicationDocument,
             changeSelectionUseCase = changeSelectionUseCase,
-            moveShapeUseCase = MoveShapeUseCase(shapeSelectionModel, history, applicationDocument, mDocumentAdapter)
+            changeFrameShapeUseCase = ChangeFrameShapeUseCase(
+                shapeSelectionModel,
+                history = history,
+                document = applicationDocument,
+                documentAdapter = mDocumentAdapter,
+                framePositionCalculator = mFramePositionCalculator
+            )
         ).apply { onViewCreated(view) }
     }
 

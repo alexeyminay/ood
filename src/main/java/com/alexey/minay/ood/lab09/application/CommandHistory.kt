@@ -27,13 +27,13 @@ class CommandHistory {
     }
 
     fun undo() {
-        if (!mCanUndo) throw RuntimeException("Can't undo")
+        if (!mCanUndo) return
         mCursor--
         mCommands[mCursor].unexecute()
     }
 
     fun redo() {
-        if (!mCanRedo) throw RuntimeException("Can't redo")
+        if (!mCanRedo) return
         mCommands[mCursor].execute()
         mCursor++
     }

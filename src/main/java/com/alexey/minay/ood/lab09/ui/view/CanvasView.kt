@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.ui.view
 
 import com.alexey.minay.ood.lab09.PresenterFactory
-import com.alexey.minay.ood.lab09.application.ResizableState
+import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameState
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.event.EventHandler
@@ -57,13 +57,13 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     }
 
     @FXML
-    override fun updateCursor(cursorState: ResizableState) {
+    override fun updateCursor(cursorState: ChangeFrameState) {
         mCanvas.scene.cursor = when (cursorState) {
-            ResizableState.NOT_RESIZE -> Cursor.DEFAULT
-            ResizableState.RIGHT_BOTTOM_RESIZE -> Cursor.NW_RESIZE
-            ResizableState.LEFT_TOP_RESIZE -> Cursor.NW_RESIZE
-            ResizableState.LEFT_BOTTOM_RESIZE -> Cursor.NE_RESIZE
-            ResizableState.RIGHT_TOP_RESIZE -> Cursor.NE_RESIZE
+            ChangeFrameState.NOT_RESIZE -> Cursor.DEFAULT
+            ChangeFrameState.RIGHT_BOTTOM_RESIZE -> Cursor.NW_RESIZE
+            ChangeFrameState.LEFT_TOP_RESIZE -> Cursor.NW_RESIZE
+            ChangeFrameState.LEFT_BOTTOM_RESIZE -> Cursor.NE_RESIZE
+            ChangeFrameState.RIGHT_TOP_RESIZE -> Cursor.NE_RESIZE
         }
     }
 
