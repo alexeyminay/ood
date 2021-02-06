@@ -19,6 +19,7 @@ class MoveShapeUseCase(
     fun startMoving(x: Double, y: Double) {
         mSelectedShapes.addAll(document.getShapesBy(shapeSelectionModel.getSelectionShapeUids()))
         mOldPosition = AppPoint(x, y)
+        shapeSelectionModel.clearSelection()
     }
 
     fun commit() {
@@ -28,6 +29,7 @@ class MoveShapeUseCase(
                 changedShapes = mSelectedShapes
             )
         )
+        shapeSelectionModel.setSelection(mSelectedShapes)
         mSelectedShapes.clear()
         mOldPosition = null
     }

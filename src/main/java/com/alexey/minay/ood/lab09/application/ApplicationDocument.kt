@@ -24,7 +24,10 @@ class ApplicationDocument(
     private val mAppShapesState = BehaviorSubject.createDefault<List<IAppShape>>(mutableListOf())
 
     init {
-        document.subscribe { mAppShapesState.onNext(it.map(Shape::asAppShape)) }
+        document.subscribe {
+            mAppShapesState.onNext(it.map(Shape::asAppShape))
+            selectionModel.updateSelection(::updateSelections)
+        }
     }
 
     fun getShapeContains(point: AppPoint) = mAppShapesState.value.findLast { it.isIncluding(point) }
@@ -34,5 +37,8 @@ class ApplicationDocument(
     fun onChanged() {
         mAppShapesState.onNext(mAppShapesState.value)
     }
+
+    private fun updateSelections(selectionShapesUids: List<Long>): List<IAppShape> =
+        mAppShapesState.value.filter { selectionShapesUids.contains(it.uid) }
 
 }

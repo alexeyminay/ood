@@ -3,7 +3,7 @@ package com.alexey.minay.ood.lab09.application
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class ShapeSelectionModel() {
+class ShapeSelectionModel {
 
     val selections: Observable<List<DrawableFrame>>
         get() = mSelections
@@ -14,6 +14,10 @@ class ShapeSelectionModel() {
         mSelectedShapeUids.clear()
         mSelectedShapeUids.addAll(shapes.map(IAppShape::uid))
         mSelections.onNext(shapes.map { DrawableFrame(it.frame) })
+    }
+
+    fun updateSelection(onUpdate: (List<Long>) -> List<IAppShape>) {
+        setSelection(onUpdate(mSelectedShapeUids))
     }
 
     fun getSelectionShapeUids() = mSelectedShapeUids
