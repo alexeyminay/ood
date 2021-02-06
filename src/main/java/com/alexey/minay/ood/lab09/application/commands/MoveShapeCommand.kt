@@ -4,16 +4,16 @@ import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.application.ICommand
 
-class InsertShapeCommand(
-    private val model: ApplicationDocument,
-    private val shape: IAppShape
-) : ICommand {
+class MoveShapeCommand(
+    private val document: ApplicationDocument,
+    private val changedShapes: List<IAppShape>
+): ICommand {
 
     override fun execute() {
-        model.insertShapeAt(model.shapeCount, shape)
+        TODO("Not yet implemented")
     }
 
     override fun unexecute() {
-        model.removeShapeAt(model.shapeCount)
+        TODO("Not yet implemented")
     }
 }

@@ -13,7 +13,7 @@ class ChangeSelectionUseCase(
         val selectingShape = document.getShapeContains(AppPoint(x, y))
         shapeSelectionModel.clearSelection()
         if (selectingShape != null) {
-            shapeSelectionModel.setSelection(mutableListOf(selectingShape.frame))
+            shapeSelectionModel.setSelection(mutableListOf(selectingShape))
         }
     }
 

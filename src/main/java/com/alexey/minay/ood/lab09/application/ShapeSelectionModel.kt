@@ -1,21 +1,26 @@
 package com.alexey.minay.ood.lab09.application
 
-import com.alexey.minay.ood.lab09.application.common.AppFrame
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class ShapeSelectionModel {
+class ShapeSelectionModel() {
 
-    val selectedShapes: Observable<List<DrawableFrame>>
-        get() = mSelectedShapes
-    private val mSelectedShapes = BehaviorSubject.createDefault<List<DrawableFrame>>(mutableListOf())
+    val selections: Observable<List<DrawableFrame>>
+        get() = mSelections
+    private val mSelections = BehaviorSubject.createDefault<List<DrawableFrame>>(mutableListOf())
+    private val mSelectedShapeUids = mutableListOf<Long>()
 
-    fun setSelection(frames: List<AppFrame>) {
-        mSelectedShapes.onNext(frames.map(::DrawableFrame))
+    fun setSelection(shapes: List<IAppShape>) {
+        mSelectedShapeUids.clear()
+        mSelectedShapeUids.addAll(shapes.map(IAppShape::uid))
+        mSelections.onNext(shapes.map { DrawableFrame(it.frame) })
     }
 
+    fun getSelectionShapeUids() = mSelectedShapeUids
+
     fun clearSelection() {
-        mSelectedShapes.onNext(emptyList())
+        mSelectedShapeUids.clear()
+        mSelections.onNext(emptyList())
     }
 
 }

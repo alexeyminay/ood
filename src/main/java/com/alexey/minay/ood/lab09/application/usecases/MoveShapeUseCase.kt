@@ -1,48 +1,59 @@
 package com.alexey.minay.ood.lab09.application.usecases
 
-import com.alexey.minay.ood.lab09.application.CommandHistory
-import com.alexey.minay.ood.lab09.application.ResizableState
-import com.alexey.minay.ood.lab09.application.commands.ChangeFrameCommand
-import com.alexey.minay.ood.lab09.application.IAppShape
+import com.alexey.minay.ood.lab09.application.*
 import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.pow
 
 class MoveShapeUseCase(
-    private val shapes: List<IAppShape>,
-    private val history: CommandHistory
+    private val shapeSelectionModel: ShapeSelectionModel,
+    private val history: CommandHistory,
+    private val document: ApplicationDocument
 ) {
 
-    private var mStartResizePoint: AppPoint? = null
+    private val mSelectedShapes = mutableListOf<IAppShape>()
+
+    private var mOldPosition: AppPoint? = null
     private var mResizableState: ResizableState = ResizableState.NOT_RESIZE
     private var mNewFrame: AppFrame? = null
     private var mTargetShape: IAppShape? = null
 
-    fun startMoving(startResizePoint: AppPoint) {
-        //FIXME Доработать для перемещения нескольки фигур
-        val shape = shapes.firstOrNull() ?: return
-        mStartResizePoint = startResizePoint
-        mResizableState = when {
-            startResizePoint.isCross(shape.frame.rightBottom) -> ResizableState.RIGHT_BOTTOM_RESIZE
-            startResizePoint.isCross(shape.frame.leftTop) -> ResizableState.LEFT_TOP_RESIZE
-            startResizePoint.isCross(shape.frame.rightTop) -> ResizableState.RIGHT_TOP_RESIZE
-            startResizePoint.isCross(shape.frame.leftBottom) -> ResizableState.LEFT_BOTTOM_RESIZE
-            else -> ResizableState.NOT_RESIZE
-        }
+    fun startMoving(x: Double, y: Double) {
+        mSelectedShapes.addAll(document.getShapesBy(shapeSelectionModel.getSelectionShapeUids()))
+        mOldPosition = AppPoint(x, y)
     }
 
     fun commit() {
-        if (mTargetShape != null && mNewFrame != null) {
-            history.addAnExecute(ChangeFrameCommand(mTargetShape!!, mNewFrame!!))
-        }
+        mSelectedShapes.clear()
+        mOldPosition = null
     }
 
-    fun moveShape(newPosition: AppPoint, parentWidth: Double, parentHeight: Double) {
-        //FIXME Доработать для перемещения нескольки фигур
-        val shape = shapes.firstOrNull() ?: return
-        val oldPosition = mStartResizePoint ?: return
+    fun moveShape(newPositionX: Double, newPositionY: Double, parentWidth: Double, parentHeight: Double) {
+        val newPosition = AppPoint(newPositionX, newPositionY)
+        val oldPosition = mOldPosition ?: return
         val differenceX = oldPosition.x - newPosition.x
         val differenceY = oldPosition.y - newPosition.y
+        mSelectedShapes.forEach {
+            updateShapePosition(
+                shape = it,
+                parentWidth = parentWidth,
+                parentHeight = parentHeight,
+                differenceX = differenceX,
+                differenceY = differenceY,
+                newPosition = newPosition
+            )
+        }
+        document.onChanged()
+    }
+
+    private fun updateShapePosition(
+        shape: IAppShape,
+        parentWidth: Double,
+        parentHeight: Double,
+        differenceX: Double,
+        differenceY: Double,
+        newPosition: AppPoint
+    ) {
         var newLeftTopX = shape.calculateNewLeftTopX(differenceX)
         var newLeftTopY = shape.calculateNewLeftTopY(differenceY)
         var newRightBottomX = shape.calculateNewRightBottomX(differenceX)
@@ -68,7 +79,7 @@ class MoveShapeUseCase(
         }
         shape.frame.leftTop = AppPoint(newLeftTopX, newLeftTopY)
         shape.frame.rightBottom = AppPoint(newRightBottomX, newRightBottomY)
-        mStartResizePoint = newPosition
+        mOldPosition = newPosition
     }
 
     private fun IAppShape.calculateNewLeftTopX(differenceX: Double) =

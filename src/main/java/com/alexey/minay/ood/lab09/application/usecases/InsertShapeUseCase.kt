@@ -9,6 +9,9 @@ import com.alexey.minay.ood.lab09.application.commands.SelectMacroCommand
 import com.alexey.minay.ood.lab09.application.commands.SelectShapeCommand
 import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.common.AppPoint
+import com.alexey.minay.ood.lab09.application.shapes.Ellipse
+import com.alexey.minay.ood.lab09.application.shapes.Rectangle
+import com.alexey.minay.ood.lab09.application.shapes.Triangle
 
 class InsertShapeUseCase(
     private val document: ApplicationDocument,
@@ -25,17 +28,24 @@ class InsertShapeUseCase(
             leftTop = AppPoint(parentWidth / 2 - FRAME_HALF_SIZE, parentHeight / 2 - FRAME_HALF_SIZE),
             rightBottom = AppPoint(parentWidth / 2 + FRAME_HALF_SIZE, parentHeight / 2 + FRAME_HALF_SIZE)
         )
+        val uid = System.currentTimeMillis()
+        val shape = when (shapeType) {
+            ShapeType.ELLIPSE ->
+                Ellipse(frame, uid)
+            ShapeType.RECTANGLE ->
+                Rectangle(frame, uid)
+            ShapeType.TRIANGLE ->
+                Triangle(frame, uid)
+        }
         val insertCommand = InsertShapeCommand(
             model = document,
-            shapeType = shapeType,
-            frame = frame
+            shape = shape
         )
         history.addAnExecute(
             command = SelectMacroCommand(
                 targetCommand = insertCommand,
-                selectShapeCommand =
-                SelectShapeCommand(
-                    mutableListOf(frame),
+                selectShapeCommand = SelectShapeCommand(
+                    mutableListOf(shape),
                     shapeSelectionModel
                 )
             )

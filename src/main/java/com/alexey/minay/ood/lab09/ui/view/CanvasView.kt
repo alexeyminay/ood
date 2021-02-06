@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.StackPane
-import javafx.scene.layout.VBox
 import javafx.scene.paint.Color
 import javafx.stage.FileChooser
 import javafx.stage.Stage
@@ -94,7 +93,8 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     @FXML
     fun onMouseDragged(mouseEvent: MouseEvent) {
         mCanvasPresenter.onMouseDragged(
-            newPosition = AppPoint(mouseEvent.x, mouseEvent.y),
+            x = mouseEvent.x,
+            y = mouseEvent.y,
             parentWidth = mCanvas.width,
             parentHeight = mCanvas.height
         )
@@ -112,7 +112,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onMousePressed(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMousePressed(AppPoint(mouseEvent.x, mouseEvent.y))
+        mCanvasPresenter.onMousePressed(mouseEvent.x, mouseEvent.y)
     }
 
     @FXML

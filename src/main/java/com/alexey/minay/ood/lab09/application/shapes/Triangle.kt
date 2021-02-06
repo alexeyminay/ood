@@ -8,7 +8,8 @@ import com.alexey.minay.ood.lab09.application.common.AppPoint
 import kotlin.math.abs
 
 class Triangle(
-    override var frame: AppFrame
+    override var frame: AppFrame,
+    override val uid: Long
 ) : IAppShape {
 
     private val mVertex1: AppPoint
@@ -47,20 +48,4 @@ class Triangle(
         return abs(squareUnionTriangle - sumSquareTriangles) <= 0.01
     }
 
-    companion object {
-
-        fun createDefault(position: AppPoint) = Triangle(
-            frame = AppFrame(
-                leftTop = AppPoint(
-                    x = position.x - 50,
-                    y = position.y - 50
-                ),
-                rightBottom = AppPoint(
-                    x = position.x + 50,
-                    y = position.y + 50
-                )
-            )
-        )
-
-    }
 }

@@ -16,7 +16,7 @@ class ApplicationDocument(
 
     val shapesObservable: Observable<List<IDrawable>>
         get() = Observable.combineLatest(
-            selectionModel.selectedShapes, mAppShapesState, { selections, shapes ->
+            selectionModel.selections, mAppShapesState, { selections, shapes ->
                 mutableListOf<IDrawable>().apply {
                     addAll(selections)
                     addAll(shapes)
@@ -32,10 +32,16 @@ class ApplicationDocument(
 
     fun getShapeContains(point: AppPoint) = mAppShapesState.value.findLast { it.isIncluding(point) }
 
+    fun getShapesBy(uids: List<Long>) = mAppShapesState.value.filter { uids.contains(it.uid) }
+
     fun insertShapeAt(index: Int, shape: IAppShape) {
         document.insertShapeAt(index, shape.asDomainShape())
     }
 
     fun removeShapeAt(index: Int): IAppShape = document.removeShapeAt(index).asAppShape()
+
+    fun onChanged() {
+        mAppShapesState.onNext(mAppShapesState.value)
+    }
 
 }

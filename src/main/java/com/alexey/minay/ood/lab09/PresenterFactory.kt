@@ -5,6 +5,7 @@ import com.alexey.minay.ood.lab09.application.CommandHistory
 import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
 import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
 import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
+import com.alexey.minay.ood.lab09.application.usecases.MoveShapeUseCase
 import com.alexey.minay.ood.lab09.domain.Document
 import com.alexey.minay.ood.lab09.infrastructure.FileHelper
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
@@ -29,7 +30,8 @@ object PresenterFactory {
         return CanvasPresenter(
             canvasAdapter = FxCanvasAdapter(view.graphicsContext),
             document = mApplicationDocument,
-            changeSelectionUseCase = mChangeSelectionUseCase
+            changeSelectionUseCase = mChangeSelectionUseCase,
+            moveShapeUseCase = MoveShapeUseCase(mShapeSelectionModel, history, mApplicationDocument)
         ).apply { onViewCreated(view) }
     }
 
@@ -40,7 +42,8 @@ object PresenterFactory {
         return CanvasPresenter(
             canvasAdapter = FxCanvasAdapter(graphicsContext),
             document = applicationDocument,
-            changeSelectionUseCase = changeSelectionUseCase
+            changeSelectionUseCase = changeSelectionUseCase,
+            moveShapeUseCase = MoveShapeUseCase(shapeSelectionModel, history, applicationDocument)
         ).apply { onViewCreated(view) }
     }
 

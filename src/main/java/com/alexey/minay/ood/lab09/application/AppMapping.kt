@@ -13,13 +13,16 @@ import com.alexey.minay.ood.lab09.domain.domainshapes.ShapeType
 fun Shape.asAppShape(): IAppShape =
     when (type) {
         ShapeType.ELLIPSE -> Ellipse(
-            frame = frame.asAppFrame()
+            frame = frame.asAppFrame(),
+            uid = uid
         )
         ShapeType.RECTANGLE -> Rectangle(
-            frame = frame.asAppFrame()
+            frame = frame.asAppFrame(),
+            uid = uid
         )
         ShapeType.TRIANGLE -> Triangle(
-            frame = frame.asAppFrame()
+            frame = frame.asAppFrame(),
+            uid = uid
         )
     }
 
@@ -34,9 +37,9 @@ fun Point.asAppPoint() =
 
 fun IAppShape.asDomainShape() =
     when (this) {
-        is Triangle -> Shape(frame.asDomainFrame(), ShapeType.TRIANGLE)
-        is Rectangle -> Shape(frame.asDomainFrame(), ShapeType.RECTANGLE)
-        is Ellipse -> Shape(frame.asDomainFrame(), ShapeType.ELLIPSE)
+        is Triangle -> Shape(frame.asDomainFrame(), ShapeType.TRIANGLE, uid)
+        is Rectangle -> Shape(frame.asDomainFrame(), ShapeType.RECTANGLE, uid)
+        is Ellipse -> Shape(frame.asDomainFrame(), ShapeType.ELLIPSE, uid)
         else -> throw RuntimeException("Unknown type")
     }
 

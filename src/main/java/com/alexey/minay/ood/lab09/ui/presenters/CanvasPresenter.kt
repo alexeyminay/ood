@@ -3,6 +3,7 @@ package com.alexey.minay.ood.lab09.ui.presenters
 import com.alexey.minay.ood.lab09.application.ApplicationDocument
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
+import com.alexey.minay.ood.lab09.application.usecases.MoveShapeUseCase
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
 import com.alexey.minay.ood.lab09.ui.MVP
 import io.reactivex.rxjava3.disposables.Disposable
@@ -10,7 +11,8 @@ import io.reactivex.rxjava3.disposables.Disposable
 class CanvasPresenter(
     private val document: ApplicationDocument,
     private val canvasAdapter: FxCanvasAdapter,
-    private val changeSelectionUseCase: ChangeSelectionUseCase
+    private val changeSelectionUseCase: ChangeSelectionUseCase,
+    private val moveShapeUseCase: MoveShapeUseCase
 ) : MVP.ICanvasPresenter {
 
     private var mView: MVP.ICanvasView? = null
@@ -27,8 +29,8 @@ class CanvasPresenter(
         }
     }
 
-
-    override fun onMouseDragged(newPosition: AppPoint, parentWidth: Double, parentHeight: Double) {
+    override fun onMouseDragged(x: Double, y: Double, parentWidth: Double, parentHeight: Double) {
+        moveShapeUseCase.moveShape(x, y, parentWidth, parentHeight)
     }
 
     override fun onMouseMoved(mousePosition: AppPoint) {
@@ -36,10 +38,12 @@ class CanvasPresenter(
     }
 
     override fun onMouseClicked(x: Double, y: Double) {
-        changeSelectionUseCase(x, y)
+
     }
 
-    override fun onMousePressed(pressedPoint: AppPoint) {
+    override fun onMousePressed(x: Double, y: Double) {
+        changeSelectionUseCase(x, y)
+        moveShapeUseCase.startMoving(x, y)
     }
 
     override fun onDeleteShape() {
@@ -47,6 +51,7 @@ class CanvasPresenter(
     }
 
     override fun onMouseReleased() {
+        moveShapeUseCase.commit()
     }
 
     override fun onStyleModified() {
