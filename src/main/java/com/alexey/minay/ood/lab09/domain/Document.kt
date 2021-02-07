@@ -11,6 +11,14 @@ class Document {
 
     fun getShapeCount() = mShapes.size
 
+    fun getShapes() = mShapes
+
+    fun setShapes(shapes: List<Shape>) {
+        mShapes.clear()
+        mShapes.addAll(shapes)
+        observeAll()
+    }
+
     fun getFramesByUid(uid: Long) = mShapes.firstOrNull { it.uid == uid }
 
     fun insertShapeAt(index: Int, shape: Shape) {

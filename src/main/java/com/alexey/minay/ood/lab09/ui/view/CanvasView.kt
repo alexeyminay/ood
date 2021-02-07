@@ -23,7 +23,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     private lateinit var mCanvas: Canvas
-    val graphicsContext: GraphicsContext
+    private val mGraphicsContext: GraphicsContext
         get() = mCanvas.graphicsContext2D
 
     @FXML
@@ -45,7 +45,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        mCanvasPresenter = PresenterFactory.createCanvasPresenterFor(this, graphicsContext)
+        mCanvasPresenter = PresenterFactory.createCanvasPresenterFor(this, mGraphicsContext)
         mFilePresenter = PresenterFactory.createFilePresenterFor(this)
         mHomeTabPresenter = PresenterFactory.createHomeTabPresenter()
         mStrokePicker.value = Color.CADETBLUE

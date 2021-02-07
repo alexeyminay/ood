@@ -1,22 +1,19 @@
 package com.alexey.minay.ood.lab09.infrastructure
 
-import com.alexey.minay.ood.lab09.application.IAppShape
-import com.alexey.minay.ood.lab09.application.common.AppFrame
-import com.alexey.minay.ood.lab09.application.common.AppPoint
-import com.alexey.minay.ood.lab09.application.shapes.Ellipse
-import com.alexey.minay.ood.lab09.application.shapes.Rectangle
-import com.alexey.minay.ood.lab09.application.shapes.Triangle
+import com.alexey.minay.ood.lab09.domain.shapes.Frame
+import com.alexey.minay.ood.lab09.domain.shapes.Point
+import com.alexey.minay.ood.lab09.domain.shapes.Shape
+import com.alexey.minay.ood.lab09.domain.shapes.ShapeType
 
 private const val TRIANGLE = "triangle"
 private const val RECTANGLE = "rectangle"
 private const val ELLIPSE = "ellipse"
 
-fun IAppShape.toJsonData(): ShapeJson {
-    val type = when (this) {
-        is Triangle -> TRIANGLE
-        is Rectangle -> RECTANGLE
-        is Ellipse -> ELLIPSE
-        else -> ""
+fun Shape.toJsonData(): ShapeJson {
+    val type = when (type) {
+        ShapeType.TRIANGLE -> TRIANGLE
+        ShapeType.RECTANGLE -> RECTANGLE
+        ShapeType.ELLIPSE -> ELLIPSE
     }
     return ShapeJson(
         type = type,
@@ -25,7 +22,7 @@ fun IAppShape.toJsonData(): ShapeJson {
     )
 }
 
-private fun AppFrame.toJsonData(): FrameJson =
+private fun Frame.toJsonData(): FrameJson =
     FrameJson(
         PointJson(
             x = leftTop.x,
@@ -38,20 +35,23 @@ private fun AppFrame.toJsonData(): FrameJson =
     )
 
 fun ShapesJson.toDomainData() =
-    mutableListOf<IAppShape>().apply {
+    mutableListOf<Shape>().apply {
         shapes.forEach { shapeJson ->
             val shape = when (shapeJson.type) {
-                RECTANGLE -> Rectangle(
+                RECTANGLE -> Shape(
                     frame = shapeJson.frame.toDomainData(),
-                    uid = shapeJson.uid
+                    uid = shapeJson.uid,
+                    type = ShapeType.RECTANGLE
                 )
-                TRIANGLE -> Triangle(
+                TRIANGLE -> Shape(
                     frame = shapeJson.frame.toDomainData(),
-                    uid = shapeJson.uid
+                    uid = shapeJson.uid,
+                    type = ShapeType.TRIANGLE
                 )
-                ELLIPSE -> Ellipse(
+                ELLIPSE -> Shape(
                     frame = shapeJson.frame.toDomainData(),
-                    uid = shapeJson.uid
+                    uid = shapeJson.uid,
+                    type = ShapeType.ELLIPSE
                 )
                 else -> throw RuntimeException("Incorrect file structure")
             }
@@ -60,10 +60,10 @@ fun ShapesJson.toDomainData() =
     }
 
 private fun FrameJson.toDomainData() =
-    AppFrame(
+    Frame(
         leftTop = leftTop.toDomainJson(),
         rightBottom = rightBottom.toDomainJson()
     )
 
 private fun PointJson.toDomainJson() =
-    AppPoint(x, y)
+    Point(x, y)

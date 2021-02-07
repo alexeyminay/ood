@@ -1,10 +1,11 @@
 package com.alexey.minay.ood.lab09.ui.presenters
 
+import com.alexey.minay.ood.lab09.application.FileTabInteractor
 import com.alexey.minay.ood.lab09.ui.MVP
 import java.io.File
 
 class FileTabPresenter(
-    //private val fileRepository: IFileRepository
+    private val fileTabInteractor: FileTabInteractor
 ) : MVP.IFileTabPresenter {
 
     private var mView: MVP.IFileTabView? = null
@@ -14,14 +15,15 @@ class FileTabPresenter(
     }
 
     override fun onSave(file: File) {
-        //fileRepository.saveFile(file)
+        fileTabInteractor.saveIn(file)
     }
 
     override fun onSaveAs(file: File) {
-        //fileRepository.saveFile(file)
+        fileTabInteractor.saveAsIn(file)
     }
 
     override fun onOpen(file: File) {
-        //fileRepository.openFile(file)
+        fileTabInteractor.open(file)
     }
+
 }

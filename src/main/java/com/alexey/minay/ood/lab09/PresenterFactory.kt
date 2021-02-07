@@ -21,6 +21,7 @@ object PresenterFactory {
     private val mApplicationDocument by lazy { ApplicationDocument(mDocument, mShapeSelectionModel) }
     private val mDocumentAdapter by lazy { DocumentAdapter(mDocument) }
     private val mFramePositionCalculator by lazy { FramePositionCalculator() }
+    private val mFileTabInteractor by lazy { FileTabInteractor(mFileHelper, mDocumentAdapter) }
     private val mInsertShapeUseCase by lazy {
         InsertShapeUseCase(
             document = mDocumentAdapter,
@@ -97,6 +98,7 @@ object PresenterFactory {
 
     fun createFilePresenterFor(view: MVP.IFileTabView) =
         FileTabPresenter(
+            fileTabInteractor = mFileTabInteractor
         ).apply { onViewCreated(view) }
 
 }

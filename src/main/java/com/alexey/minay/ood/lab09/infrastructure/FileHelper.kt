@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.infrastructure
 
 import com.alexey.minay.ood.lab09.application.IFileHelper
-import com.alexey.minay.ood.lab09.application.IAppShape
+import com.alexey.minay.ood.lab09.domain.shapes.Shape
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -12,7 +12,7 @@ import java.io.File
 
 class FileHelper : IFileHelper {
 
-    override fun openFile(file: File, onOpened: (List<IAppShape>) -> Unit) {
+    override fun openFile(file: File, onOpened: (List<Shape>) -> Unit) {
         GlobalScope.launch {
             val shapes = withContext(Dispatchers.IO) {
                 val json = file.readText()
@@ -24,7 +24,7 @@ class FileHelper : IFileHelper {
         }
     }
 
-    override fun saveFile(file: File, imageState: List<IAppShape>) {
+    override fun saveFile(file: File, imageState: List<Shape>) {
         GlobalScope.launch {
             withContext(Dispatchers.IO) {
                 val shapesJson = ShapesJson(imageState.map { it.toJsonData() })
