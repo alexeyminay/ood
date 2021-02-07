@@ -7,7 +7,7 @@ class Document {
     private val mShapes = mutableListOf<Shape>()
 
     //TODO доработать, тут будет утечка памяти, если одно из окон закрыть
-    private val callbacks = mutableListOf<(List<Shape>) -> Unit>()
+    private val mCallbacks = mutableListOf<(List<Shape>) -> Unit>()
 
     fun getShapeCount() = mShapes.size
 
@@ -33,12 +33,12 @@ class Document {
     }
 
     fun subscribe(onNext: (List<Shape>) -> Unit) {
-        callbacks.add(onNext)
+        mCallbacks.add(onNext)
         observeAll()
     }
 
     fun observeAll() {
-        callbacks.forEach { onNext ->
+        mCallbacks.forEach { onNext ->
             onNext(mShapes)
         }
     }
