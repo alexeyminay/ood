@@ -16,6 +16,8 @@ class ShapeSelectionModel {
         mSelections.onNext(shapes.map { DrawableFrame(it.frame) })
     }
 
+    fun getSelections(): List<DrawableFrame>? = mSelections.value
+
     fun updateSelection(onUpdate: (List<Long>) -> List<IAppShape>) {
         setSelection(onUpdate(mSelectedShapeUids))
     }
@@ -23,6 +25,9 @@ class ShapeSelectionModel {
     fun getSelectionShapeUids() = mSelectedShapeUids
 
     fun clearSelection() {
+        if (mSelectedShapeUids.isEmpty()) {
+            return
+        }
         mSelectedShapeUids.clear()
         mSelections.onNext(emptyList())
     }

@@ -2,7 +2,6 @@ package com.alexey.minay.ood.lab09.ui.view
 
 import com.alexey.minay.ood.lab09.PresenterFactory
 import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameState
-import com.alexey.minay.ood.lab09.application.common.AppPoint
 import com.alexey.minay.ood.lab09.ui.MVP
 import javafx.event.EventHandler
 import javafx.fxml.FXML
@@ -103,12 +102,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onMouseMoved(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMouseMoved(AppPoint(mouseEvent.x, mouseEvent.y))
-    }
-
-    @FXML
-    fun onMouseClicked(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMouseClicked(mouseEvent.x, mouseEvent.y)
+        mCanvasPresenter.onMouseMoved(mouseEvent.x, mouseEvent.y)
     }
 
     @FXML
@@ -178,6 +172,9 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
         }
         canvas.onMouseReleased = EventHandler {
             presenter.onMouseReleased(it.x, it.y)
+        }
+        canvas.onMouseMoved = EventHandler {
+            presenter.onMouseMoved(it.x, it.y)
         }
     }
 

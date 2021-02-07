@@ -40,7 +40,7 @@ class ChangeFrameShapeUseCase(
     }
 
     fun moveShape(newPositionX: Double, newPositionY: Double, parentWidth: Double, parentHeight: Double) {
-        if (newPositionX == mOldPosition?.x || newPositionY == mOldPosition?.y) {
+        if (newPositionX == mOldPosition?.x && newPositionY == mOldPosition?.y) {
             return
         }
         isDrugget = true

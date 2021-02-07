@@ -1,10 +1,7 @@
 package com.alexey.minay.ood.lab09
 
 import com.alexey.minay.ood.lab09.application.*
-import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
-import com.alexey.minay.ood.lab09.application.usecases.FramePositionCalculator
-import com.alexey.minay.ood.lab09.application.usecases.InsertShapeUseCase
-import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameShapeUseCase
+import com.alexey.minay.ood.lab09.application.usecases.*
 import com.alexey.minay.ood.lab09.domain.Document
 import com.alexey.minay.ood.lab09.infrastructure.FileHelper
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
@@ -39,7 +36,8 @@ object PresenterFactory {
                 document = mApplicationDocument,
                 documentAdapter = mDocumentAdapter,
                 framePositionCalculator = mFramePositionCalculator
-            )
+            ),
+            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(mShapeSelectionModel)
         ).apply { onViewCreated(view) }
     }
 
@@ -57,7 +55,8 @@ object PresenterFactory {
                 document = applicationDocument,
                 documentAdapter = mDocumentAdapter,
                 framePositionCalculator = mFramePositionCalculator
-            )
+            ),
+            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(shapeSelectionModel)
         ).apply { onViewCreated(view) }
     }
 

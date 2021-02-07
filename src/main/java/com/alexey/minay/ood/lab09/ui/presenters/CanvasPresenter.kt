@@ -1,7 +1,7 @@
 package com.alexey.minay.ood.lab09.ui.presenters
 
 import com.alexey.minay.ood.lab09.application.ApplicationDocument
-import com.alexey.minay.ood.lab09.application.common.AppPoint
+import com.alexey.minay.ood.lab09.application.usecases.CalculateChangeFrameStateUseCase
 import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameShapeUseCase
 import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameState
 import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
@@ -13,10 +13,12 @@ class CanvasPresenter(
     private val document: ApplicationDocument,
     private val canvasAdapter: FxCanvasAdapter,
     private val changeSelectionUseCase: ChangeSelectionUseCase,
-    private val changeFrameShapeUseCase: ChangeFrameShapeUseCase
+    private val changeFrameShapeUseCase: ChangeFrameShapeUseCase,
+    private val calculateChangeFrameStateUseCase: CalculateChangeFrameStateUseCase
 ) : MVP.ICanvasPresenter {
 
     private var mView: MVP.ICanvasView? = null
+    private var mChangeFrameState = ChangeFrameState.NOT_RESIZE
 
     //TODO добавить отписку при закрытии окна
     private var mDisposable: Disposable? = null
@@ -35,17 +37,19 @@ class CanvasPresenter(
         changeFrameShapeUseCase.moveShape(x, y, parentWidth, parentHeight)
     }
 
-    override fun onMouseMoved(mousePosition: AppPoint) {
-
-    }
-
-    override fun onMouseClicked(x: Double, y: Double) {
-
+    override fun onMouseMoved(x: Double, y: Double) {
+        val changeFrameState = calculateChangeFrameStateUseCase(x, y)
+        if (changeFrameState != mChangeFrameState) {
+            mView?.updateCursor(changeFrameState)
+            mChangeFrameState = changeFrameState
+        }
     }
 
     override fun onMousePressed(x: Double, y: Double) {
-        changeSelectionUseCase(x, y)
-        changeFrameShapeUseCase.startMoving(x, y, ChangeFrameState.NOT_RESIZE)
+        if (mChangeFrameState == ChangeFrameState.NOT_RESIZE) {
+            changeSelectionUseCase(x, y)
+        }
+        changeFrameShapeUseCase.startMoving(x, y, mChangeFrameState)
     }
 
     override fun onDeleteShape() {
@@ -54,10 +58,6 @@ class CanvasPresenter(
 
     override fun onMouseReleased(x: Double, y: Double) {
         changeFrameShapeUseCase.commit()
-    }
-
-    override fun onStyleModified() {
-        TODO("Not yet implemented")
     }
 
 }

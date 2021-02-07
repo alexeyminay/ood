@@ -13,12 +13,10 @@ interface MVP {
     interface ICanvasPresenter {
         fun onViewCreated(view: ICanvasView)
         fun onMouseDragged(x: Double, y: Double, parentWidth: Double, parentHeight: Double)
-        fun onMouseMoved(mousePosition: AppPoint)
-        fun onMouseClicked(x: Double, y: Double)
+        fun onMouseMoved(x: Double, y: Double)
         fun onMousePressed(x: Double, y: Double)
         fun onDeleteShape()
         fun onMouseReleased(x: Double, y: Double)
-        fun onStyleModified()
     }
 
     interface IHomeTabPresenter {

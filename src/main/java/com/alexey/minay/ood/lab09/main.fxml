@@ -18,7 +18,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onKeyPressed" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alexey.minay.ood.lab09.ui.view.CanvasView">
     <children>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="446.0" layoutX="8.0" layoutY="121.0" stroke="#ebebeb" strokeType="INSIDE" width="781.0" />
-        <Canvas fx:id="mCanvas" height="446.0" layoutX="10.0" layoutY="120.0" onMouseClicked="#onMouseClicked" onMouseDragged="#onMouseDragged" onMouseMoved="#onMouseMoved" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" width="781.0" />
+        <Canvas fx:id="mCanvas" height="446.0" layoutX="10.0" layoutY="120.0" onMouseDragged="#onMouseDragged" onMouseMoved="#onMouseMoved" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" width="781.0" />
         <TabPane fx:id="mTabPane" prefHeight="147.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab id="file" text="File">
