@@ -3,11 +3,10 @@ package com.alexey.minay.ood.lab09.ui.view
 import com.alexey.minay.ood.lab09.PresenterFactory
 import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameState
 import com.alexey.minay.ood.lab09.ui.MVP
-import javafx.event.EventHandler
+import com.alexey.minay.ood.lab09.ui.WindowsManager
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Cursor
-import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.control.ColorPicker
@@ -15,10 +14,8 @@ import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
-import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.stage.FileChooser
-import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 
@@ -41,18 +38,20 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
     private lateinit var mCanvasPresenter: MVP.ICanvasPresenter
     private lateinit var mFilePresenter: MVP.IFileTabPresenter
     private lateinit var mHomeTabPresenter: MVP.IHomeTabPresenter
+    private lateinit var mWindowsManager: WindowsManager
     private val mFileChooser by lazy {
         FileChooser().apply {
         }
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        mCanvasPresenter = PresenterFactory.createCanvasPresenterFor(this)
+        mCanvasPresenter = PresenterFactory.createCanvasPresenterFor(this, graphicsContext)
         mFilePresenter = PresenterFactory.createFilePresenterFor(this)
-        mHomeTabPresenter = PresenterFactory.createHomeTabPresenter(this)
+        mHomeTabPresenter = PresenterFactory.createHomeTabPresenter()
         mStrokePicker.value = Color.CADETBLUE
         mFillPicker.value = Color.BISQUE
         mTabPane.selectionModel.selectLast()
+        mWindowsManager = WindowsManager()
     }
 
     @FXML
@@ -154,28 +153,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onOpenNewWindow() {
-        val layout = StackPane()
-        val stage = Stage()
-        val canvas = Canvas(800.0, 450.0)
-        val graphicsContext = canvas.graphicsContext2D
-        layout.children.add(canvas)
-        val scene = Scene(layout, 800.0, 450.0)
-        stage.isResizable = false
-        stage.scene = scene
-        stage.show()
-        val presenter = PresenterFactory.createCanvasPresenterFor(this, graphicsContext)
-        canvas.onMousePressed = EventHandler {
-            presenter.onMousePressed(it.x, it.y, it.isControlDown)
-        }
-        canvas.onMouseDragged = EventHandler {
-            presenter.onMouseDragged(it.x, it.y, canvas.width, canvas.height)
-        }
-        canvas.onMouseReleased = EventHandler {
-            presenter.onMouseReleased(it.x, it.y)
-        }
-        canvas.onMouseMoved = EventHandler {
-            presenter.onMouseMoved(it.x, it.y)
-        }
+        mWindowsManager.openSimpleCanvasView()
     }
 
 }

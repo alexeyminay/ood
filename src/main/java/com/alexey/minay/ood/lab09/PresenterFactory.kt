@@ -9,7 +9,6 @@ import com.alexey.minay.ood.lab09.ui.MVP
 import com.alexey.minay.ood.lab09.ui.presenters.CanvasPresenter
 import com.alexey.minay.ood.lab09.ui.presenters.FileTabPresenter
 import com.alexey.minay.ood.lab09.ui.presenters.HomeTabPresenter
-import com.alexey.minay.ood.lab09.ui.view.CanvasView
 import javafx.scene.canvas.GraphicsContext
 
 object PresenterFactory {
@@ -18,16 +17,35 @@ object PresenterFactory {
     private val mFileHelper by lazy { FileHelper() }
     private val history = CommandHistory()
     private val mHistoryInteractor = CommandHistoryInteractor(history)
-
     private val mShapeSelectionModel by lazy { ShapeSelectionModel() }
     private val mApplicationDocument by lazy { ApplicationDocument(mDocument, mShapeSelectionModel) }
     private val mDocumentAdapter by lazy { DocumentAdapter(mDocument) }
     private val mFramePositionCalculator by lazy { FramePositionCalculator() }
+    private val mInsertShapeUseCase by lazy {
+        InsertShapeUseCase(
+            document = mDocumentAdapter,
+            history = history,
+            shapeSelectionModel = mShapeSelectionModel
+        )
+    }
 
-    fun createCanvasPresenterFor(view: CanvasView): MVP.ICanvasPresenter {
-        val mChangeSelectionUseCase = ChangeSelectionUseCase(mApplicationDocument, mShapeSelectionModel)
+    fun createCanvasPresenterFor(
+        view: MVP.ICanvasView,
+        graphicsContext: GraphicsContext
+    ): MVP.ICanvasPresenter {
+        val mChangeSelectionUseCase by lazy { ChangeSelectionUseCase(mApplicationDocument, mShapeSelectionModel) }
+        val canvasAdapter by lazy { FxCanvasAdapter(graphicsContext) }
+        val calculateChangeFrameStateUseCase by lazy { CalculateChangeFrameStateUseCase(mShapeSelectionModel) }
+        val deleteShapeUseCase by lazy {
+            DeleteShapeUseCase(
+                mDocumentAdapter,
+                history,
+                mShapeSelectionModel,
+                mApplicationDocument
+            )
+        }
         return CanvasPresenter(
-            canvasAdapter = FxCanvasAdapter(view.graphicsContext),
+            canvasAdapter = canvasAdapter,
             document = mApplicationDocument,
             changeSelectionUseCase = mChangeSelectionUseCase,
             changeFrameShapeUseCase = ChangeFrameShapeUseCase(
@@ -37,38 +55,43 @@ object PresenterFactory {
                 documentAdapter = mDocumentAdapter,
                 framePositionCalculator = mFramePositionCalculator
             ),
-            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(mShapeSelectionModel),
-            deleteShapeUseCase = DeleteShapeUseCase(mDocumentAdapter, history, mShapeSelectionModel, mApplicationDocument)
+            calculateChangeFrameStateUseCase = calculateChangeFrameStateUseCase,
+            deleteShapeUseCase = deleteShapeUseCase
         ).apply { onViewCreated(view) }
     }
 
-    fun createCanvasPresenterFor(view: CanvasView, graphicsContext: GraphicsContext): MVP.ICanvasPresenter {
-        val shapeSelectionModel = ShapeSelectionModel()
-        val applicationDocument = ApplicationDocument(mDocument, shapeSelectionModel)
-        val changeSelectionUseCase = ChangeSelectionUseCase(applicationDocument, shapeSelectionModel)
-        return CanvasPresenter(
-            canvasAdapter = FxCanvasAdapter(graphicsContext),
-            document = applicationDocument,
-            changeSelectionUseCase = changeSelectionUseCase,
-            changeFrameShapeUseCase = ChangeFrameShapeUseCase(
+    fun createNewAppStateCanvasPresenterFor(
+        view: MVP.ICanvasView,
+        graphicsContext: GraphicsContext
+    ): MVP.ICanvasPresenter {
+        val shapeSelectionModel by lazy { ShapeSelectionModel() }
+        val applicationDocument by lazy { ApplicationDocument(mDocument, shapeSelectionModel) }
+        val changeSelectionUseCase by lazy { ChangeSelectionUseCase(applicationDocument, shapeSelectionModel) }
+        val canvasAdapter by lazy { FxCanvasAdapter(graphicsContext) }
+        val changeFrameShapeUseCase by lazy {
+            ChangeFrameShapeUseCase(
                 shapeSelectionModel,
                 history = history,
                 document = applicationDocument,
                 documentAdapter = mDocumentAdapter,
                 framePositionCalculator = mFramePositionCalculator
-            ),
-            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(shapeSelectionModel),
-            deleteShapeUseCase = DeleteShapeUseCase(mDocumentAdapter, history, shapeSelectionModel, applicationDocument)
+            )
+        }
+        val calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(shapeSelectionModel)
+        val deleteShapeUseCase = DeleteShapeUseCase(mDocumentAdapter, history, shapeSelectionModel, applicationDocument)
+        return CanvasPresenter(
+            canvasAdapter = canvasAdapter,
+            document = applicationDocument,
+            changeSelectionUseCase = changeSelectionUseCase,
+            changeFrameShapeUseCase = changeFrameShapeUseCase,
+            calculateChangeFrameStateUseCase = calculateChangeFrameStateUseCase,
+            deleteShapeUseCase = deleteShapeUseCase
         ).apply { onViewCreated(view) }
     }
 
-    fun createHomeTabPresenter(view: CanvasView): MVP.IHomeTabPresenter =
+    fun createHomeTabPresenter(): MVP.IHomeTabPresenter =
         HomeTabPresenter(
-            insertShapeUseCase = InsertShapeUseCase(
-                document = mDocumentAdapter,
-                history = history,
-                shapeSelectionModel = mShapeSelectionModel
-            ),
+            insertShapeUseCase = mInsertShapeUseCase,
             historyInteractor = mHistoryInteractor
         )
 
