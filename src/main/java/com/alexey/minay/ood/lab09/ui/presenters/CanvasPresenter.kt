@@ -1,10 +1,7 @@
 package com.alexey.minay.ood.lab09.ui.presenters
 
 import com.alexey.minay.ood.lab09.application.ApplicationDocument
-import com.alexey.minay.ood.lab09.application.usecases.CalculateChangeFrameStateUseCase
-import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameShapeUseCase
-import com.alexey.minay.ood.lab09.application.usecases.ChangeFrameState
-import com.alexey.minay.ood.lab09.application.usecases.ChangeSelectionUseCase
+import com.alexey.minay.ood.lab09.application.usecases.*
 import com.alexey.minay.ood.lab09.ui.FxCanvasAdapter
 import com.alexey.minay.ood.lab09.ui.MVP
 import io.reactivex.rxjava3.disposables.Disposable
@@ -14,7 +11,8 @@ class CanvasPresenter(
     private val canvasAdapter: FxCanvasAdapter,
     private val changeSelectionUseCase: ChangeSelectionUseCase,
     private val changeFrameShapeUseCase: ChangeFrameShapeUseCase,
-    private val calculateChangeFrameStateUseCase: CalculateChangeFrameStateUseCase
+    private val calculateChangeFrameStateUseCase: CalculateChangeFrameStateUseCase,
+    private val deleteShapeUseCase: DeleteShapeUseCase
 ) : MVP.ICanvasPresenter {
 
     private var mView: MVP.ICanvasView? = null
@@ -53,7 +51,7 @@ class CanvasPresenter(
     }
 
     override fun onDeleteShape() {
-        TODO("Not yet implemented")
+        deleteShapeUseCase()
     }
 
     override fun onMouseReleased(x: Double, y: Double) {

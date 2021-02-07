@@ -1,22 +1,26 @@
 package com.alexey.minay.ood.lab09.application.commands
 
 import com.alexey.minay.ood.lab09.application.DocumentAdapter
-import com.alexey.minay.ood.lab09.application.ICommand
 import com.alexey.minay.ood.lab09.application.IAppShape
+import com.alexey.minay.ood.lab09.application.ICommand
+import com.alexey.minay.ood.lab09.application.common.asAppShape
 
 class DeleteShapeCommand(
-    private val model: DocumentAdapter,
-    private val deletePosition: Int,
+    private val documentAdapter: DocumentAdapter,
+    private val deletingShapesUids: List<Long>,
 ) : ICommand {
 
-    private val mDeletedShape: IAppShape? = null
+    private var mDeletedShapes: MutableMap<Int, IAppShape> = mutableMapOf()
 
     override fun execute() {
-        model.removeShapeAt(deletePosition)
+        val deletedShapes = documentAdapter.removeShapesBy(deletingShapesUids)
+        deletedShapes.forEach { (index, shape) -> mDeletedShapes[index] = shape.asAppShape() }
     }
 
     override fun unexecute() {
-        mDeletedShape?.let { model.insertShapeAt(deletePosition, it) }
+        mDeletedShapes.forEach { (index, shape) ->
+            documentAdapter.insertShapeAt(index, shape)
+        }
     }
 
 }

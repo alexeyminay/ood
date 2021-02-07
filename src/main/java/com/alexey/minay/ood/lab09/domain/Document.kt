@@ -6,7 +6,7 @@ class Document {
 
     private val mShapes = mutableListOf<Shape>()
 
-    //TODO переписать, тут будет утечка памяти
+    //TODO доработать, тут будет утечка памяти, если одно из окон закрыть
     private val callbacks = mutableListOf<(List<Shape>) -> Unit>()
 
     fun getShapeCount() = mShapes.size
@@ -19,6 +19,18 @@ class Document {
     }
 
     fun removeShapeAt(index: Int) = mShapes.removeAt(index).also { observeAll() }
+
+    fun removeShapeBy(uids: List<Long>): Map<Int, Shape> {
+        val deletedShapes = mutableMapOf<Int, Shape>()
+        mShapes.forEachIndexed { index, shape ->
+            if (uids.contains(shape.uid)) {
+                deletedShapes[index] = shape
+            }
+        }
+        mShapes.removeAll(deletedShapes.values)
+        observeAll()
+        return deletedShapes
+    }
 
     fun subscribe(onNext: (List<Shape>) -> Unit) {
         callbacks.add(onNext)

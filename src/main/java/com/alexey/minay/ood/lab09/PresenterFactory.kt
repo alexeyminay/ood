@@ -37,7 +37,8 @@ object PresenterFactory {
                 documentAdapter = mDocumentAdapter,
                 framePositionCalculator = mFramePositionCalculator
             ),
-            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(mShapeSelectionModel)
+            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(mShapeSelectionModel),
+            deleteShapeUseCase = DeleteShapeUseCase(mDocumentAdapter, history, mShapeSelectionModel, mApplicationDocument)
         ).apply { onViewCreated(view) }
     }
 
@@ -56,7 +57,8 @@ object PresenterFactory {
                 documentAdapter = mDocumentAdapter,
                 framePositionCalculator = mFramePositionCalculator
             ),
-            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(shapeSelectionModel)
+            calculateChangeFrameStateUseCase = CalculateChangeFrameStateUseCase(shapeSelectionModel),
+            deleteShapeUseCase = DeleteShapeUseCase(mDocumentAdapter, history, shapeSelectionModel, applicationDocument)
         ).apply { onViewCreated(view) }
     }
 

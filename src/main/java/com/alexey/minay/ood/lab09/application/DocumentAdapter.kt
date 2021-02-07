@@ -14,6 +14,8 @@ class DocumentAdapter(
 
     fun removeShapeAt(index: Int): IAppShape = document.removeShapeAt(index).asAppShape()
 
+    fun removeShapesBy(uids: List<Long>) = document.removeShapeBy(uids)
+
     fun getShapeCount() = document.getShapeCount()
 
     fun getFramesByUid(uid: Long) = document.getFramesByUid(uid)

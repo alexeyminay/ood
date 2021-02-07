@@ -5,13 +5,13 @@ import com.alexey.minay.ood.lab09.application.ICommand
 import com.alexey.minay.ood.lab09.application.ShapeSelectionModel
 import com.alexey.minay.ood.lab09.application.common.AppFrame
 
-class SelectShapeCommand(
+class ClearSelectionShapeCommand(
     private val shapes: List<IAppShape>,
     private val shapeSelectionModel: ShapeSelectionModel
 ) : ICommand {
 
     override fun execute() {
-        shapeSelectionModel.setSelection(shapes)
+        shapeSelectionModel.clearSelection()
     }
 
     override fun unexecute() {

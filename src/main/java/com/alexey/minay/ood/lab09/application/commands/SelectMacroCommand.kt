@@ -4,7 +4,7 @@ import com.alexey.minay.ood.lab09.application.ICommand
 
 class SelectMacroCommand(
     private val targetCommand: ICommand,
-    private val selectShapeCommand: SelectShapeCommand
+    private val selectShapeCommand: ICommand
 ): ICommand {
 
     override fun execute() {
@@ -14,7 +14,7 @@ class SelectMacroCommand(
 
     override fun unexecute() {
         targetCommand.unexecute()
-        selectShapeCommand.execute()
+        selectShapeCommand.unexecute()
     }
 
 }
