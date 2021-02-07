@@ -45,9 +45,9 @@ class CanvasPresenter(
         }
     }
 
-    override fun onMousePressed(x: Double, y: Double) {
+    override fun onMousePressed(x: Double, y: Double, isControlDown: Boolean) {
         if (mChangeFrameState == ChangeFrameState.NOT_RESIZE) {
-            changeSelectionUseCase(x, y)
+            changeSelectionUseCase(x, y, isControlDown)
         }
         changeFrameShapeUseCase.startMoving(x, y, mChangeFrameState)
     }

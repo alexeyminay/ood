@@ -107,7 +107,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
 
     @FXML
     fun onMousePressed(mouseEvent: MouseEvent) {
-        mCanvasPresenter.onMousePressed(mouseEvent.x, mouseEvent.y)
+        mCanvasPresenter.onMousePressed(mouseEvent.x, mouseEvent.y, mouseEvent.isControlDown)
     }
 
     @FXML
@@ -165,7 +165,7 @@ class CanvasView : MVP.ICanvasView, MVP.IFileTabView, Initializable {
         stage.show()
         val presenter = PresenterFactory.createCanvasPresenterFor(this, graphicsContext)
         canvas.onMousePressed = EventHandler {
-            presenter.onMousePressed(it.x, it.y)
+            presenter.onMousePressed(it.x, it.y, it.isControlDown)
         }
         canvas.onMouseDragged = EventHandler {
             presenter.onMouseDragged(it.x, it.y, canvas.width, canvas.height)

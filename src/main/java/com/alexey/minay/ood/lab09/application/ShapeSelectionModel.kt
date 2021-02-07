@@ -22,6 +22,15 @@ class ShapeSelectionModel {
         setSelection(onUpdate(mSelectedShapeUids))
     }
 
+    fun addSelection(shapes: List<IAppShape>) {
+        mSelectedShapeUids.addAll(shapes.map(IAppShape::uid))
+        val selectedShapes = mutableListOf<DrawableFrame>().apply {
+            addAll(mSelections.value)
+            addAll(shapes.map { DrawableFrame(it.frame) })
+        }
+        mSelections.onNext(selectedShapes)
+    }
+
     fun getSelectionShapeUids() = mSelectedShapeUids
 
     fun clearSelection() {
