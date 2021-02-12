@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab3.streams.input
 
+import com.alexey.minay.ood.lab3.streams.EOF
 import com.alexey.minay.ood.lab3.streams.IInputStream
 import java.util.*
 
@@ -12,11 +13,13 @@ class DecompressInputStream(
     private var mLastByte: Int? = null
 
     override fun decorateByte(byte: Int): Int {
-        if (mIsDataByte) {
-            mReadByteQueue.add(byte)
-        } else {
-            repeat(byte - 1) {
-                mReadByteQueue.add(mLastByte)
+        if (mReadByteQueue.lastOrNull() != EOF) {
+            if (mIsDataByte) {
+                mReadByteQueue.add(byte)
+            } else {
+                repeat(byte - 1) {
+                    mReadByteQueue.add(mLastByte)
+                }
             }
         }
         mLastByte = byte

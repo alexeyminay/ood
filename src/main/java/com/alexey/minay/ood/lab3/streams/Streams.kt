@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab3.streams
 
+const val EOF = -1
+
 interface IOutputStream {
     fun writeByte(data: Int)
     fun writeBlock(data: IntArray)

@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab3.streams.output
 
+import com.alexey.minay.ood.lab3.streams.EOF
 import com.alexey.minay.ood.lab3.streams.IOutputStream
 import java.io.File
 
@@ -8,7 +9,7 @@ class MemoryOutputStream(
 ) : IOutputStream {
 
     override fun writeByte(data: Int) {
-        if (data != -1)
+        if (data != EOF)
             memory.add(data.toByte())
     }
 
@@ -23,7 +24,7 @@ class FileOutputStream(
 ) : IOutputStream {
 
     override fun writeByte(data: Int) {
-        if (data != -1)
+        if (data != EOF)
             file.appendText(data.toChar().toString(), Charsets.ISO_8859_1)
     }
 

@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab3.streams.input
 
+import com.alexey.minay.ood.lab3.streams.EOF
 import com.alexey.minay.ood.lab3.streams.IInputStream
 import java.io.File
 
@@ -31,10 +32,6 @@ class MemoryInputStream(
             readByte = readByte()
         }
         return block.toIntArray()
-    }
-
-    companion object {
-        const val EOF = -1
     }
 
 }
