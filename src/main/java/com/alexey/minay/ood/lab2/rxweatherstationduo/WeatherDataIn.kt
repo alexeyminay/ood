@@ -7,20 +7,31 @@ class WeatherDataIn(
         private var mTemperature: Double = 0.0,
         private var mHumidity: Double = 0.0,
         private var mPressure: Double = 0.0
-) : IObservable<StationData> {
+) {
 
-    override val observable: Observable<StationData>
-        get() = mBehaviorSubject
-
-    private val mBehaviorSubject = BehaviorSubject.create<StationData>()
+    val temperatureObservable: Observable<Double>
+        get() = mTemperatureObservable
+    private val mTemperatureObservable = BehaviorSubject.create<Double>()
+    val humidityObservable: Observable<Double>
+        get() = mHumidityObservable
+    private val mHumidityObservable = BehaviorSubject.create<Double>()
+    val pressureObservable: Observable<Double>
+        get() = mPressureObservable
+    private val mPressureObservable = BehaviorSubject.create<Double>()
 
     fun setMeasurements(temperature: Double, humidity: Double, pressure: Double) {
-        mTemperature = temperature
-        mHumidity = humidity
-        mPressure = pressure
-        mBehaviorSubject.onNext(
-                StationData.In(WeatherInfo(mTemperature, mHumidity, mPressure))
-        )
+        if (temperature != mTemperature) {
+            mTemperature = temperature
+            mTemperatureObservable.onNext(temperature)
+        }
+        if (humidity != mHumidity) {
+            mHumidity = humidity
+            mHumidityObservable.onNext(humidity)
+        }
+        if (pressure != mPressure) {
+            mPressure = pressure
+            mPressureObservable.onNext(pressure)
+        }
     }
 
 }

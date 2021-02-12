@@ -1,65 +1,66 @@
 package com.alexey.minay.ood.lab2.rxweatherstationduo
 
-import com.alexey.minay.ood.lab2.rxweatherstationduo.StatDisplay.StatisticValues.ValueType
+class Display(
+    private val weatherDataIn: WeatherDataIn,
+    private val weatherDataOut: WeatherDataOut
+) : DisplayObservable() {
 
-class Display : Observer<StationData>() {
-
-    override fun onNext(stationData: StationData?) {
-        when (stationData) {
-            is StationData.Out -> {
-                println("Weather outside")
-                update(stationData.info)
-            }
-            is StationData.In -> {
-                println("Weather inside")
-                update(stationData.info)
-            }
+    override fun subscribeInsideSensor(valueType: ValueType) {
+        disposables += when (valueType) {
+            ValueType.TEMPERATURE -> weatherDataIn.temperatureObservable
+                .subscribe { println("Current in Temperature $it") }
+            ValueType.HUMIDITY -> weatherDataIn.humidityObservable
+                .subscribe { println("Current in Hum $it") }
+            ValueType.PRESSURE -> weatherDataIn.pressureObservable
+                .subscribe { println("Current in Pressure $it") }
         }
     }
 
-    fun update(data: WeatherInfo) {
-        println("Current Temp ${data.temperature}")
-        println("Current Hum ${data.humidity}")
-        println("Current Pressure ${data.pressure}")
-        println("________________________________")
+    override fun subscribeOutsideSensor(valueType: ValueType) {
+        disposables += when (valueType) {
+            ValueType.TEMPERATURE -> weatherDataOut.temperatureObservable
+                .subscribe { println("Current Out Temperature $it") }
+            ValueType.HUMIDITY -> weatherDataOut.humidityObservable
+                .subscribe { println("Current Out Hum $it") }
+            ValueType.PRESSURE -> weatherDataOut.pressureObservable
+                .subscribe { println("Current Out Pressure $it") }
+        }
     }
 
 }
 
-class StatDisplay : Observer<StationData>() {
+class StatDisplay(
+    private val weatherDataIn: WeatherDataIn,
+    private val weatherDataOut: WeatherDataOut
+) : DisplayObservable() {
 
-    private val valuesOut = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues(ValueType.TEMPERATURE))
-        it.add(StatisticValues(ValueType.HUMIDITY))
-        it.add(StatisticValues(ValueType.PRESSURE))
-    }
+    private val mOutHumidity = StatisticValues(ValueType.HUMIDITY)
+    private val mOutTemperature = StatisticValues(ValueType.TEMPERATURE)
+    private val mOutPressure = StatisticValues(ValueType.PRESSURE)
 
-    private val valuesIn = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues(ValueType.TEMPERATURE))
-        it.add(StatisticValues(ValueType.HUMIDITY))
-        it.add(StatisticValues(ValueType.PRESSURE))
-    }
+    private val mInHumidity = StatisticValues(ValueType.HUMIDITY)
+    private val mInTemperature = StatisticValues(ValueType.TEMPERATURE)
+    private val mInPressure = StatisticValues(ValueType.PRESSURE)
 
-    override fun onNext(stationData: StationData?) {
-        when (stationData) {
-            is StationData.Out -> {
-                println("Weather stat outside")
-                update(valuesOut, stationData.info)
-            }
-            is StationData.In -> {
-                println("Weather stat inside")
-                update(valuesIn, stationData.info)
-            }
+    override fun subscribeInsideSensor(valueType: ValueType) {
+        disposables += when (valueType) {
+            ValueType.TEMPERATURE -> weatherDataIn.temperatureObservable
+                .subscribe { update(mInTemperature, it) }
+            ValueType.HUMIDITY -> weatherDataIn.humidityObservable
+                .subscribe { update(mInHumidity, it) }
+            ValueType.PRESSURE -> weatherDataIn.pressureObservable
+                .subscribe { update(mInPressure, it) }
         }
     }
 
-    private fun update(updatingValues: List<StatisticValues>, data: WeatherInfo) {
-        updatingValues.forEach { values ->
-            when (values.valueType) {
-                ValueType.TEMPERATURE -> update(values, data.temperature)
-                ValueType.HUMIDITY -> update(values, data.humidity)
-                ValueType.PRESSURE -> update(values, data.pressure)
-            }
+    override fun subscribeOutsideSensor(valueType: ValueType) {
+        disposables += when (valueType) {
+            ValueType.TEMPERATURE -> weatherDataOut.temperatureObservable
+                .subscribe { update(mOutTemperature, it) }
+            ValueType.HUMIDITY -> weatherDataOut.humidityObservable
+                .subscribe { update(mOutHumidity, it) }
+            ValueType.PRESSURE -> weatherDataOut.pressureObservable
+                .subscribe { update(mOutPressure, it) }
         }
     }
 
@@ -73,25 +74,28 @@ class StatDisplay : Observer<StationData>() {
         statValue.sumValue += newValue
         ++statValue.measureCount
 
-        println("Max ${statValue.valueType} ${statValue.maxValue}")
-        println("Min ${statValue.valueType} ${statValue.minValue}")
-        println("Average ${statValue.valueType} ${statValue.sumValue / statValue.measureCount}")
+        print(statValue)
+    }
+
+    private fun print(statValue: StatisticValues) {
+        println("Max ${statValue.type.value} ${statValue.maxValue}")
+        println("Min ${statValue.type.value} ${statValue.minValue}")
+        println("Average ${statValue.type.value} ${statValue.sumValue / statValue.measureCount}")
         println("________________________________")
     }
 
     data class StatisticValues(
-            val valueType: ValueType
-    ) {
-        var minValue: Double = Double.POSITIVE_INFINITY
-        var maxValue: Double = Double.NEGATIVE_INFINITY
-        var sumValue: Double = 0.0
+        var type: ValueType,
+        var minValue: Double = Double.POSITIVE_INFINITY,
+        var maxValue: Double = Double.NEGATIVE_INFINITY,
+        var sumValue: Double = 0.0,
         var measureCount: Int = 0
+    )
 
-        enum class ValueType {
-            TEMPERATURE,
-            HUMIDITY,
-            PRESSURE
-        }
-    }
+}
 
+enum class ValueType(val value: String) {
+    TEMPERATURE("temperature"),
+    HUMIDITY("humidity"),
+    PRESSURE("pressure")
 }
