@@ -3,27 +3,27 @@ package com.alexey.minay.ood.lab05.commands
 import com.alexey.minay.ood.lab05.document.IDocumentItem
 
 class ResizeImageCommand(
-        private val documentItems: MutableList<IDocumentItem>,
-        private val width: Int,
-        private val height: Int,
-        private val position: Int
+    private val documentItem: IDocumentItem,
+    private val width: Int,
+    private val height: Int
 ) : AbstractCommand() {
 
-    private var mOldWidth: Int = 0
-    private var mOldHeight: Int = 0
+    private var mOldWidth: Int? = null
+    private var mOldHeight: Int? = null
 
     override fun doExecute() {
         resize(width, height)
     }
 
     override fun doUnExecute() {
-        resize(mOldWidth, mOldHeight)
+        resize(
+            width = mOldWidth ?: throw RuntimeException("Command didn't execute"),
+            height = mOldHeight ?: throw RuntimeException("Command didn't execute")
+        )
     }
 
     private fun resize(width: Int, height: Int) {
-        if (position > documentItems.size) throw RuntimeException("Position $position doesn't exist")
-        val item = documentItems[position]
-        val image = item.getImage() ?: throw RuntimeException("Item doesn't have image")
+        val image = documentItem.getImage() ?: throw RuntimeException("Item doesn't have image")
         mOldWidth = image.getWidth()
         mOldHeight = image.getHeight()
         image.resize(width, height)

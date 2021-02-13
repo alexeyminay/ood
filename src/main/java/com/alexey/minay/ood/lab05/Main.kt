@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab05
 
+import com.alexey.minay.ood.lab05.commands.ReplaceTextCommand
+import com.alexey.minay.ood.lab05.commands.ResizeImageCommand
 import com.alexey.minay.ood.lab05.document.Document
 import com.alexey.minay.ood.lab05.document.DocumentPrinter
 import com.alexey.minay.ood.lab05.document.DocumentSaver
@@ -24,8 +26,8 @@ fun main() {
                 "InsertImage" -> handleInsertImageCommand(document, splittedCommand)
                 "SetTitle" -> handleSetTitleCommand(document, splittedCommand)
                 "List" -> documentPrinter.print()
-                "ReplaceText" -> handleReplaceTextCommand(document, splittedCommand)
-                "ResizeImage" -> handleResizeImageCommand(document, splittedCommand)
+                "ReplaceText" -> handleReplaceTextCommand(document, splittedCommand, history)
+                "ResizeImage" -> handleResizeImageCommand(document, splittedCommand, history)
                 "DeleteItem" -> handleDeleteItemCommand(document, splittedCommand)
                 "Help" -> Help.print()
                 "Undo" -> document.undo()
@@ -75,19 +77,30 @@ private fun handleSetTitleCommand(document: IDocument, splittedCommand: List<Str
     return document.setTitle(splittedCommand.subList(1, splittedCommand.size).joinToString())
 }
 
-private fun handleReplaceTextCommand(document: IDocument, splittedCommand: List<String>) {
+private fun handleReplaceTextCommand(document: IDocument, splittedCommand: List<String>, history: History) {
     if (splittedCommand.size < 3) return
     val position: Int = splittedCommand[1].toIntOrNull() ?: return
     val text = splittedCommand.subList(2, splittedCommand.size).joinToString()
-    document.getItem(position).getParagraph()?.setText(text)
+    history.addAnExecute(
+        ReplaceTextCommand(
+            documentItem = document.getItem(position),
+            text = text
+        )
+    )
 }
 
-private fun handleResizeImageCommand(document: IDocument, splittedCommand: List<String>) {
+private fun handleResizeImageCommand(document: IDocument, splittedCommand: List<String>, history: History) {
     if (splittedCommand.size != 4) return
     val position: Int = splittedCommand[1].toIntOrNull() ?: return
     val width: Int = splittedCommand[2].toIntOrNull() ?: return
     val height: Int = splittedCommand[3].toIntOrNull() ?: return
-    document.resizeImage(width, height, position)
+    history.addAnExecute(
+        ResizeImageCommand(
+            documentItem = document.getItem(position),
+            width = width,
+            height = height
+        )
+    )
 }
 
 private fun handleSaveCommand(documentSaver: DocumentSaver, splitCommand: List<String>) {

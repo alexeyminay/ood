@@ -3,27 +3,21 @@ package com.alexey.minay.ood.lab05.commands
 import com.alexey.minay.ood.lab05.document.IDocumentItem
 
 class ReplaceTextCommand(
-        private val documentItems: MutableList<IDocumentItem>,
-        private val text: String,
-        private val position: Int
+    private val documentItem: IDocumentItem,
+    private val text: String
 ) : AbstractCommand() {
 
     private var oldText: String? = null
 
     override fun doExecute() {
-        changeTextIntoParagraph(text)
+        val paragraph = documentItem.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
+        oldText = paragraph.getText()
+        paragraph.setText(text)
     }
 
     override fun doUnExecute() {
-        changeTextIntoParagraph(oldText ?: "")
-    }
-
-    private fun changeTextIntoParagraph(text: String) {
-        if (position > documentItems.size) throw RuntimeException("Position $position doesn't exist")
-        val item = documentItems[position]
-        val paragraph = item.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
-        oldText = paragraph.getText()
-        paragraph.setText(text)
+        val paragraph = documentItem.getParagraph() ?: throw RuntimeException("Item doesn't have paragraph")
+        paragraph.setText(oldText ?: throw RuntimeException("Command didn't execute"))
     }
 
 }

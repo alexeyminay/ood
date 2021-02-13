@@ -2,11 +2,13 @@ package com.alexey.minay.ood.lab05.document
 
 import com.alexey.minay.ood.lab05.FileHelper
 import com.alexey.minay.ood.lab05.History
-import com.alexey.minay.ood.lab05.commands.*
+import com.alexey.minay.ood.lab05.commands.InsertImageCommand
+import com.alexey.minay.ood.lab05.commands.InsertParagraphCommand
+import com.alexey.minay.ood.lab05.commands.SetTitleCommand
 
 class Document(
-        private val history: History,
-        private val fileHelper: FileHelper
+    private val history: History,
+    private val fileHelper: FileHelper
 ) : IDocument {
 
     private var mTitle: Title = Title("")
@@ -16,30 +18,16 @@ class Document(
         history.addAnExecute(InsertParagraphCommand(mDocument, text, position ?: mDocument.size))
     }
 
-    override fun replaceTextParagraph(text: String, position: Int?) {
-        history.addAnExecute(ReplaceTextCommand(mDocument, text, position ?: mDocument.size))
-    }
-
     override fun insertImage(path: String, height: Int, width: Int, position: Int?) {
         history.addAnExecute(
-                InsertImageCommand(
-                        documentItems = mDocument,
-                        path = path,
-                        width = width,
-                        height = height,
-                        position = position ?: mDocument.size,
-                        fileHelper = fileHelper)
-        )
-    }
-
-    override fun resizeImage(width: Int, height: Int, position: Int?) {
-        history.addAnExecute(
-                ResizeImageCommand(
-                        documentItems = mDocument,
-                        width = width,
-                        height = height,
-                        position = position ?: mDocument.size
-                )
+            InsertImageCommand(
+                documentItems = mDocument,
+                path = path,
+                width = width,
+                height = height,
+                position = position ?: mDocument.size,
+                fileHelper = fileHelper
+            )
         )
     }
 

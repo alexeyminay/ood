@@ -2,7 +2,6 @@ package com.alexey.minay.ood.lab05
 
 import com.alexey.minay.ood.lab05.commands.ICommand
 
-
 class History {
 
     private var mCursor = 0
@@ -27,7 +26,7 @@ class History {
             mCommands.removeAt(FIRST_SAVED_COMMAND_INDEX)
         }
 
-        mCursor++
+        if (mCursor < 10) mCursor++
         command.execute()
     }
 
