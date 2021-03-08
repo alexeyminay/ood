@@ -12,6 +12,8 @@ class Image(
     private var mHeight = height
     private val mName = name
 
+    override var linkCount: Int = 0
+
     override fun getName() = mName
 
     override fun getPath() = mPath

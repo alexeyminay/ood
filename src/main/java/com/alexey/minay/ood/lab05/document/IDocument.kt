@@ -21,6 +21,7 @@ interface IParagraph {
 }
 
 interface IImage {
+    var linkCount: Int
     fun getName(): String
     fun getPath(): String
     fun getHeight(): Int

@@ -31,7 +31,7 @@ class ChangeShapeFrameCommand(
             }
             selectionModel.setSelection(mNewShapes)
         }
-        documentAdapter.observeAll()
+        documentAdapter.notifyAllSubscribers()
     }
 
     override fun unexecute() {
@@ -41,7 +41,7 @@ class ChangeShapeFrameCommand(
             newShape.update(shape.frame.asDomainFrame())
         }
         selectionModel.setSelection(mOldShapes)
-        documentAdapter.observeAll()
+        documentAdapter.notifyAllSubscribers()
     }
 
 }
