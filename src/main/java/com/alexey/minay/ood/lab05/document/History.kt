@@ -1,6 +1,6 @@
-package com.alexey.minay.ood.lab05
+package com.alexey.minay.ood.lab05.document
 
-import com.alexey.minay.ood.lab05.commands.ICommand
+import com.alexey.minay.ood.lab05.ICommand
 
 class History {
 

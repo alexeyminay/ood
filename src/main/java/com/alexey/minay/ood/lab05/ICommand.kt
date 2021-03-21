@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab05.commands
+package com.alexey.minay.ood.lab05
 
 interface ICommand {
     fun execute()

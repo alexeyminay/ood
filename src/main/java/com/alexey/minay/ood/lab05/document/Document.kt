@@ -1,7 +1,6 @@
 package com.alexey.minay.ood.lab05.document
 
-import com.alexey.minay.ood.lab05.FileHelper
-import com.alexey.minay.ood.lab05.History
+import com.alexey.minay.ood.lab05.commands.FileHelper
 import com.alexey.minay.ood.lab05.commands.InsertImageCommand
 import com.alexey.minay.ood.lab05.commands.InsertParagraphCommand
 import com.alexey.minay.ood.lab05.commands.SetTitleCommand

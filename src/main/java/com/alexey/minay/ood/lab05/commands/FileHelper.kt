@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab05
+package com.alexey.minay.ood.lab05.commands
 
 import java.io.File
 

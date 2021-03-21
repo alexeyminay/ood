@@ -1,6 +1,5 @@
 package com.alexey.minay.ood.lab05.commands
 
-import com.alexey.minay.ood.lab05.FileHelper
 import com.alexey.minay.ood.lab05.document.DocumentItem
 import com.alexey.minay.ood.lab05.document.IDocumentItem
 import com.alexey.minay.ood.lab05.document.Image

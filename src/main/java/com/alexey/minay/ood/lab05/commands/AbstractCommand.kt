@@ -1,5 +1,7 @@
 package com.alexey.minay.ood.lab05.commands
 
+import com.alexey.minay.ood.lab05.ICommand
+
 abstract class AbstractCommand : ICommand {
 
     private var mExecuted: Boolean = false
