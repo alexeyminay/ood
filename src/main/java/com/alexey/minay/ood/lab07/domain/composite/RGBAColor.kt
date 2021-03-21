@@ -1,4 +1,4 @@
-package com.alexey.minay.ood.lab07.domain
+package com.alexey.minay.ood.lab07.domain.composite
 
 data class RGBAColor(val r: Int, val g: Int, val b: Int, val a: Double) {
 

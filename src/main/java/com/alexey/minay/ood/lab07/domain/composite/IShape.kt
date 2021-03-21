@@ -4,9 +4,7 @@ import com.alexey.minay.ood.lab07.domain.Frame
 import com.alexey.minay.ood.lab07.domain.ICanvas
 
 interface IShape {
-    var fillStyle: FillStyle
-    var lineStyle: LineStyle
-    var frame: Frame
-    var group: IGroup?
+    val style: IStyle
+    var frame: Frame?
     fun draw(canvas: ICanvas)
 }

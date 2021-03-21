@@ -2,21 +2,17 @@ package com.alexey.minay.ood.lab07.domain.composite
 
 import com.alexey.minay.ood.lab07.domain.Frame
 import com.alexey.minay.ood.lab07.domain.ICanvas
-import com.alexey.minay.ood.lab07.domain.LineType
-import com.alexey.minay.ood.lab07.domain.RGBAColor
+import com.alexey.minay.ood.lab07.domain.composite.style.CompoundStyle
 import kotlin.math.max
 import kotlin.math.min
 
-class Group(
-        override var fillStyle: FillStyle,
-        override var lineStyle: LineStyle
-) : IGroup {
+class Group : IGroup {
 
     private val mShapes = mutableListOf<IShape>()
 
-    override var group: IGroup? = null
+    override val style: IStyle = CompoundStyle(::calculateFillStyle, ::calculateLineStyle)
 
-    override var frame: Frame
+    override var frame: Frame?
         get() = getCurrentFrame()
         set(value) = resizeFrame(value)
 
@@ -26,7 +22,6 @@ class Group(
 
     override fun insertShape(shape: IShape, index: Int) {
         mShapes.add(index, shape)
-        shape.group = this
     }
 
     override fun removeAt(index: Int) {
@@ -37,17 +32,17 @@ class Group(
     override fun draw(canvas: ICanvas) {
         drawFrame(canvas)
         mShapes.forEach {
-            if (fillStyle.isEnable) it.fillStyle = fillStyle
-            if (lineStyle.isEnable) it.lineStyle = lineStyle
             it.draw(canvas)
         }
     }
 
-    private fun resizeFrame(newFrame: Frame) {
-        val currentFrame = getCurrentFrame()
+    private fun resizeFrame(newFrame: Frame?) {
+        if (newFrame == null) return
+        val currentFrame = getCurrentFrame() ?: return
         mShapes.forEach {
-            it.apply {
-                frame = Frame(
+            val frame = it.frame
+            if (frame != null) {
+                it.frame = Frame(
                         left = frame.left * newFrame.width / currentFrame.width,
                         right = frame.right * newFrame.width / currentFrame.width,
                         top = frame.top * newFrame.height / currentFrame.height,
@@ -57,42 +52,76 @@ class Group(
         }
     }
 
-    private fun getCurrentFrame() =
-            when (mShapes.size) {
-                0 -> throw RuntimeException("Нужно добавить фигуру")
-                1 -> mShapes[0].frame
-                else -> {
-                    val offset = 10
-                    val frame = Frame(
-                            right = mShapes[0].frame.right,
-                            left = mShapes[0].frame.left,
-                            top = mShapes[0].frame.top,
-                            bottom = mShapes[0].frame.bottom
-                    )
-                    mShapes.forEach { shape ->
-                        frame.bottom = max(frame.bottom, shape.frame.bottom)
-                        frame.top = min(frame.top, shape.frame.top)
-                        frame.right = max(frame.right, shape.frame.right)
-                        frame.left = min(frame.left, shape.frame.left)
+    private fun getCurrentFrame(): Frame? {
+        fun calculateFrame(): Frame? {
+            var frame: Frame? = null
+            mShapes.forEach { shape ->
+                val shapeFrame = shape.frame
+                if (shapeFrame != null) {
+                    if (frame == null) {
+                        frame = shapeFrame.copy()
+                    } else {
+                        frame?.let {
+                            it.bottom = max(it.bottom, shapeFrame.bottom)
+                            it.top = min(it.top, shapeFrame.top)
+                            it.right = max(it.right, shapeFrame.right)
+                            it.left = min(it.left, shapeFrame.left)
+                        }
                     }
-                    frame.bottom += offset
-                    frame.top -= offset
-                    frame.right += offset
-                    frame.left -= offset
-                    frame
                 }
             }
+            return frame
+        }
+        return when (mShapes.size) {
+            0 -> null
+            1 -> mShapes.first().frame
+            else -> calculateFrame()
+        }
+    }
 
     private fun drawFrame(canvas: ICanvas) {
-        val currentFrame = frame
+        val currentFrame = frame ?: return
+        val offset = 5.0
         canvas.setLineColor(RGBAColor.GREY_TRANSLUCENT)
-        canvas.setLineType(LineType.Frame)
-        canvas.moveTo(currentFrame.left, currentFrame.top)
-        canvas.lineTo(currentFrame.left, currentFrame.bottom)
-        canvas.lineTo(currentFrame.right, currentFrame.bottom)
-        canvas.lineTo(currentFrame.right, currentFrame.top)
-        canvas.lineTo(currentFrame.left, currentFrame.top)
+        canvas.setLineWidth(FRAME_LINE_WIDTH)
+        canvas.moveTo(currentFrame.left - offset, currentFrame.top - offset)
+        canvas.lineTo(currentFrame.left - offset, currentFrame.bottom + offset)
+        canvas.lineTo(currentFrame.right + offset, currentFrame.bottom + offset)
+        canvas.lineTo(currentFrame.right + offset, currentFrame.top - offset)
+        canvas.lineTo(currentFrame.left - offset, currentFrame.top - offset)
         canvas.fill(RGBAColor.TRANSPARENT)
+    }
+
+    private fun calculateFillStyle(): FillStyle? = when (mShapes.size) {
+        0 -> null
+        1 -> mShapes.first().style.fillStyle
+        else -> {
+            val hasAllTheSameStyles = mShapes.all {
+                it.style.fillStyle == mShapes.first().style.fillStyle
+            }
+            when {
+                hasAllTheSameStyles -> mShapes.first().style.fillStyle
+                else -> null
+            }
+        }
+    }
+
+    private fun calculateLineStyle(): LineStyle? = when (mShapes.size) {
+        0 -> null
+        1 -> mShapes.first().style.lineStyle
+        else -> {
+            val hasAllTheSameStyles = mShapes.all {
+                it.style.lineStyle == mShapes.first().style.lineStyle
+            }
+            when {
+                hasAllTheSameStyles -> mShapes.first().style.lineStyle
+                else -> null
+            }
+        }
+    }
+
+    companion object {
+        private const val FRAME_LINE_WIDTH = 1.0
     }
 
 }

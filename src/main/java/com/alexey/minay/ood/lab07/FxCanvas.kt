@@ -1,8 +1,7 @@
 package com.alexey.minay.ood.lab07
 
 import com.alexey.minay.ood.lab07.domain.ICanvas
-import com.alexey.minay.ood.lab07.domain.LineType
-import com.alexey.minay.ood.lab07.domain.RGBAColor
+import com.alexey.minay.ood.lab07.domain.composite.RGBAColor
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
 
@@ -14,10 +13,6 @@ class FxCanvas(
     private var fromY: Double = 0.0
     private var mListX = mutableListOf<Double>()
     private var mListY = mutableListOf<Double>()
-
-    init {
-        setLineType(LineType.Shapes(3.0))
-    }
 
     override fun fill(color: RGBAColor) {
         graphicsContext.fill = color.asFxColor()
@@ -46,17 +41,8 @@ class FxCanvas(
         mListY.add(y)
     }
 
-    override fun setLineType(lineType: LineType) {
-        when (lineType) {
-            is LineType.Shapes -> {
-                graphicsContext.lineWidth = lineType.lineWidth
-                graphicsContext.setLineDashes(0.0)
-            }
-            is LineType.Frame -> {
-                graphicsContext.lineWidth = 1.0
-                graphicsContext.setLineDashes(10.0)
-            }
-        }
+    override fun setLineWidth(lineWidth: Double) {
+        graphicsContext.lineWidth = lineWidth
     }
 
     override fun drawEllipse(left: Double, top: Double, width: Double, height: Double) {
