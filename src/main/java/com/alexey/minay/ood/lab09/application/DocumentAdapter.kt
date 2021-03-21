@@ -27,8 +27,8 @@ class DocumentAdapter(
 
     fun getFramesByUid(uid: Long) = document.getFramesByUid(uid)
 
-    fun observeAll() {
-        document.observeAll()
+    fun notifyAllSubscribers() {
+        document.notifyAllSubscribers()
     }
 
 }

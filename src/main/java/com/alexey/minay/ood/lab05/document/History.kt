@@ -23,7 +23,8 @@ class History {
         mCommands.add(command)
 
         if (mCommands.size > MAX_SAVED_COMMAND) {
-            mCommands.removeAt(FIRST_SAVED_COMMAND_INDEX)
+            val removingCommand = mCommands.removeAt(FIRST_SAVED_COMMAND_INDEX)
+            removingCommand.onClear()
         }
 
         if (mCursor < 10) mCursor++

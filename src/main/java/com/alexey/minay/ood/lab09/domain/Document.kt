@@ -16,17 +16,17 @@ class Document {
     fun setShapes(shapes: List<Shape>) {
         mShapes.clear()
         mShapes.addAll(shapes)
-        observeAll()
+        notifyAllSubscribers()
     }
 
     fun getFramesByUid(uid: Long) = mShapes.firstOrNull { it.uid == uid }
 
     fun insertShapeAt(index: Int, shape: Shape) {
         mShapes.add(index, shape)
-        observeAll()
+        notifyAllSubscribers()
     }
 
-    fun removeShapeAt(index: Int) = mShapes.removeAt(index).also { observeAll() }
+    fun removeShapeAt(index: Int) = mShapes.removeAt(index).also { notifyAllSubscribers() }
 
     fun removeShapeBy(uids: List<Long>): Map<Int, Shape> {
         val deletedShapes = mutableMapOf<Int, Shape>()
@@ -36,16 +36,16 @@ class Document {
             }
         }
         mShapes.removeAll(deletedShapes.values)
-        observeAll()
+        notifyAllSubscribers()
         return deletedShapes
     }
 
     fun subscribe(onNext: (List<Shape>) -> Unit) {
         mCallbacks.add(onNext)
-        observeAll()
+        onNext(mShapes)
     }
 
-    fun observeAll() {
+    fun notifyAllSubscribers() {
         mCallbacks.forEach { onNext ->
             onNext(mShapes)
         }
