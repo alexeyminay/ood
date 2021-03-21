@@ -4,7 +4,7 @@ fun main() {
     val gumBallMachine = GumBallMachine(0)
     val menu = Menu()
 
-    menu.addItem("help", "выход") { menu.showInstructions() }
+    menu.addItem("help", "помощь") { menu.showInstructions() }
     menu.addItem("refill", "заполнить автомат жвачкой") { input ->
         val gumBallCount = input.split(" ")[1].toIntOrNull()
         if (gumBallCount != null) {

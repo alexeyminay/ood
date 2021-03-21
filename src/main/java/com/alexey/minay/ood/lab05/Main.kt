@@ -13,35 +13,43 @@ fun main() {
     val document = Document(history, fileHelper)
     val documentPrinter = DocumentPrinter(document, ::println)
     val documentSaver = DocumentSaver(document)
-    println("введите команду:")
-    println("Help - помощь")
-    while (true) {
-        val input = readLine() ?: continue
-        val splittedCommand = input.split(" ")
-        if (splittedCommand.isEmpty()) continue
 
-        try {
-            when (splittedCommand[0]) {
-                "InsertParagraph" -> handleInsertParagraphCommand(document, splittedCommand)
-                "InsertImage" -> handleInsertImageCommand(document, splittedCommand)
-                "SetTitle" -> handleSetTitleCommand(document, splittedCommand)
-                "List" -> documentPrinter.print()
-                "ReplaceText" -> handleReplaceTextCommand(document, splittedCommand, history)
-                "ResizeImage" -> handleResizeImageCommand(document, splittedCommand, history)
-                "DeleteItem" -> handleDeleteItemCommand(document, splittedCommand)
-                "Help" -> Help.print()
-                "Undo" -> document.undo()
-                "Redo" -> document.redo()
-                "Save" -> handleSaveCommand(documentSaver, splittedCommand)
-                "Close" -> {
-                    document.close()
-                    return
-                }
-            }
-        } catch (e: Exception) {
-            println(e.message)
-        }
+    val menu = Menu()
+
+    menu.addItem("help", "помощь") { menu.showInstructions() }
+    menu.addItem("InsertParagraph", "<позиция>|end <текст параграфа> - добавить параграф") {
+        handleInsertParagraphCommand(document, it)
     }
+    menu.addItem(
+        "InsertImage", " <позиция>|end <ширина> <высота> <путь к файлу изображения> - добавить изображение"
+    ) {
+        handleInsertImageCommand(document, it)
+    }
+    menu.addItem("SetTitle", "<заголовок документа> - добавить заголовок") {
+        handleSetTitleCommand(document, it)
+    }
+    menu.addItem("List", "вывести структуру документа") {
+        documentPrinter.print()
+    }
+    menu.addItem("ReplaceText", "<позиция> <текст параграфа> - заменить текст") {
+        handleReplaceTextCommand(document, it, history)
+    }
+    menu.addItem("ResizeImage", "<позиция> <ширина> <высота> - изменить размер изображения") {
+        handleResizeImageCommand(document, it, history)
+    }
+    menu.addItem("DeleteItem", " <позиция> - удалить элемент документа") {
+        handleDeleteItemCommand(document, it)
+    }
+    menu.addItem("Undo", "отменить") { document.undo() }
+    menu.addItem("Redo", "выполнить ранее отмененную команду") { document.redo() }
+    menu.addItem("Save", "<путь> - сохранить") { handleSaveCommand(documentSaver, it) }
+    menu.addItem("Close", "закрыть документ") {
+        document.close()
+        menu.exit()
+    }
+    menu.showInstructions()
+    menu.run(::println)
+
 }
 
 private fun handleDeleteItemCommand(document: IDocument, splittedCommand: List<String>) {
