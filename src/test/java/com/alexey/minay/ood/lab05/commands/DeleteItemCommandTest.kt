@@ -1,6 +1,6 @@
 package com.alexey.minay.ood.lab05.commands
 
-import com.alexey.minay.ood.lab05.common.IDocumentItem
+import com.alexey.minay.ood.lab05.document.IDocumentItem
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.Test
 import kotlin.test.assertEquals

@@ -1,7 +1,6 @@
 package com.alexey.minay.ood.lab05.document
 
 import com.alexey.minay.ood.lab05.DocumentPrinter
-import com.alexey.minay.ood.lab05.common.IDocument
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Test
