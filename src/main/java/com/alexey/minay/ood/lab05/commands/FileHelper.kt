@@ -2,7 +2,7 @@ package com.alexey.minay.ood.lab05.commands
 
 import java.io.File
 
-class FileHelper {
+open class FileHelper {
 
     fun copyFile(donorFilePath: String, newPath: String, newFilePath: String) {
         val file = File(donorFilePath)

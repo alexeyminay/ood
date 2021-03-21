@@ -7,7 +7,6 @@ import kotlin.test.assertEquals
 
 class ReplaceTextCommandTest {
 
-
     @Test
     fun shouldReplaceText() {
         val paragraph = Paragraph("")

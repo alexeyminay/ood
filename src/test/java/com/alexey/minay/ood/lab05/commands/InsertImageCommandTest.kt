@@ -12,7 +12,7 @@ class InsertImageCommandTest {
 
     @Test
     fun shouldInsertImageWithWidth() {
-        val path = "path"
+        val path = "D:\\IdeaProjects\\labs\\ood\\src\\main\\resources\\hypa.jpg"
         val width = 300
         val height = 200
         val position = 0
@@ -30,7 +30,7 @@ class InsertImageCommandTest {
 
     @Test
     fun shouldInsertImageWithHeight() {
-        val path = "path"
+        val path = "D:\\IdeaProjects\\labs\\ood\\src\\main\\resources\\hypa.jpg"
         val width = 300
         val height = 200
         val position = 0
@@ -48,7 +48,7 @@ class InsertImageCommandTest {
 
     @Test
     fun shouldInsertImage() {
-        val path = "path"
+        val path = "D:\\IdeaProjects\\labs\\ood\\src\\main\\resources\\hypa.jpg"
         val width = 300
         val height = 200
         val position = 0
@@ -77,7 +77,7 @@ class InsertImageCommandTest {
 
     @Test
     fun shouldDeleteInsertedImage() {
-        val path = "path"
+        val path = "D:\\IdeaProjects\\labs\\ood\\src\\main\\resources\\hypa.jpg"
         val width = 300
         val height = 200
         val position = 0
