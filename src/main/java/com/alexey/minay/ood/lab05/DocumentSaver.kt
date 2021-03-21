@@ -1,5 +1,6 @@
-package com.alexey.minay.ood.lab05.document
+package com.alexey.minay.ood.lab05
 
+import com.alexey.minay.ood.lab05.document.IDocument
 import com.alexey.minay.ood.lab05.dsl.Html
 import java.io.File
 

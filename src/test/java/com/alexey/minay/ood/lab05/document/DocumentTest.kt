@@ -1,6 +1,7 @@
 package com.alexey.minay.ood.lab05.document
 
 import com.alexey.minay.ood.lab05.commands.FileHelper
+import com.alexey.minay.ood.lab05.common.History
 import com.nhaarman.mockitokotlin2.mock
 import org.junit.After
 import org.junit.Test

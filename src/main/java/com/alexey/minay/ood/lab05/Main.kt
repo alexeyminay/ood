@@ -4,7 +4,6 @@ import com.alexey.minay.ood.lab05.commands.FileHelper
 import com.alexey.minay.ood.lab05.commands.ReplaceTextCommand
 import com.alexey.minay.ood.lab05.commands.ResizeImageCommand
 import com.alexey.minay.ood.lab05.document.Document
-import com.alexey.minay.ood.lab05.document.DocumentSaver
 import com.alexey.minay.ood.lab05.document.History
 import com.alexey.minay.ood.lab05.document.IDocument
 
