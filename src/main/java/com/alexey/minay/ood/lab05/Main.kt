@@ -16,7 +16,7 @@ fun main() {
 
     val menu = Menu()
 
-    menu.addItem("help", "помощь") { menu.showInstructions() }
+    menu.addItem("help", "помощь") { menu.showInstructions(::println) }
     menu.addItem("InsertParagraph", "<позиция>|end <текст параграфа> - добавить параграф") {
         handleInsertParagraphCommand(document, it)
     }
@@ -47,8 +47,8 @@ fun main() {
         document.close()
         menu.exit()
     }
-    menu.showInstructions()
-    menu.run(::println)
+    menu.showInstructions(::println)
+    menu.run(::println, ::readLine)
 
 }
 

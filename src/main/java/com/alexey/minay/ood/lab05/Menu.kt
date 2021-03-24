@@ -9,9 +9,9 @@ class Menu {
         mItems[shortcut] = Item(description, command)
     }
 
-    fun run(message: (String) -> Unit) {
+    fun run(message: (String) -> Unit, readCommand: () -> String?) {
         while (!mExit) {
-            val input = readLine() ?: continue
+            val input = readCommand() ?: continue
             try {
                 input.split(" ").also {
                     mItems[it[0]]?.command
@@ -24,9 +24,9 @@ class Menu {
         }
     }
 
-    fun showInstructions() {
+    fun showInstructions(output: (String) -> Unit) {
         mItems.forEach {
-            println("- ${it.key} - ${it.value.description}")
+            output("- ${it.key} - ${it.value.description}")
         }
     }
 
