@@ -7,7 +7,7 @@ interface IObservable<T> {
 }
 
 interface IObserver<T> {
-    val values: MutableList<out IValues>
+    val values: MutableList<Values>
     fun update(data: T)
 }
 
@@ -23,8 +23,8 @@ open class Observable<T> : IObservable<T> {
 
     override fun notify(data: T) {
         mObservers
-                .flatMap { it.value }
-                .forEach { it.update(data) }
+            .flatMap { it.value }
+            .forEach { it.update(data) }
     }
 
     override fun remove(observer: IObserver<T>) {
@@ -33,4 +33,9 @@ open class Observable<T> : IObservable<T> {
 
 }
 
-interface IValues
+enum class Values(val value: String) {
+    TEMPERATURE("temperature"),
+    HUMIDITY("humidity"),
+    PRESSURE("pressure"),
+    WIND("wind")
+}

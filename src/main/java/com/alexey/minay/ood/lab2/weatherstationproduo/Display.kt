@@ -23,44 +23,33 @@ class Display : IObserver<WeatherInfo> {
 
 class StatDisplay : IObserver<WeatherInfo> {
 
-    private val valuesOut = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues.Temperature())
-        it.add(StatisticValues.Humidity())
-        it.add(StatisticValues.Pressure())
-        it.add(StatisticValues.Wind())
-    }
-
-    private val valuesIn = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues.Temperature())
-        it.add(StatisticValues.Humidity())
-        it.add(StatisticValues.Pressure())
-    }
+    private val mInTemperature = ScalarValues(ScalarValueType.TEMPERATURE)
+    private val mOutTemperature = ScalarValues(ScalarValueType.TEMPERATURE)
+    private val mInHumidity = ScalarValues(ScalarValueType.HUMIDITY)
+    private val mOutHumidity = ScalarValues(ScalarValueType.HUMIDITY)
+    private val mInPressure = ScalarValues(ScalarValueType.PRESSURE)
+    private val mOutPressure = ScalarValues(ScalarValueType.PRESSURE)
+    private val mOutWind = VectorValues()
 
     override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
         when (observable) {
             is WeatherDataOut -> {
                 println("weather outside")
-                update(valuesOut, data)
+                update(mOutTemperature, data.temperature)
+                update(mOutHumidity, data.humidity)
+                update(mOutPressure, data.pressure)
+                updateWindData(mOutWind, data.windSpeed, data.windDirection)
             }
             is WeatherDataIn -> {
                 println("weather inside")
-                update(valuesIn, data)
+                update(mInTemperature, data.temperature)
+                update(mInHumidity, data.humidity)
+                update(mInPressure, data.pressure)
             }
         }
     }
 
-    private fun update(updatingValues: List<StatisticValues>, data: WeatherInfo) {
-        updatingValues.forEach { values ->
-            when (values) {
-                is StatisticValues.Temperature -> update(values.scalarValues, data.temperature, "Temperature")
-                is StatisticValues.Humidity -> update(values.scalarValues, data.humidity, "humidity")
-                is StatisticValues.Pressure -> update(values.scalarValues, data.pressure, "pressure")
-                is StatisticValues.Wind -> updateWindData(values.vectorValues, data.windSpeed, data.windDirection)
-            }
-        }
-    }
-
-    private fun update(scalarValues: ScalarValues, newValue: Double, type: String) {
+    private fun update(scalarValues: ScalarValues, newValue: Double) {
         if (scalarValues.minValue > newValue) {
             scalarValues.minValue = newValue
         }
@@ -70,9 +59,9 @@ class StatDisplay : IObserver<WeatherInfo> {
         scalarValues.sumValue += newValue
         ++scalarValues.measureCount
 
-        println("Max $type ${scalarValues.maxValue}")
-        println("Min $type ${scalarValues.minValue}")
-        println("Average $type ${scalarValues.sumValue / scalarValues.measureCount}")
+        println("Max ${scalarValues.type.value} ${scalarValues.maxValue}")
+        println("Min ${scalarValues.type.value} ${scalarValues.minValue}")
+        println("Average $scalarValues.type.value} ${scalarValues.sumValue / scalarValues.measureCount}")
         println("________________________________")
     }
 
@@ -81,10 +70,12 @@ class StatDisplay : IObserver<WeatherInfo> {
         vectorValues.sumProjectionOnX += windSpeed * sin(Math.toRadians(windDirection.toDouble()))
         vectorValues.measureCount++
 
-        val averageWindSpeed = sqrt((vectorValues.sumProjectionOnX / vectorValues.measureCount).pow(2)
-                + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2))
+        val averageWindSpeed = sqrt(
+            (vectorValues.sumProjectionOnX / vectorValues.measureCount).pow(2)
+                    + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2)
+        )
         val averageWindDirection = Math.toDegrees(
-                atan(vectorValues.sumProjectionOnX / vectorValues.sumProjectionOnY)
+            atan(vectorValues.sumProjectionOnX / vectorValues.sumProjectionOnY)
         )
         println("Average wind speed: $averageWindSpeed")
         println("Average wind direction: $averageWindDirection")
@@ -92,40 +83,27 @@ class StatDisplay : IObserver<WeatherInfo> {
     }
 
     data class ScalarValues(
-            var minValue: Double = Double.POSITIVE_INFINITY,
-            var maxValue: Double = Double.NEGATIVE_INFINITY,
-            var sumValue: Double = 0.0,
-            var measureCount: Int = 0,
-            var sumProjectionOnX: Double = 0.0,
-            var sumProjectionOnY: Double = 0.0,
-            var sumWindSpeed: Double = 0.0
+        val type: ScalarValueType,
+        var minValue: Double = Double.POSITIVE_INFINITY,
+        var maxValue: Double = Double.NEGATIVE_INFINITY,
+        var sumValue: Double = 0.0,
+        var measureCount: Int = 0,
+        var sumProjectionOnX: Double = 0.0,
+        var sumProjectionOnY: Double = 0.0,
+        var sumWindSpeed: Double = 0.0
     )
 
     data class VectorValues(
-            var sumProjectionOnX: Double = 0.0,
-            var sumProjectionOnY: Double = 0.0,
-            var sumVectorLength: Double = 0.0,
-            var measureCount: Int = 0
+        var sumProjectionOnX: Double = 0.0,
+        var sumProjectionOnY: Double = 0.0,
+        var sumVectorLength: Double = 0.0,
+        var measureCount: Int = 0
     )
 
-    sealed class StatisticValues {
-
-        class Temperature(
-                val scalarValues: ScalarValues = ScalarValues()
-        ) : StatisticValues()
-
-        class Humidity(
-                val scalarValues: ScalarValues = ScalarValues()
-        ) : StatisticValues()
-
-        class Pressure(
-                val scalarValues: ScalarValues = ScalarValues()
-        ) : StatisticValues()
-
-        class Wind(
-                val vectorValues: VectorValues = VectorValues()
-        ) : StatisticValues()
-
+    enum class ScalarValueType(val value: String) {
+        TEMPERATURE("temperature"),
+        HUMIDITY("humidity"),
+        PRESSURE("pressure")
     }
 
 }

@@ -3,10 +3,10 @@ package com.alexey.minay.ood.lab2.weatherstationpro
 fun main() {
     val weatherData = WeatherData()
     val display = Display()
-    display.values.add(Display.Values.TEMP)
+    display.values.add(Values.TEMPERATURE)
     val statsDisplay = StatDisplay()
-    statsDisplay.values.add(StatDisplay.StatisticValues.Humidity())
-    statsDisplay.values.add(StatDisplay.StatisticValues.Wind())
+    statsDisplay.values.add(Values.HUMIDITY)
+    statsDisplay.values.add(Values.PRESSURE)
     weatherData.register(1, display)
     weatherData.register(2, statsDisplay)
 

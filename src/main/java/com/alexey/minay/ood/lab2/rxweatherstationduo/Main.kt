@@ -6,18 +6,18 @@ fun main() {
     val display = Display(weatherDataIn, weatherDataOut)
     val statDisplay = StatDisplay(weatherDataIn, weatherDataOut)
 
-    display.subscribe(ValueType.TEMPERATURE, false)
-    display.subscribe(ValueType.PRESSURE, true)
-    display.subscribe(ValueType.HUMIDITY, true)
+    display.observe(ValueType.TEMPERATURE, false)
+    display.observe(ValueType.PRESSURE, true)
+    display.observe(ValueType.HUMIDITY, true)
 
-    statDisplay.subscribe(ValueType.TEMPERATURE, false)
-    statDisplay.subscribe(ValueType.PRESSURE, true)
-    statDisplay.subscribe(ValueType.HUMIDITY, true)
+    statDisplay.observe(ValueType.TEMPERATURE, false)
+    statDisplay.observe(ValueType.PRESSURE, true)
+    statDisplay.observe(ValueType.HUMIDITY, true)
 
-    weatherDataOut.setMeasurements(3.0, 0.7, 760.0)
-    weatherDataIn.setMeasurements(23.0, 0.7, 760.0)
-    weatherDataOut.setMeasurements(4.0, 0.8, 761.0)
+    weatherDataOut.onNext(3.0, 0.7, 760.0, 10.0, 40)
+    weatherDataIn.onNext(23.0, 0.7, 760.0)
+    weatherDataOut.onNext(4.0, 0.8, 761.0, 20.0, 44)
 
-    weatherDataOut.setMeasurements(10.0, 0.8, 761.0)
-    weatherDataOut.setMeasurements(-10.0, 0.8, 761.0)
+    weatherDataOut.onNext(10.0, 0.8, 761.0, 10.0, 10)
+    weatherDataOut.onNext(-10.0, 0.8, 761.0, 10.0, 40)
 }

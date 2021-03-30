@@ -19,7 +19,7 @@ class WeatherDataIn(
         get() = mPressureObservable
     private val mPressureObservable = BehaviorSubject.create<Double>()
 
-    fun setMeasurements(temperature: Double, humidity: Double, pressure: Double) {
+    fun onNext(temperature: Double, humidity: Double, pressure: Double) {
         if (temperature != mTemperature) {
             mTemperature = temperature
             mTemperatureObservable.onNext(temperature)
