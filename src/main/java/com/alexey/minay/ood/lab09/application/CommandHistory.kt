@@ -21,7 +21,7 @@ class CommandHistory {
         if (mCommands.size > MAX_SAVED_COMMAND) {
             mCommands.removeAt(FIRST_SAVED_COMMAND_INDEX)
         }
-        if (mCursor < 10) mCursor++
+        if (mCursor < MAX_SAVED_COMMAND) mCursor++
         command.execute()
     }
 

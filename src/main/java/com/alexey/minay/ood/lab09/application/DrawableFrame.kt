@@ -7,7 +7,7 @@ class DrawableFrame(
     var frame: AppFrame
 ) : IDrawable {
 
-    override fun draw(canvasAdapter: ICanvas) = with(canvasAdapter) {
+    override fun draw(canvas: ICanvas) = with(canvas) {
         setStyle(Style.FRAME)
         val offset = 1
         val leftOffsetTop = AppPoint(frame.leftTop.x - offset, frame.leftTop.y - offset)
@@ -18,11 +18,11 @@ class DrawableFrame(
         drawLine(leftOffsetBottom, rightOffsetBottom)
         drawLine(rightOffsetBottom, rightOffsetTop)
         drawLine(rightOffsetTop, leftOffsetTop)
-        drawResizeElement(canvasAdapter, leftOffsetBottom)
-        drawResizeElement(canvasAdapter, leftOffsetTop)
-        drawResizeElement(canvasAdapter, rightOffsetBottom)
-        drawResizeElement(canvasAdapter, rightOffsetTop)
-        drawResizeElement(canvasAdapter, frame.center)
+        drawResizeElement(canvas, leftOffsetBottom)
+        drawResizeElement(canvas, leftOffsetTop)
+        drawResizeElement(canvas, rightOffsetBottom)
+        drawResizeElement(canvas, rightOffsetTop)
+        drawResizeElement(canvas, frame.center)
     }
 
     private fun drawResizeElement(canvasAdapter: ICanvas, center: AppPoint) = with(canvasAdapter) {

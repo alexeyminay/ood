@@ -9,9 +9,9 @@ class ChangeSelectionUseCase(
     private val shapeSelectionModel: ShapeSelectionModel
 ) {
 
-    operator fun invoke(x: Double, y: Double, isControlDown: Boolean) {
+    operator fun invoke(x: Double, y: Double, isSaveSelection: Boolean) {
         val selectingShape = document.getShapeContains(AppPoint(x, y))
-        if (isControlDown) {
+        if (isSaveSelection) {
             selectingShape?.let { shapeSelectionModel.addSelection(mutableListOf(it)) }
             return
         }

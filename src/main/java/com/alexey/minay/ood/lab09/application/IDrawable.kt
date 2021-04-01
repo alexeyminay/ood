@@ -1,5 +1,5 @@
 package com.alexey.minay.ood.lab09.application
 
 interface IDrawable {
-    fun draw(canvasAdapter: ICanvas)
+    fun draw(canvas: ICanvas)
 }

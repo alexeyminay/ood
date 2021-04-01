@@ -16,7 +16,7 @@ class FileTabInteractor(
     }
 
     fun open(file: File) {
-        fileHelper.openFile(file, documentAdapter::setShape)
+        fileHelper.openFile(file, documentAdapter::setShapes)
     }
 
 }

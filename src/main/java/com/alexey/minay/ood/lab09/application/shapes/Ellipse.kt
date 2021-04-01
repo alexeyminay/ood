@@ -19,7 +19,7 @@ class Ellipse(
     private val verticalDiameter: Double
         get() = frame.rightBottom.y - frame.rightTop.y
 
-    override fun draw(canvasAdapter: ICanvas) = with(canvasAdapter) {
+    override fun draw(canvas: ICanvas) = with(canvas) {
         setStyle(Style.SHAPE)
         fillEllipse(leftTop, horizontalDiameter, verticalDiameter)
         drawEllipse(leftTop, horizontalDiameter, verticalDiameter)

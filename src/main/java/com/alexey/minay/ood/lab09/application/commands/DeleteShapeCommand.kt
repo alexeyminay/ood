@@ -4,6 +4,7 @@ import com.alexey.minay.ood.lab09.application.DocumentAdapter
 import com.alexey.minay.ood.lab09.application.IAppShape
 import com.alexey.minay.ood.lab09.application.ICommand
 import com.alexey.minay.ood.lab09.application.common.asAppShape
+import com.alexey.minay.ood.lab09.application.common.asDomainShape
 
 class DeleteShapeCommand(
     private val documentAdapter: DocumentAdapter,
@@ -19,7 +20,7 @@ class DeleteShapeCommand(
 
     override fun unexecute() {
         mDeletedShapes.forEach { (index, shape) ->
-            documentAdapter.insertShapeAt(index, shape)
+            documentAdapter.insertShapeAt(index, shape.asDomainShape())
         }
     }
 

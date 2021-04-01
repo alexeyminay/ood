@@ -11,12 +11,12 @@ class DocumentAdapter(
 
     fun getAllState() = document.getShapes()
 
-    fun setShape(shapes: List<Shape>) {
+    fun setShapes(shapes: List<Shape>) {
         document.setShapes(shapes)
     }
 
-    fun insertShapeAt(index: Int, shape: IAppShape) {
-        document.insertShapeAt(index, shape.asDomainShape())
+    fun insertShapeAt(index: Int, shape: Shape) {
+        document.insertShapeAt(index, shape)
     }
 
     fun removeShapeAt(index: Int): IAppShape = document.removeShapeAt(index).asAppShape()

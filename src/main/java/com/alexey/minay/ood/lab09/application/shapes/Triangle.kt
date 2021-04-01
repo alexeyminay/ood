@@ -27,7 +27,7 @@ class Triangle(
     private val mListY: List<Double>
         get() = listOf(mVertex1.y, mVertex2.y, mVertex3.y)
 
-    override fun draw(canvasAdapter: ICanvas) = with(canvasAdapter) {
+    override fun draw(canvas: ICanvas) = with(canvas) {
         setStyle(Style.SHAPE)
         fill(mListX, mListY)
         drawLine(mVertex1, mVertex2)

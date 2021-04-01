@@ -16,7 +16,7 @@ class Rectangle(
     private val mListY: List<Double>
         get() = listOf(frame.leftBottom.y, frame.rightBottom.y, frame.rightTop.y, frame.leftTop.y)
 
-    override fun draw(canvasAdapter: ICanvas) = with(canvasAdapter) {
+    override fun draw(canvas: ICanvas) = with(canvas) {
         setStyle(Style.SHAPE)
         fill(mListX, mListY)
         drawLine(frame.leftTop, frame.leftBottom)
