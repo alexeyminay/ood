@@ -1,6 +1,7 @@
 package com.alexey.minay.ood.lab09.application.usecases
 
 import com.alexey.minay.ood.lab09.application.IAppShape
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 
 class FramePositionCalculator {
@@ -11,30 +12,33 @@ class FramePositionCalculator {
         parentHeight: Double,
         differenceX: Double,
         differenceY: Double,
-        resizableState: ChangeFrameState
+        resizableState: ChangeFrameState,
+        selectedShapesFrame: AppFrame?
     ) {
+        selectedShapesFrame ?: return
         var newLeftTopX = shape.calculateNewLeftTopX(differenceX, resizableState)
         var newLeftTopY = shape.calculateNewLeftTopY(differenceY, resizableState)
         var newRightBottomX = shape.calculateNewRightBottomX(differenceX, resizableState)
         var newRightBottomY = shape.calculateNewRightBottomY(differenceY, resizableState)
-        val offset = 1.0
-        val shapeWidth = shape.frame.rightBottom.x - shape.frame.leftBottom.x
-        val shapeHeight = shape.frame.leftBottom.y - shape.frame.leftTop.y
-        if (newLeftTopX + offset > parentWidth - shapeWidth) {
-            newLeftTopX = parentWidth - shapeWidth - offset
-            newRightBottomX = parentWidth - offset
+        if (selectedShapesFrame.leftTop.x - OFFSET <= 0.0 && differenceX > 0.0) {
+            newLeftTopX += differenceX
+            if (resizableState == ChangeFrameState.NOT_RESIZE)
+                newRightBottomX += differenceX
         }
-        if (newLeftTopX - offset < 0.0) {
-            newLeftTopX = 0.0 + offset
-            newRightBottomX = shapeWidth + offset
+        if (selectedShapesFrame.leftTop.y - OFFSET <= 0.0 && differenceY > 0.0) {
+            newLeftTopY += differenceY
+            if (resizableState == ChangeFrameState.NOT_RESIZE)
+                newRightBottomY += differenceY
         }
-        if (newLeftTopY + offset > parentHeight - shapeHeight) {
-            newLeftTopY = parentHeight - shapeHeight - offset
-            newRightBottomY = parentHeight - offset
+        if (selectedShapesFrame.rightBottom.x + OFFSET >= parentWidth && differenceX < 0.0) {
+            newRightBottomX += differenceX
+            if (resizableState == ChangeFrameState.NOT_RESIZE)
+                newLeftTopX += differenceX
         }
-        if (newLeftTopY < 0.0) {
-            newLeftTopY = 0.0 + offset
-            newRightBottomY = shapeHeight + offset
+        if (selectedShapesFrame.rightBottom.y + OFFSET >= parentHeight && differenceY < 0.0) {
+            newRightBottomY += differenceY
+            if (resizableState == ChangeFrameState.NOT_RESIZE)
+                newLeftTopY += differenceY
         }
         shape.frame.leftTop = AppPoint(newLeftTopX, newLeftTopY)
         shape.frame.rightBottom = AppPoint(newRightBottomX, newRightBottomY)
@@ -74,6 +78,10 @@ class FramePositionCalculator {
         ChangeFrameState.LEFT_TOP_RESIZE -> frame.rightBottom.y
         ChangeFrameState.RIGHT_TOP_RESIZE -> frame.rightBottom.y
         else -> frame.rightBottom.y - differenceY
+    }
+
+    companion object {
+        private const val OFFSET = 1.0
     }
 
 }

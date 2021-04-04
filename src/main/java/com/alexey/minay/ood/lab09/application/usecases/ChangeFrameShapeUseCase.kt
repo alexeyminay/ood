@@ -2,6 +2,7 @@ package com.alexey.minay.ood.lab09.application.usecases
 
 import com.alexey.minay.ood.lab09.application.*
 import com.alexey.minay.ood.lab09.application.commands.ChangeShapeFrameCommand
+import com.alexey.minay.ood.lab09.application.common.AppFrame
 import com.alexey.minay.ood.lab09.application.common.AppPoint
 
 class ChangeFrameShapeUseCase(
@@ -57,11 +58,23 @@ class ChangeFrameShapeUseCase(
                 parentHeight = parentHeight,
                 differenceX = differenceX,
                 differenceY = differenceY,
-                resizableState = mChangeFrameState
+                resizableState = mChangeFrameState,
+                selectedShapesFrame = getSelectedShapesFrame()
             )
-            mOldPosition = newPosition
         }
+        mOldPosition = newPosition
         document.onChanged()
+    }
+
+    private fun getSelectedShapesFrame(): AppFrame? {
+        val leftTopX = mSelectedShapes.map { it.frame.leftTop.x }.minOrNull() ?: return null
+        val leftTopY = mSelectedShapes.map { it.frame.leftTop.y }.minOrNull() ?: return null
+        val rightBottomX = mSelectedShapes.map { it.frame.rightBottom.x }.maxOrNull() ?: return null
+        val rightBottomY = mSelectedShapes.map { it.frame.rightBottom.y }.maxOrNull() ?: return null
+        return AppFrame(
+            leftTop = AppPoint(leftTopX, leftTopY),
+            rightBottom = AppPoint(rightBottomX, rightBottomY)
+        )
     }
 
 }
