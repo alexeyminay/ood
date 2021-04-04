@@ -15,7 +15,7 @@ class ChangeFrameShapeUseCase(
 
     private val mSelectedShapes = mutableListOf<IAppShape>()
     private var mOldPosition: AppPoint? = null
-    private var isDragget = false
+    private var isDragged = false
     private var mChangeFrameState: ChangeFrameState = ChangeFrameState.NOT_RESIZE
 
     fun startMoving(x: Double, y: Double, changeFrameState: ChangeFrameState) {
@@ -26,7 +26,7 @@ class ChangeFrameShapeUseCase(
     }
 
     fun commit() {
-        if (isDragget) {
+        if (isDragged) {
             val selections = mutableListOf<IAppShape>().apply { addAll(mSelectedShapes) }
             val changeShapeFrameCommand = ChangeShapeFrameCommand(
                 documentAdapter = documentAdapter,
@@ -37,14 +37,14 @@ class ChangeFrameShapeUseCase(
         }
         mSelectedShapes.clear()
         mOldPosition = null
-        isDragget = false
+        isDragged = false
     }
 
     fun moveShape(newPositionX: Double, newPositionY: Double, parentWidth: Double, parentHeight: Double) {
         if (newPositionX == mOldPosition?.x && newPositionY == mOldPosition?.y) {
             return
         }
-        isDragget = true
+        isDragged = true
         if (mChangeFrameState == ChangeFrameState.NOT_RESIZE)
             shapeSelectionModel.clearSelection()
         val newPosition = AppPoint(newPositionX, newPositionY)
