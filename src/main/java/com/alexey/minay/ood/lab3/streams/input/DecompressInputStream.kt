@@ -5,7 +5,7 @@ import com.alexey.minay.ood.lab3.streams.IInputStream
 import java.util.*
 
 class DecompressInputStream(
-        inputStream: IInputStream
+    inputStream: IInputStream
 ) : InputStreamDecorator(inputStream) {
 
     private val mReadByteQueue = ArrayDeque<Int>()
@@ -29,11 +29,15 @@ class DecompressInputStream(
 
     override fun decorateBlock(block: IntArray, size: Int): IntArray {
         val decoratedBlock = mutableListOf<Int>()
-        repeat(size) {
-            if (it < block.size) {
-                decoratedBlock.add(decorateByte(block[it]))
-            } else {
-                decoratedBlock.add(mReadByteQueue.poll() ?: throw RuntimeException("Empty queue"))
+        repeat(size) { index ->
+            try {
+                if (index < block.size) {
+                    decoratedBlock.add(decorateByte(block[index]))
+                } else {
+                    mReadByteQueue.poll()?.let { decoratedBlock.add(it) }
+                }
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
         }
         return decoratedBlock.toIntArray()

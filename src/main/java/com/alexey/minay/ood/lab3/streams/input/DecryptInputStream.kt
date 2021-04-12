@@ -1,5 +1,6 @@
 package com.alexey.minay.ood.lab3.streams.input
 
+import com.alexey.minay.ood.lab3.streams.EOF
 import com.alexey.minay.ood.lab3.streams.IInputStream
 
 class DecryptInputStream(
@@ -11,8 +12,8 @@ class DecryptInputStream(
     private val mHashKey = key.hashCode().toString()
 
     override fun decorateByte(byte: Int): Int {
-        if (byte == -1) {
-            return -1
+        if (byte == EOF) {
+            return EOF
         }
         val cryptByte = byte xor mHashKey[mCryptCount % mHashKey.length].toInt()
         mCryptCount++
