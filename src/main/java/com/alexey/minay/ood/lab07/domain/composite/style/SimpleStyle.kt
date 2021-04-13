@@ -6,6 +6,6 @@ import com.alexey.minay.ood.lab07.domain.composite.LineStyle
 
 
 class SimpleStyle(
-        override val fillStyle: FillStyle,
-        override val lineStyle: LineStyle
+    override var fillStyle: FillStyle?,
+    override var lineStyle: LineStyle?
 ) : IStyle

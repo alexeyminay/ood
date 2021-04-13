@@ -10,7 +10,12 @@ class Group : IGroup {
 
     private val mShapes = mutableListOf<IShape>()
 
-    override val style: IStyle = CompoundStyle(::calculateFillStyle, ::calculateLineStyle)
+    override val style: IStyle = CompoundStyle(
+        calculateFillStyle = ::calculateFillStyle,
+        calculateLineStyle = ::calculateLineStyle,
+        setFillStyle = ::setFillStyle,
+        setLineStyle = ::setLineStyle
+    )
 
     override var frame: Frame?
         get() = getCurrentFrame()
@@ -43,10 +48,10 @@ class Group : IGroup {
             val frame = it.frame
             if (frame != null) {
                 it.frame = Frame(
-                        left = frame.left * newFrame.width / currentFrame.width,
-                        right = frame.right * newFrame.width / currentFrame.width,
-                        top = frame.top * newFrame.height / currentFrame.height,
-                        bottom = frame.bottom * newFrame.height / currentFrame.height
+                    left = frame.left * newFrame.width / currentFrame.width,
+                    right = frame.right * newFrame.width / currentFrame.width,
+                    top = frame.top * newFrame.height / currentFrame.height,
+                    bottom = frame.bottom * newFrame.height / currentFrame.height
                 )
             }
         }
@@ -118,6 +123,14 @@ class Group : IGroup {
                 else -> null
             }
         }
+    }
+
+    private fun setFillStyle(fillStyle: FillStyle?) {
+        mShapes.forEach { it.style.fillStyle = fillStyle }
+    }
+
+    private fun setLineStyle(lineStyle: LineStyle?) {
+        mShapes.forEach { it.style.lineStyle = lineStyle }
     }
 
     companion object {
