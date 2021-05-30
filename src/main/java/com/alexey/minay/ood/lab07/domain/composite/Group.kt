@@ -2,7 +2,8 @@ package com.alexey.minay.ood.lab07.domain.composite
 
 import com.alexey.minay.ood.lab07.domain.Frame
 import com.alexey.minay.ood.lab07.domain.ICanvas
-import com.alexey.minay.ood.lab07.domain.composite.style.CompoundStyle
+import com.alexey.minay.ood.lab07.domain.composite.style.CompoundFillStyle
+import com.alexey.minay.ood.lab07.domain.composite.style.CompoundLineStyle
 import kotlin.math.max
 import kotlin.math.min
 
@@ -10,11 +11,20 @@ class Group : IGroup {
 
     private val mShapes = mutableListOf<IShape>()
 
-    override val style: IStyle = CompoundStyle(
-        calculateFillStyle = ::calculateFillStyle,
-        calculateLineStyle = ::calculateLineStyle,
-        setFillStyle = ::setFillStyle,
-        setLineStyle = ::setLineStyle
+    override val fillStyle: IFillStyle = CompoundFillStyle(
+        getColor = ::getFillColor,
+        isStyleEnable = ::isFillStyleEnable,
+        setColor = ::setFillColor,
+        setEnableOrDisable = ::setFillStyleEnableOrDisable
+    )
+
+    override val lineStyle: ILineStyle = CompoundLineStyle(
+        getColor = ::getLineColor,
+        getLineWidth = ::getLineWidth,
+        isStyleEnable = ::isLineStyleEnable,
+        setColor = ::setLineColor,
+        setEnableOrDisable = ::setLineStyleEnableOrDisable,
+        setLineWidth = ::setLineWidth
     )
 
     override var frame: Frame?
@@ -97,41 +107,65 @@ class Group : IGroup {
         canvas.fill(RGBAColor.TRANSPARENT)
     }
 
-    private fun calculateFillStyle(): FillStyle? = when (mShapes.size) {
-        0 -> null
-        1 -> mShapes.first().style.fillStyle
-        else -> {
-            val hasAllTheSameStyles = mShapes.all {
-                it.style.fillStyle == mShapes.first().style.fillStyle
-            }
-            when {
-                hasAllTheSameStyles -> mShapes.first().style.fillStyle
-                else -> null
+    private fun getFillColor(): RGBAColor? =
+        getCompoundProperty {
+            it.fillStyle.color
+        }
+
+    private fun isFillStyleEnable(): Boolean? =
+        getCompoundProperty {
+            it.fillStyle.isEnable
+        }
+
+    private fun getLineColor(): RGBAColor? =
+        getCompoundProperty {
+            it.lineStyle.color
+        }
+
+    private fun getLineWidth(): Double? =
+        getCompoundProperty {
+            it.lineStyle.lineWidth
+        }
+
+    private fun isLineStyleEnable(): Boolean? =
+        getCompoundProperty {
+            it.lineStyle.isEnable
+        }
+
+    private fun setFillColor(color: RGBAColor?) {
+        mShapes.forEach { it.fillStyle.color = color }
+    }
+
+    private fun setFillStyleEnableOrDisable(isEnable: Boolean?) {
+        mShapes.forEach { it.fillStyle.isEnable = isEnable }
+    }
+
+    private fun setLineColor(color: RGBAColor?) {
+        mShapes.forEach { it.lineStyle.color = color }
+    }
+
+    private fun setLineStyleEnableOrDisable(isEnable: Boolean?) {
+        mShapes.forEach { it.lineStyle.isEnable = isEnable }
+    }
+
+    private fun setLineWidth(width: Double?) {
+        mShapes.forEach { it.lineStyle.lineWidth = width }
+    }
+
+    private fun <T> getCompoundProperty(property: (IShape) -> T?): T? =
+        when (mShapes.size) {
+            0 -> null
+            1 -> property(mShapes.first())
+            else -> {
+                val hasAllTheSameProperties = mShapes.all {
+                    property(it) == property(mShapes.first())
+                }
+                when {
+                    hasAllTheSameProperties -> property(mShapes.first())
+                    else -> null
+                }
             }
         }
-    }
-
-    private fun calculateLineStyle(): LineStyle? = when (mShapes.size) {
-        0 -> null
-        1 -> mShapes.first().style.lineStyle
-        else -> {
-            val hasAllTheSameStyles = mShapes.all {
-                it.style.lineStyle == mShapes.first().style.lineStyle
-            }
-            when {
-                hasAllTheSameStyles -> mShapes.first().style.lineStyle
-                else -> null
-            }
-        }
-    }
-
-    private fun setFillStyle(fillStyle: FillStyle?) {
-        mShapes.forEach { it.style.fillStyle = fillStyle }
-    }
-
-    private fun setLineStyle(lineStyle: LineStyle?) {
-        mShapes.forEach { it.style.lineStyle = lineStyle }
-    }
 
     companion object {
         private const val FRAME_LINE_WIDTH = 1.0
