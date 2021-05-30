@@ -20,8 +20,4 @@ class DecryptInputStream(
         return cryptByte
     }
 
-    override fun decorateBlock(block: IntArray, size: Int): IntArray {
-        return block.map { decorateByte(it) }.toIntArray()
-    }
-
 }

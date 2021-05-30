@@ -5,6 +5,7 @@ const val EOF = -1
 interface IOutputStream {
     fun writeByte(data: Int)
     fun writeBlock(data: IntArray)
+    fun flush()
 }
 
 interface IInputStream {

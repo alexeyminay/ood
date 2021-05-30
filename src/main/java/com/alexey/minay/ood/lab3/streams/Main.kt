@@ -13,10 +13,12 @@ fun main(args: Array<String>) {
     if (args.size < 2) {
         println("Incorrect params. Input: transform [опции] <input-file> <input-file>")
         println("Options:")
-        println("""    • --encrpt <key>. Добавляет шаг шифрования при записи с использованием ключа key. Опция может быть указана несколько раз, что позволяет выполнить несколько этапов шифрования.
+        println(
+            """    • --encrpt <key>. Добавляет шаг шифрования при записи с использованием ключа key. Опция может быть указана несколько раз, что позволяет выполнить несколько этапов шифрования.
     • --decrypt <key>. Добавляет шаг дешифрования при чтении с использованием ключа key. Опция может быть указана несколько раз, что позволяет выполнить несколько этапов дешифрования.
     • --compress. Добавляет шаг компрессии при записи
-    • --decompress. Добавляет шаг декомпресии при чтении""")
+    • --decompress. Добавляет шаг декомпресии при чтении"""
+        )
         return
     }
     val inputFile = File(args[0])
@@ -40,13 +42,12 @@ fun main(args: Array<String>) {
         }
     }
 
-    var byte: Int? = null
-    while (byte != -1) {
-        try {
-            byte = inputStream.readByte()
-            outputStream.writeByte(byte)
-        } catch (e: RuntimeException) {
-            println(e.message)
+    var byte = inputStream.readByte()
+    while (byte != EOF) {
+        outputStream.writeByte(byte)
+        byte = inputStream.readByte()
+        if (byte == EOF) {
+            outputStream.flush()
         }
     }
 

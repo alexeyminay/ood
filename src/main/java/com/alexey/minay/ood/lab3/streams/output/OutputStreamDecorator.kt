@@ -9,11 +9,9 @@ abstract class OutputStreamDecorator : IOutputStream {
     }
 
     override fun writeBlock(data: IntArray) {
-        decorateBlock(data)
+        data.forEach { decorateByte(it) }
     }
 
     protected abstract fun decorateByte(byte: Int)
-
-    protected abstract fun decorateBlock(block: IntArray)
 
 }

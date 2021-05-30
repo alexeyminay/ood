@@ -4,7 +4,7 @@ import com.alexey.minay.ood.lab3.streams.IOutputStream
 
 
 class CompressOutputStream(
-        private val outputStream: IOutputStream
+    private val outputStream: IOutputStream
 ) : OutputStreamDecorator() {
 
     private var mLastByte: Int? = null
@@ -15,7 +15,7 @@ class CompressOutputStream(
             mLastByte = byte
             outputStream.writeByte(byte)
         }
-        if (byte == mLastByte) {
+        if (byte == mLastByte && mCount < MAX_COUNT) {
             mCount++
         } else {
             mLastByte = byte
@@ -25,10 +25,14 @@ class CompressOutputStream(
         }
     }
 
-    override fun decorateBlock(block: IntArray) {
-        block.forEach {
-            decorateByte(it)
-        }
+    override fun flush() {
+        outputStream.writeByte(mCount)
+        mCount = 0
+        mLastByte = null
+    }
+
+    companion object {
+        private const val MAX_COUNT = 255
     }
 
 }

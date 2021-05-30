@@ -19,11 +19,10 @@ class DecompressInputStreamTest {
 
 
     @Test
-    fun shouldDecompressThirdByte() {
+    fun shouldDecompressSecondByte() {
         val firstByte = mDecompressInputStream.readByte()
         val secondByte = mDecompressInputStream.readByte()
-        val thirdByte = mDecompressInputStream.readByte()
-        assertEquals('t'.toInt(), thirdByte)
+        assertEquals('e'.toInt(), secondByte)
     }
 
     @Test
@@ -35,9 +34,9 @@ class DecompressInputStreamTest {
 
     @Before
     fun setUp() {
-        mFile = File("test")
+        mFile = File("test1.txt")
         mFile.writeText('t'.toString())
-        mFile.appendText(3.toByte().toChar().toString())
+        mFile.appendText(1.toByte().toChar().toString())
         mFile.appendText('e'.toString())
         mFile.appendText(4.toByte().toChar().toString())
         mFile.appendText('s'.toString())
