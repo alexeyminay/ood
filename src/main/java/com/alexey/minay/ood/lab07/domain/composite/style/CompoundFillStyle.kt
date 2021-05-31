@@ -13,6 +13,7 @@ class CompoundFillStyle(
     override var isEnable: Boolean?
         get() = isStyleEnable()
         set(value) = setEnableOrDisable(value)
+
     override var color: RGBAColor?
         get() = getColor()
         set(value) = setColor(value)
