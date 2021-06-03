@@ -12,10 +12,7 @@ class Group : IGroup {
     private val mShapes = mutableListOf<IShape>()
 
     override val fillStyle: IFillStyle = CompoundFillStyle(
-        getColor = ::getFillColor,
-        isStyleEnable = ::isFillStyleEnable,
-        setColor = ::setFillColor,
-        setEnableOrDisable = ::setFillStyleEnableOrDisable
+        getStyles = ::getFillStyles
     )
 
     override val lineStyle: ILineStyle = CompoundLineStyle(
@@ -50,6 +47,9 @@ class Group : IGroup {
             it.draw(canvas)
         }
     }
+
+    private fun getFillStyles(): List<IFillStyle> =
+        mShapes.map { it.fillStyle }
 
     private fun resizeFrame(newFrame: Frame?) {
         if (newFrame == null) return
@@ -107,16 +107,6 @@ class Group : IGroup {
         canvas.fill(RGBAColor.TRANSPARENT)
     }
 
-    private fun getFillColor(): RGBAColor? =
-        getCompoundProperty {
-            it.fillStyle.color
-        }
-
-    private fun isFillStyleEnable(): Boolean? =
-        getCompoundProperty {
-            it.fillStyle.isEnable
-        }
-
     private fun getLineColor(): RGBAColor? =
         getCompoundProperty {
             it.lineStyle.color
@@ -131,14 +121,6 @@ class Group : IGroup {
         getCompoundProperty {
             it.lineStyle.isEnable
         }
-
-    private fun setFillColor(color: RGBAColor?) {
-        mShapes.forEach { it.fillStyle.color = color }
-    }
-
-    private fun setFillStyleEnableOrDisable(isEnable: Boolean?) {
-        mShapes.forEach { it.fillStyle.isEnable = isEnable }
-    }
 
     private fun setLineColor(color: RGBAColor?) {
         mShapes.forEach { it.lineStyle.color = color }
