@@ -67,7 +67,7 @@ class StatDisplay : IObserver<WeatherInfo> {
                     + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2)
         )
         val averageWindDirection = Math.toDegrees(
-            atan(vectorValues.sumProjectionOnX / vectorValues.sumProjectionOnY)
+            atan2(vectorValues.sumProjectionOnX, vectorValues.sumProjectionOnY)
         )
         println("Average wind speed: $averageWindSpeed")
         println("Average wind direction: $averageWindDirection")
@@ -79,16 +79,12 @@ class StatDisplay : IObserver<WeatherInfo> {
         var minValue: Double = Double.POSITIVE_INFINITY,
         var maxValue: Double = Double.NEGATIVE_INFINITY,
         var sumValue: Double = 0.0,
-        var measureCount: Int = 0,
-        var sumProjectionOnX: Double = 0.0,
-        var sumProjectionOnY: Double = 0.0,
-        var sumWindSpeed: Double = 0.0
+        var measureCount: Int = 0
     )
 
     data class VectorValues(
         var sumProjectionOnX: Double = 0.0,
         var sumProjectionOnY: Double = 0.0,
-        var sumVectorLength: Double = 0.0,
         var measureCount: Int = 0
     )
 

@@ -28,7 +28,7 @@ class Display(
             ValueType.PRESSURE -> weatherDataOut.pressureObservable
                 .subscribe { println("Current Out Pressure $it") }
             ValueType.WIND -> weatherDataOut.windObservable
-                .subscribe{ println("Current Out WindParams $it") }
+                .subscribe { println("Current Out WindParams $it") }
         }
     }
 
@@ -39,12 +39,12 @@ class StatDisplay(
     private val weatherDataOut: WeatherDataOut
 ) : DisplayObserver() {
 
-    private val mOutHumidity = StatisticValues(ValueType.HUMIDITY)
-    private val mOutTemperature = StatisticValues(ValueType.TEMPERATURE)
-    private val mOutPressure = StatisticValues(ValueType.PRESSURE)
-    private val mInHumidity = StatisticValues(ValueType.HUMIDITY)
-    private val mInTemperature = StatisticValues(ValueType.TEMPERATURE)
-    private val mInPressure = StatisticValues(ValueType.PRESSURE)
+    private val mOutHumidity = ScalarValues(ValueType.HUMIDITY)
+    private val mOutTemperature = ScalarValues(ValueType.TEMPERATURE)
+    private val mOutPressure = ScalarValues(ValueType.PRESSURE)
+    private val mInHumidity = ScalarValues(ValueType.HUMIDITY)
+    private val mInTemperature = ScalarValues(ValueType.TEMPERATURE)
+    private val mInPressure = ScalarValues(ValueType.PRESSURE)
     private val mOutWind = VectorValues()
 
     override fun observeInsideSensor(valueType: ValueType) {
@@ -62,17 +62,29 @@ class StatDisplay(
     override fun observeOutsideSensor(valueType: ValueType) {
         disposables += when (valueType) {
             ValueType.TEMPERATURE -> weatherDataOut.temperatureObservable
-                .subscribe { update(mOutTemperature, it) }
+                .subscribe {
+                    update(mOutTemperature, it)
+                    printScalarValues(mOutTemperature)
+                }
             ValueType.HUMIDITY -> weatherDataOut.humidityObservable
-                .subscribe { update(mOutHumidity, it) }
+                .subscribe {
+                    update(mOutHumidity, it)
+                    printScalarValues(mOutTemperature)
+                }
             ValueType.PRESSURE -> weatherDataOut.pressureObservable
-                .subscribe { update(mOutPressure, it) }
+                .subscribe {
+                    update(mOutPressure, it)
+                    printScalarValues(mOutTemperature)
+                }
             ValueType.WIND -> weatherDataOut.windObservable
-                .subscribe{ updateWindData(mOutWind, it.windSpeed, it.windDirection) }
+                .subscribe {
+                    updateWindData(mOutWind, it.windSpeed, it.windDirection)
+                    printVectorValues(mOutWind)
+                }
         }
     }
 
-    private fun update(statValue: StatisticValues, newValue: Double) {
+    private fun update(statValue: ScalarValues, newValue: Double) {
         if (statValue.minValue > newValue) {
             statValue.minValue = newValue
         }
@@ -81,35 +93,35 @@ class StatDisplay(
         }
         statValue.sumValue += newValue
         ++statValue.measureCount
-
-        print(statValue)
     }
 
     private fun updateWindData(vectorValues: VectorValues, windSpeed: Double, windDirection: Int) {
         vectorValues.sumProjectionOnY += windSpeed * cos(Math.toRadians(windDirection.toDouble()))
         vectorValues.sumProjectionOnX += windSpeed * sin(Math.toRadians(windDirection.toDouble()))
         vectorValues.measureCount++
+    }
 
+    private fun printScalarValues(scalarValue: ScalarValues) {
+        println("Max ${scalarValue.type.value} ${scalarValue.maxValue}")
+        println("Min ${scalarValue.type.value} ${scalarValue.minValue}")
+        println("Average ${scalarValue.type.value} ${scalarValue.sumValue / scalarValue.measureCount}")
+        println("________________________________")
+    }
+
+    private fun printVectorValues(vectorValues: VectorValues) {
         val averageWindSpeed = sqrt(
             (vectorValues.sumProjectionOnX / vectorValues.measureCount).pow(2)
                     + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2)
         )
         val averageWindDirection = Math.toDegrees(
-            atan(vectorValues.sumProjectionOnX / vectorValues.sumProjectionOnY)
+            atan2(vectorValues.sumProjectionOnX, vectorValues.sumProjectionOnY)
         )
         println("Average wind speed: $averageWindSpeed")
         println("Average wind direction: $averageWindDirection")
         println("________________________________")
     }
 
-    private fun print(statValue: StatisticValues) {
-        println("Max ${statValue.type.value} ${statValue.maxValue}")
-        println("Min ${statValue.type.value} ${statValue.minValue}")
-        println("Average ${statValue.type.value} ${statValue.sumValue / statValue.measureCount}")
-        println("________________________________")
-    }
-
-    data class StatisticValues(
+    data class ScalarValues(
         var type: ValueType,
         var minValue: Double = Double.POSITIVE_INFINITY,
         var maxValue: Double = Double.NEGATIVE_INFINITY,
@@ -120,7 +132,6 @@ class StatDisplay(
     data class VectorValues(
         var sumProjectionOnX: Double = 0.0,
         var sumProjectionOnY: Double = 0.0,
-        var sumVectorLength: Double = 0.0,
         var measureCount: Int = 0
     )
 
