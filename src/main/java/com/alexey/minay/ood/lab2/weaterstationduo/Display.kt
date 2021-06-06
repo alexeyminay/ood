@@ -1,7 +1,5 @@
 package com.alexey.minay.ood.lab2.weaterstationduo
 
-import com.alexey.minay.ood.lab2.weaterstationduo.StatDisplay.StatisticValues.ValueType
-
 class Display : IObserver<WeatherInfo> {
 
     override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
@@ -18,37 +16,33 @@ class Display : IObserver<WeatherInfo> {
 
 class StatDisplay : IObserver<WeatherInfo> {
 
-    private val valuesOut = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues(ValueType.TEMPERATURE))
-        it.add(StatisticValues(ValueType.HUMIDITY))
-        it.add(StatisticValues(ValueType.PRESSURE))
-    }
+    private val outTemperature = StatisticValues()
+    private val outHumidity = StatisticValues()
+    private val outPressure = StatisticValues()
 
-    private val valuesIn = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues(ValueType.TEMPERATURE))
-        it.add(StatisticValues(ValueType.HUMIDITY))
-        it.add(StatisticValues(ValueType.PRESSURE))
-    }
+    private val inTemperature = StatisticValues()
+    private val inHumidity = StatisticValues()
+    private val inPressure = StatisticValues()
 
     override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
         when (observable) {
             is WeatherDataOut -> {
                 println("Weather stat outside")
-                update(valuesOut, data)
+                update(outHumidity, data.humidity)
+                update(outPressure, data.pressure)
+                update(outTemperature, data.temperature)
+                printStatisticValues(outHumidity, HUMIDITY)
+                printStatisticValues(outPressure, PRESSURE)
+                printStatisticValues(outTemperature, TEMPERATURE)
             }
             is WeatherDataIn -> {
                 println("Weather stat inside")
-                update(valuesIn, data)
-            }
-        }
-    }
-
-    private fun update(updatingValues: List<StatisticValues>, data: WeatherInfo) {
-        updatingValues.forEach { values ->
-            when (values.valueType) {
-                ValueType.TEMPERATURE -> update(values, data.temperature)
-                ValueType.HUMIDITY -> update(values, data.humidity)
-                ValueType.PRESSURE -> update(values, data.pressure)
+                update(inHumidity, data.humidity)
+                update(inPressure, data.pressure)
+                update(inTemperature, data.temperature)
+                printStatisticValues(inHumidity, HUMIDITY)
+                printStatisticValues(inPressure, PRESSURE)
+                printStatisticValues(inTemperature, TEMPERATURE)
             }
         }
     }
@@ -62,26 +56,26 @@ class StatDisplay : IObserver<WeatherInfo> {
         }
         statValue.sumValue += newValue
         ++statValue.measureCount
+    }
 
-        println("Max ${statValue.valueType} ${statValue.maxValue}")
-        println("Min ${statValue.valueType} ${statValue.minValue}")
-        println("Average ${statValue.valueType} ${statValue.sumValue / statValue.measureCount}")
+    private fun printStatisticValues(statValue: StatisticValues, valueName: String) {
+        println("Max $valueName ${statValue.maxValue}")
+        println("Min $valueName ${statValue.minValue}")
+        println("Average $valueName ${statValue.sumValue / statValue.measureCount}")
         println("________________________________")
     }
 
     data class StatisticValues(
-            val valueType: ValueType
-    ) {
-        var minValue: Double = Double.POSITIVE_INFINITY
-        var maxValue: Double = Double.NEGATIVE_INFINITY
-        var sumValue: Double = 0.0
+        var minValue: Double = Double.POSITIVE_INFINITY,
+        var maxValue: Double = Double.NEGATIVE_INFINITY,
+        var sumValue: Double = 0.0,
         var measureCount: Int = 0
+    )
 
-        enum class ValueType {
-            TEMPERATURE,
-            HUMIDITY,
-            PRESSURE
-        }
+    companion object {
+        private const val HUMIDITY = "humidity"
+        private const val TEMPERATURE = "temperature"
+        private const val PRESSURE = "pressure"
     }
 
 }

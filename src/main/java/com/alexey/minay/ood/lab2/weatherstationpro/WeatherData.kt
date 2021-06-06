@@ -6,7 +6,7 @@ class WeatherData(
     private var pressure: Double = 0.0,
     private var windSpeed: Double = 0.0,
     private var windDirection: Int = 0
-) : Observable<WeatherInfo>() {
+) : Observable<WeatherInfo, Type>() {
 
     fun setMeasurements(
         temperature: Double,

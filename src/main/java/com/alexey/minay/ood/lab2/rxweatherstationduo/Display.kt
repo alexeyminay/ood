@@ -79,7 +79,9 @@ class StatDisplay(
             ValueType.WIND -> weatherDataOut.windObservable
                 .subscribe {
                     updateWindData(mOutWind, it.windSpeed, it.windDirection)
-                    printVectorValues(mOutWind)
+                    val averageWindSpeed = calculateAverageWindSpeed()
+                    val averageWindDirection = calculateAverageWindDirection()
+                    printVectorValues(averageWindSpeed, averageWindDirection)
                 }
         }
     }
@@ -108,14 +110,18 @@ class StatDisplay(
         println("________________________________")
     }
 
-    private fun printVectorValues(vectorValues: VectorValues) {
-        val averageWindSpeed = sqrt(
-            (vectorValues.sumProjectionOnX / vectorValues.measureCount).pow(2)
-                    + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2)
+    private fun calculateAverageWindSpeed() =
+        sqrt(
+            (mOutWind.sumProjectionOnX / mOutWind.measureCount).pow(2)
+                    + (mOutWind.sumProjectionOnY / mOutWind.measureCount).pow(2)
         )
-        val averageWindDirection = Math.toDegrees(
-            atan2(vectorValues.sumProjectionOnX, vectorValues.sumProjectionOnY)
+
+    private fun calculateAverageWindDirection() =
+        Math.toDegrees(
+            atan2(mOutWind.sumProjectionOnX, mOutWind.sumProjectionOnY)
         )
+
+    private fun printVectorValues(averageWindSpeed: Double, averageWindDirection: Double) {
         println("Average wind speed: $averageWindSpeed")
         println("Average wind direction: $averageWindDirection")
         println("________________________________")

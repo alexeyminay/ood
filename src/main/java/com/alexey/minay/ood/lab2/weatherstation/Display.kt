@@ -1,7 +1,5 @@
 package com.alexey.minay.ood.lab2.weatherstation
 
-import com.alexey.minay.ood.lab2.weatherstation.StatDisplay.StatisticValues.ValueType
-
 class Display : IObserver<WeatherInfo> {
 
     override fun update(data: WeatherInfo) {
@@ -15,20 +13,17 @@ class Display : IObserver<WeatherInfo> {
 
 class StatDisplay : IObserver<WeatherInfo> {
 
-    private val values = mutableListOf<StatisticValues>().also {
-        it.add(StatisticValues(ValueType.TEMPERATURE))
-        it.add(StatisticValues(ValueType.HUMIDITY))
-        it.add(StatisticValues(ValueType.PRESSURE))
-    }
+    private val temperature = StatisticValues()
+    private val humidity = StatisticValues()
+    private val pressure = StatisticValues()
 
     override fun update(data: WeatherInfo) {
-        values.forEach { values ->
-            when (values.valueType) {
-                ValueType.TEMPERATURE -> update(values, data.temperature)
-                ValueType.HUMIDITY -> update(values, data.humidity)
-                ValueType.PRESSURE -> update(values, data.pressure)
-            }
-        }
+        update(temperature, data.temperature)
+        update(humidity, data.humidity)
+        update(pressure, data.pressure)
+        printStatisticValues(temperature, HUMIDITY)
+        printStatisticValues(humidity, PRESSURE)
+        printStatisticValues(pressure, TEMPERATURE)
     }
 
     private fun update(statValue: StatisticValues, newValue: Double) {
@@ -40,26 +35,26 @@ class StatDisplay : IObserver<WeatherInfo> {
         }
         statValue.sumValue += newValue
         ++statValue.measureCount
+    }
 
-        println("Max ${statValue.valueType} ${statValue.maxValue}")
-        println("Min ${statValue.valueType} ${statValue.minValue}")
-        println("Average ${statValue.valueType} ${statValue.sumValue / statValue.measureCount}")
+    private fun printStatisticValues(statValue: StatisticValues, valueName: String) {
+        println("Max $valueName ${statValue.maxValue}")
+        println("Min $valueName ${statValue.minValue}")
+        println("Average $valueName ${statValue.sumValue / statValue.measureCount}")
         println("________________________________")
     }
 
     data class StatisticValues(
-            val valueType: ValueType
-    ) {
-        var minValue: Double = Double.POSITIVE_INFINITY
-        var maxValue: Double = Double.NEGATIVE_INFINITY
-        var sumValue: Double = 0.0
+        var minValue: Double = Double.POSITIVE_INFINITY,
+        var maxValue: Double = Double.NEGATIVE_INFINITY,
+        var sumValue: Double = 0.0,
         var measureCount: Int = 0
+    )
 
-        enum class ValueType {
-            TEMPERATURE,
-            HUMIDITY,
-            PRESSURE
-        }
+    companion object {
+        private const val HUMIDITY = "humidity"
+        private const val TEMPERATURE = "temperature"
+        private const val PRESSURE = "pressure"
     }
 
 }

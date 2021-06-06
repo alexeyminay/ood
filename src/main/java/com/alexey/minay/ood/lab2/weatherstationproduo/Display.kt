@@ -23,12 +23,12 @@ class Display : IObserver<WeatherInfo> {
 
 class StatDisplay : IObserver<WeatherInfo> {
 
-    private val mInTemperature = ScalarValues(ScalarValueType.TEMPERATURE)
-    private val mOutTemperature = ScalarValues(ScalarValueType.TEMPERATURE)
-    private val mInHumidity = ScalarValues(ScalarValueType.HUMIDITY)
-    private val mOutHumidity = ScalarValues(ScalarValueType.HUMIDITY)
-    private val mInPressure = ScalarValues(ScalarValueType.PRESSURE)
-    private val mOutPressure = ScalarValues(ScalarValueType.PRESSURE)
+    private val mInTemperature = ScalarValues()
+    private val mOutTemperature = ScalarValues()
+    private val mInHumidity = ScalarValues()
+    private val mOutHumidity = ScalarValues()
+    private val mInPressure = ScalarValues()
+    private val mOutPressure = ScalarValues()
     private val mOutWind = VectorValues()
 
     override fun update(data: WeatherInfo, observable: IObservable<WeatherInfo>) {
@@ -38,13 +38,23 @@ class StatDisplay : IObserver<WeatherInfo> {
                 update(mOutTemperature, data.temperature)
                 update(mOutHumidity, data.humidity)
                 update(mOutPressure, data.pressure)
+                printScalarValues(mOutHumidity, HUMIDITY)
+                printScalarValues(mOutPressure, PRESSURE)
+                printScalarValues(mOutTemperature, TEMPERATURE)
+
                 updateWindData(mOutWind, data.windSpeed, data.windDirection)
+                val averageWindSpeed = calculateAverageWindSpeed()
+                val averageWindDirection = calculateAverageWindDirection()
+                printVectorValues(averageWindSpeed, averageWindDirection)
             }
             is WeatherDataIn -> {
                 println("weather inside")
                 update(mInTemperature, data.temperature)
                 update(mInHumidity, data.humidity)
                 update(mInPressure, data.pressure)
+                printScalarValues(mInHumidity, HUMIDITY)
+                printScalarValues(mInPressure, PRESSURE)
+                printScalarValues(mInTemperature, TEMPERATURE)
             }
         }
     }
@@ -58,10 +68,12 @@ class StatDisplay : IObserver<WeatherInfo> {
         }
         scalarValues.sumValue += newValue
         ++scalarValues.measureCount
+    }
 
-        println("Max ${scalarValues.type.value} ${scalarValues.maxValue}")
-        println("Min ${scalarValues.type.value} ${scalarValues.minValue}")
-        println("Average $scalarValues.type.value} ${scalarValues.sumValue / scalarValues.measureCount}")
+    private fun printScalarValues(statValue: ScalarValues, valueName: String) {
+        println("Max $valueName ${statValue.maxValue}")
+        println("Min $valueName ${statValue.minValue}")
+        println("Average $valueName ${statValue.sumValue / statValue.measureCount}")
         println("________________________________")
     }
 
@@ -69,21 +81,26 @@ class StatDisplay : IObserver<WeatherInfo> {
         vectorValues.sumProjectionOnY += windSpeed * cos(Math.toRadians(windDirection.toDouble()))
         vectorValues.sumProjectionOnX += windSpeed * sin(Math.toRadians(windDirection.toDouble()))
         vectorValues.measureCount++
+    }
 
-        val averageWindSpeed = sqrt(
-            (vectorValues.sumProjectionOnX / vectorValues.measureCount).pow(2)
-                    + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2)
+    private fun calculateAverageWindSpeed() =
+        sqrt(
+            (mOutWind.sumProjectionOnX / mOutWind.measureCount).pow(2)
+                    + (mOutWind.sumProjectionOnY / mOutWind.measureCount).pow(2)
         )
-        val averageWindDirection = Math.toDegrees(
-            atan2(vectorValues.sumProjectionOnX, vectorValues.sumProjectionOnY)
+
+    private fun calculateAverageWindDirection() =
+        Math.toDegrees(
+            atan2(mOutWind.sumProjectionOnX, mOutWind.sumProjectionOnY)
         )
+
+    private fun printVectorValues(averageWindSpeed: Double, averageWindDirection: Double) {
         println("Average wind speed: $averageWindSpeed")
         println("Average wind direction: $averageWindDirection")
         println("________________________________")
     }
 
     data class ScalarValues(
-        val type: ScalarValueType,
         var minValue: Double = Double.POSITIVE_INFINITY,
         var maxValue: Double = Double.NEGATIVE_INFINITY,
         var sumValue: Double = 0.0,
@@ -96,10 +113,10 @@ class StatDisplay : IObserver<WeatherInfo> {
         var measureCount: Int = 0
     )
 
-    enum class ScalarValueType(val value: String) {
-        TEMPERATURE("temperature"),
-        HUMIDITY("humidity"),
-        PRESSURE("pressure")
+    companion object {
+        private const val HUMIDITY = "humidity"
+        private const val TEMPERATURE = "temperature"
+        private const val PRESSURE = "pressure"
     }
 
 }

@@ -3,9 +3,9 @@ package com.alexey.minay.ood.lab2.weatherstationpro
 fun main() {
     val weatherData = WeatherData()
     val display = Display()
-    display.values.add(Values.TEMPERATURE)
+    weatherData.types.add(Type.TEMPERATURE)
     val statsDisplay = StatDisplay()
-    statsDisplay.values.add(Values.WIND)
+    weatherData.types.add(Type.WIND)
     weatherData.register(1, display)
     weatherData.register(2, statsDisplay)
 

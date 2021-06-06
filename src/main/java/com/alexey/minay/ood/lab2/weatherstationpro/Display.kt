@@ -2,41 +2,47 @@ package com.alexey.minay.ood.lab2.weatherstationpro
 
 import kotlin.math.*
 
-class Display : IObserver<WeatherInfo> {
+class Display : IObserver<WeatherInfo, Type> {
 
-    override val values: MutableList<Values> = mutableListOf()
+    override fun update(data: WeatherInfo, type: Type) {
+        when (type) {
+            Type.TEMPERATURE -> println("Current Temp ${data.temperature}")
+            Type.HUMIDITY -> println("Current Hum ${data.humidity}")
+            Type.PRESSURE -> println("Current Pressure ${data.pressure}")
+            Type.WIND -> println("Current wind speed ${data.windSpeed}")
 
-    override fun update(data: WeatherInfo) {
-        values.forEach { statisticValue ->
-            when (statisticValue) {
-                Values.TEMPERATURE -> println("Current Temp ${data.temperature}")
-                Values.HUMIDITY -> println("Current Hum ${data.humidity}")
-                Values.PRESSURE -> println("Current Pressure ${data.pressure}")
-                Values.WIND -> println("Current wind speed ${data.windSpeed}")
-
-            }
         }
         println("________________________________")
     }
 
 }
 
-class StatDisplay : IObserver<WeatherInfo> {
+class StatDisplay : IObserver<WeatherInfo, Type> {
 
-    private val mTemperature = ScalarValues(Values.TEMPERATURE)
-    private val mHumidity = ScalarValues(Values.HUMIDITY)
-    private val mPressure = ScalarValues(Values.PRESSURE)
+    private val mTemperature = ScalarValues(Type.TEMPERATURE)
+    private val mHumidity = ScalarValues(Type.HUMIDITY)
+    private val mPressure = ScalarValues(Type.PRESSURE)
     private val mWind = VectorValues()
 
-    override val values: MutableList<Values> = mutableListOf()
-
-    override fun update(data: WeatherInfo) {
-        values.forEach { values ->
-            when (values) {
-                Values.TEMPERATURE -> update(mTemperature, data.temperature)
-                Values.HUMIDITY -> update(mHumidity, data.humidity)
-                Values.PRESSURE -> update(mPressure, data.pressure)
-                Values.WIND -> updateWindData(mWind, data.windSpeed, data.windDirection)
+    override fun update(data: WeatherInfo, type: Type) {
+        when (type) {
+            Type.TEMPERATURE -> {
+                update(mTemperature, data.temperature)
+                printScalarValues(mTemperature, type.value)
+            }
+            Type.HUMIDITY -> {
+                update(mHumidity, data.humidity)
+                printScalarValues(mHumidity, type.value)
+            }
+            Type.PRESSURE -> {
+                update(mPressure, data.pressure)
+                printScalarValues(mPressure, type.value)
+            }
+            Type.WIND -> {
+                updateWindData(mWind, data.windSpeed, data.windDirection)
+                val averageWindSpeed = calculateAverageWindSpeed()
+                val averageWindDirection = calculateAverageWindDirection()
+                printVectorValues(averageWindSpeed, averageWindDirection)
             }
         }
     }
@@ -50,10 +56,12 @@ class StatDisplay : IObserver<WeatherInfo> {
         }
         scalarValues.sumValue += newValue
         ++scalarValues.measureCount
+    }
 
-        println("Max ${scalarValues.type.value} ${scalarValues.maxValue}")
-        println("Min ${scalarValues.type.value} ${scalarValues.minValue}")
-        println("Average ${scalarValues.type.value} ${scalarValues.sumValue / scalarValues.measureCount}")
+    private fun printScalarValues(statValue: ScalarValues, valueName: String) {
+        println("Max $valueName ${statValue.maxValue}")
+        println("Min $valueName ${statValue.minValue}")
+        println("Average $valueName ${statValue.sumValue / statValue.measureCount}")
         println("________________________________")
     }
 
@@ -61,21 +69,27 @@ class StatDisplay : IObserver<WeatherInfo> {
         vectorValues.sumProjectionOnY += windSpeed * cos(Math.toRadians(windDirection.toDouble()))
         vectorValues.sumProjectionOnX += windSpeed * sin(Math.toRadians(windDirection.toDouble()))
         vectorValues.measureCount++
+    }
 
-        val averageWindSpeed = sqrt(
-            (vectorValues.sumProjectionOnX / vectorValues.measureCount).pow(2)
-                    + (vectorValues.sumProjectionOnY / vectorValues.measureCount).pow(2)
+    private fun calculateAverageWindSpeed() =
+        sqrt(
+            (mWind.sumProjectionOnX / mWind.measureCount).pow(2)
+                    + (mWind.sumProjectionOnY / mWind.measureCount).pow(2)
         )
-        val averageWindDirection = Math.toDegrees(
-            atan2(vectorValues.sumProjectionOnX, vectorValues.sumProjectionOnY)
+
+    private fun calculateAverageWindDirection() =
+        Math.toDegrees(
+            atan2(mWind.sumProjectionOnX, mWind.sumProjectionOnY)
         )
+
+    private fun printVectorValues(averageWindSpeed: Double, averageWindDirection: Double) {
         println("Average wind speed: $averageWindSpeed")
         println("Average wind direction: $averageWindDirection")
         println("________________________________")
     }
 
     data class ScalarValues(
-        val type: Values,
+        val type: Type,
         var minValue: Double = Double.POSITIVE_INFINITY,
         var maxValue: Double = Double.NEGATIVE_INFINITY,
         var sumValue: Double = 0.0,
@@ -88,4 +102,12 @@ class StatDisplay : IObserver<WeatherInfo> {
         var measureCount: Int = 0
     )
 
+}
+
+
+enum class Type(val value: String) {
+    TEMPERATURE("temperature"),
+    HUMIDITY("humidity"),
+    PRESSURE("pressure"),
+    WIND("wind")
 }
